@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Ingeniería de Software como Disciplina</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Source+Code+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --accent2: #f97316;
+            --accent3: #22c55e;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f1f5f9;
+            --gray: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--darker);
+            color: var(--light);
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(to right, var(--dark), var(--darker));
+            padding: 20px 0;
+            border-bottom: 2px solid var(--primary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .date-badge {
+            background: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /* Newspaper Layout */
+        .newspaper-title {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .newspaper-title h1 {
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .newspaper-title::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--primary), transparent);
+            margin-top: 10px;
+        }
+
+        /* Navigation */
+        .topics-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+        }
+
+        .topic-btn {
+            background: rgba(30, 41, 59, 0.7);
+            color: var(--light);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        .topic-btn i {
+            margin-right: 8px;
+            color: var(--accent);
+        }
+
+        .topic-btn:hover, .topic-btn.active {
+            background: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(14, 165, 233, 0.4);
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .article {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+
+        .article:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.2);
+        }
+
+        .article h2 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .article h2 i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+
+        .article p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .article img {
+            width: 100%;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .article img:hover {
+            transform: scale(1.02);
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .keyword {
+            background: linear-gradient(120deg, rgba(14, 165, 233, 0.2), transparent);
+            padding: 0 5px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .keyword2 {
+            background: linear-gradient(120deg, rgba(236, 72, 153, 0.2), transparent);
+            padding: 0 5px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .keyword3 {
+            background: linear-gradient(120deg, rgba(249, 115, 22, 0.2), transparent);
+            padding: 0 5px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: var(--accent2);
+        }
+
+        .keyword4 {
+            background: linear-gradient(120deg, rgba(34, 197, 94, 0.2), transparent);
+            padding: 0 5px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: var(--accent3);
+        }
+
+        .example-box {
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid var(--accent2);
+        }
+
+        .example-box h4 {
+            color: var(--accent2);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .example-box h4 i {
+            margin-right: 10px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            border-left: 4px solid var(--secondary);
+            position: sticky;
+            top: 120px;
+            align-self: start;
+        }
+
+        .sidebar h3 {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .sidebar h3::after {
+            content: '';
+            display: block;
+            width: 50%;
+            height: 2px;
+            background: var(--secondary);
+            margin: 10px auto;
+        }
+
+        .topic-list {
+            list-style: none;
+        }
+
+        .topic-list li {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .topic-list li:hover {
+            transform: translateX(5px);
+            background: rgba(14, 165, 233, 0.1);
+        }
+
+        .topic-list i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+
+        /* Blockquote */
+        blockquote {
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            color: var(--gray);
+        }
+
+        .quote-author {
+            display: block;
+            text-align: right;
+            color: var(--accent);
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* Definition boxes */
+        .definition {
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid var(--accent3);
+        }
+
+        .definition h4 {
+            color: var(--accent3);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .definition h4 i {
+            margin-right: 10px;
+        }
+
+        /* Two-column layout for lists */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Image gallery */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .image-gallery img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .image-gallery img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Content with side image */
+        .content-with-image {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            align-items: start;
+            margin: 20px 0;
+        }
+
+        .content-with-image .text-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .content-with-image .image-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .content-with-image .image-content img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 50px;
+            border-top: 2px solid var(--primary);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 300px;
+            margin-bottom: 20px;
+        }
+
+        .footer-section h4 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .social-icons a {
+            color: var(--light);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--accent);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate {
+            animation: fadeIn 1s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .newspaper-title h1 {
+                font-size: 2.5rem;
+            }
+
+            .article h2 {
+                font-size: 1.5rem;
+            }
+
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+
+            .image-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content-with-image {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .logo {
+                font-size: 2rem;
+            }
+
+            .newspaper-title h1 {
+                font-size: 2rem;
+            }
+
+            .article {
+                padding: 15px;
+            }
+
+            .topic-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+
+            .image-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="logo">Software<span>Engineering</span></div>
+        <div class="date-badge"><i class="fas fa-calendar-alt"></i> Septiembre 2023 | La Ingeniería como Disciplina</div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="newspaper-title">
+        <h1>La Ingeniería de Software como Disciplina</h1>
+        <p>Definición, Capas y Procesos Fundamentales</p>
+    </div>
+
+    <div class="topics-nav">
+        <button class="topic-btn active"><i class="fas fa-layer-group"></i> Definición y Capas</button>
+        <button class="topic-btn"><i class="fas fa-cogs"></i> Proceso de Ingeniería</button>
+        <button class="topic-btn"><i class="fas fa-balance-scale"></i> Principios Fundamentales</button>
+        <button class="topic-btn"><i class="fas fa-question-circle"></i> Desafíos Actuales</button>
+    </div>
+
+    <div class="main-content">
+        <div class="content">
+            <article class="article animate">
+                <h2><i class="fas fa-layer-group"></i> Definición y Capas de la Ingeniería de Software</h2>
+
+                <div class="content-with-image">
+                    <div class="text-content">
+                        <p>La <span class="keyword">ingeniería de software</span>, según Pressman, se basa en un <span class="keyword2">compromiso organizacional con la calidad</span>, y se estructura en capas (Pressman):</p>
+
+                        <div class="definition">
+                            <h4><i class="fas fa-medal"></i> Calidad como base</h4>
+                            <p>Un enfoque en la calidad (como el uso de filosofías como <span class="keyword3">TQM</span> o <span class="keyword3">Six Sigma</span>) es fundamental para el éxito.</p>
+                        </div>
+
+                        <div class="definition">
+                            <h4><i class="fas fa-sitemap"></i> Proceso</h4>
+                            <p>Define el marco para el desarrollo, incluyendo actividades, productos de trabajo y gestión de cambios.</p>
+                        </div>
+
+                        <div class="definition">
+                            <h4><i class="fas fa-tools"></i> Métodos</h4>
+                            <p>Proporcionan las técnicas para construir software, como análisis de requisitos, diseño y pruebas.</p>
+                        </div>
+
+                        <div class="definition">
+                            <h4><i class="fas fa-wrench"></i> Herramientas</h4>
+                            <p>Automatizan o semi-automatizan el proceso y los métodos, como en el caso de herramientas <span class="keyword4">CASE</span> (Computer-Aided Software Engineering).</p>
+                        </div>
+                    </div>
+
+                    <div class="image-content">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Capas de la ingeniería de software">
+                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Calidad en el software">
+                        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEhUTEBASFhUVFRcXFhUWFxUVFRcYFhgWFhcYFxYYHSggGBolHRcVIjEhJSkrLi4uGh8zODMsNygtLisBCgoKDg0OGxAQGi0lICYtLS0tMC0tLS0tLS0tLSstLS0tLS0tLy0tLS0vLS0tLS0tLS0tLS0tLS0tLS0tLS0tLf/AABEIALcBEwMBEQACEQEDEQH/xAAcAAABBQEBAQAAAAAAAAAAAAAAAgMEBQYHAQj/xABNEAACAQIDAgkHBwgJAwUAAAABAgADEQQSIQUxBhMiQVFhcYGRFDJScqGxsgcjM0KSwdEVU1RigtLh8BYXJGNzk6LC00NEgzR0o7Pi/8QAGwEAAQUBAQAAAAAAAAAAAAAAAAECAwQFBgf/xABDEQABAwIDAwkGAggGAgMAAAABAAIDBBESITEFQVETFDJhcYGRodEGIlKxweGS8BUWIzNTctLxNEJigqKyJGNDVML/2gAMAwEAAhEDEQA/AMnjD84/rt7zOtZ0Quaf0imbxyYi8EIvBCLwQi8EIvBCLwQi8EIvBCLwQi8EIvBCLwQi8EIvBCLwQi8EIvBCLwQi8EtkXgiyLwQi8EIghEEWRBFkQRZEEWRBFkQQiCEQQiCEQQncZ9I/rt7zGs6IT39IpmOTLIgiyIIRBKiCEQQiCEQQiIhEEIioREQiCEXghEEIioREQiCEQQiCEQQiF0IghEEIghEEIghELoXkEIgiyIIReCEXghEEWT2MPzj+u3vMazohPf0imbxyai8EIvBC9UE6CCE+6quh3xclGMRQVDebpFyKXMaqOdI1PXl4iEXghLpU2bRQT2RQCdEhcG6qWmy6h5gO0/heSiFyiNQwK3TgViSoOakCfqlmBHbyZVMrQbJnOmdar8dwexNHVqLEdKWcezUd4jhI0qRszHaFVV45SovBCLwQi8EIvBFkpFLEBQSTuAFyewCI5waLuNgnNaXGw1Vzg+CmLq68VlHS5C/6fO9kyZ9u0MWWO5/0i/np5q/Fsqqfnht25fdTKvAfEqpYvRNt4DOTb7MqD2npCbYXeA/qVluwqgm2JvifRVtbg/XXcqt6rD77S1Ht2jfkSR2j0uiTYNYzQA9h9bKurUWQ2dWU9BBE1Ipo5RijcCOo3WVLDJEcMjSD1iybvJFGiCLJSKTzRQkOSfOHHTHYUzGk1aFhe8QhKHXTEan2RBFkQRZEEWRBFkQRZO4z6R/Xb3mNZ0Qnv6RTMcmoghEEJ/BnlbuaATHjJIr+cb9MErdErC+dFCR+iTX84xClbokCCcrzAbD0zVfsfifukrGDeqctTuZ4qy4kKLAADoEstsNFUJJzKvOD+zRpVax15I6Lc565Sq5z0B3ppKvjM9NUas8laEKh2vsmjXuWWzemujd/pd8sNU0czmaLF7T2Y9A8rVeZhu7+gxxC0IpWyDLVQbxFKui7D4P4Z6KE0GYlFJIUvcsoJvyhaQSPLTqO82VIOkc51sWR3C/1CsP6L4X9Ff8Ay/8A9yPlj8Q8fsn4ZP8AX+EeqlYPZdOgDxVGol99qQue05ryrUQQ1B/ahru1x+SniqKqEfs3PH+0eqkYWpmUH+d84ra9Mynq3Rxiwy8wuz2PUSVFG2SQ3OefYSFLUzKK0SqTamDCNddzc3QefulmN9xmrcMmIWKgVcMrjK6hh0EXliKZ8TsUZIPUlljZK3C8AjrWb2xwZKgvQuQN6b2Hqnn7N/bOp2dt4PIjqMjudu7+Hbp2LltobDwAyU+Y+Hf3cezXtWbvOmXNqUjWS4/kxwOSjIu6yis198apLKRhal+SeiKCmPbvTeJUBtIic3MJqCVEEIiIRBCIIT2NPzj+u3xGNZ0Qnv6RTMcm2ReCLIUX0EEKVTwrg3006/ZC6YXApRqKfpBqO0eEEmEjRJauoWyAgmKlwknNRSYifZarg3sjKorOOUwugPMDz9p90c1UKma5wBXD05KCqiYdJIHJVK2TjOKax8xt/Uen8ZFURco241CQhaJ3HMZmgJqh1mkzQhQazSw0JVAxQDAhgCDvBkwF04Eg3Cx+1MBxRuuqnd0g9BkcjMOe5acEvKC29bjZNZVpqtTiwQqi1QVSRZRfzPvkVsbQ+O5BGoIt5qo9oZI5sgAIJycHX8lJqYykBoMOx6AuIB/1ECK2J5OeIfhTHOiHwHud9Smfyiv5qj/8n78fyDviPl6KPlWfC3z/AKlbbJe9MHt95nnftFbn7+xvyC9B9ngf0ey/F3/YqaawUXJmJhJ0Wza5sqjEVC7Zj3DoEnaABZW2tDRZeKkLoJTipEukusnwv2HlBr0hz/OKOv64+/x6Z1mwdqFxFNKf5T9PTw4Ll9s7PAvURj+YfX18eKz9Ng65b62nVrlyMJuorU2G8GIpAQVKwlEjU9wgo3u3BRsQwLG0FI0ZJuCVF4IReCEQQi8EJ7GfSP67fEY1vRCc7pFMxUi8vBCl7OAudLkC4/npiFRvUc1STe5vFT7blJxhJVGO8jvgmMFiQod4KRWGwcDx9dEPm+c3qrqfHQd8CbKKZ+BhK6K9OICsdMPTkgKFSbc2otDkgAuRoOYDpP4RxfZWYIDJnuWUxONqVDy3J6tw8BpGFxK0WRNboFHU2NxoekaGIn2Vvs/hFXpaMxqL6Lm57m3j2xLKvJTMd1FXGO4U0Eph7sS25BbMLb762A6/CKZWsGagh2fLI4gaDfuVdS4UI51RlHTcGPjqWlTSbMewZG6sQ9yGFjuI5xpqJaliZNEY3aOFvFU4ZXwSCRurTfvCuieOTk2F7XPRbf2zz6Iu2RWkTFxDb4QNHXuAdbAccjmvQZmt2xRAwhoLrYidW2IJGmZ7xlmp1GmAALbhaY89bPLI6QuIuScibZ8FqQ0UMUbYw0ZADMC+SrNucIaWG5IUPU9HmX1jzdm/smls7Z9XV++6RzWcbm57M/PTtWdX1lNTe6GAu4WGXb6LG4/b+IredVYD0U5C9lhv77zqqfZlLBm1lzxOZ8T9Fzk1fPLq6w4DIKtMvqmp2A2vWonkVDb0W5S+B3d0pVOzqaoHvtF+IyPj6q5T19RAfcdlwOY8PRbvYG2ExSmwyuvnL946ROI2ls2Sifnm06H6Hr+fy62h2gyqZcZEaj87lcKkzLq7dKegGBVhcEEEHnB0Ig17mODmmxGYTHgOBacwVynaOGbDV3p+gxAvzqdVPeCJ6dR1IqIGSjePPf5rgqqn5KV0Z3H+3kkjHa7tPbLN1V5NIqVjUIAFtYJQ3CLr0KhOWxvuzdfZBHvWuo7ixI6DaCevLwQi8EIvBCLwQncZ9I/rt8RjW9EJ7ukUzHJqIITlGsUNxESFt1KavRJuUN+fo8L2iZpmF3FRsTXzm/NzDoihOa2yaipy1/yeYe7Vn6FVR+0ST8IkchVGuOQC2L040OWcoteygsdwBJ7BqZICnAXNlzGpUavVufOqON+4ZjYDsGg7o2WQRsc92gBPgt+CAuc2Ju8gDvyTtfZjKCQ1NgGCtla+Uk2GYWuNZUir43kAtc0kXFxa41y3K7Ls6RgJDmusbGxvYk2zyvqltslg+QVKRbUZQxvcAm3m9UYNpMMfKljg3LMgbzbinu2XIJeSD2l2eQJvkL8FFGHPFmpcWDBesm19B2S2Z28sId9r9QGnnuVQU7jCZt17dd7X/uqjHmzEnmH8/fGSdJWqa3JrpXBLgAitUOMTjLFRTILKjAqCTYWJNzbXTSYM+0XuA5I248VtxUTQTymfDgnF2cqjKCQBpYWsLR7/AGomBtHG0Dde/qFXZ7JQO96SRxJ1tb0KkYRRTOl7HfMfaG05q4DlQ3LSwPhqVs7P2PDQ4uRLs9bm/wBAmeEW2fJ0sh+cfzf1Rzt+H8IuyNm87kxP6Ddes8PX7qDatfzaPC3pHTq6/RYFmJJJJJOpJ1JJ3kzuwABYaLijcm5U5dkuQOVTDkXFMtaoRv3W325rzPdtOIEmzsINi63u+P1tZaLdlzEAXbiIuG397w+l15S2W7KpDU7sCVQsQ5ykggC1r6dMWTaMUb3NIdZtrm2Qva2++/gkj2ZLIxrgW3dewvmba7uriknZzBM5an5mfJm5eXpta3tjhXxmTkwHa4b292/Dj5WTTs+QRcoS3o4rX97Dxt917sXHnD1kqA6AgN1qdGHh7hHV9MKmndGd4y7RooqOcwTNeO/s3rroSeY3XcEpYSJdNuuefKNh8uIRvTpi/apI92Wdx7My4qVzODvmB9brl9tMtMHcR8llLzolj2Skcg3G8QRZSPKUvmCcrt0v02iWTcJ0uozNfWKn2Xl4IReCEXghF4IT2N+kf12+IxreiE52pTMcm2ReCLIvBCIJUXgheQQtf8n+06VI1KVVwrVCpS+gNrgi+4HUaHfIZdypVkL3gOaL21W9dJGCstUPCjHU6NF1c8qojKqjzjcEX6gL75K03VimidI8EaBc2wtQK6MdyspPcQY2pYZIXsGpBHiF0FK9sc7Hu0DgT2AhTfK0TOVYsaja6WCjNmPaZQFNPJgEgDQwcbkm1uGQWo6qpoTIY3Fxec8rBoxXO/Mox2Pu4dHvZswGXLbtbnhR0ZbCYpGWu2xOK9+7d3Ir65jp2zRSXs64GHDbv38M03tLFK9lp3ygs3RymNz4aCS0FPLHifN0jYdzR9cyVBtOphlwsgvhFzwzcb+QsArzgJwUXHM1aqpZKLKAt1CsxubODqQOSbbjfW+6R7TllaA2IZm/cOpJs4wtu6Y2GXeuh47ba0GCNTbMwJUjLkJF9Cb3HhMZ1FKyndO4D3d2/dnluz8lrQ7Sp6ipbBESb77WA1Ns7Z5bhvWadpgrpwE2xipwWb4TYJieNFyLAMOgDcR1Tp9h1jA3m7sjqOvq7Vyu39nvLucszGh6uvs4+Kz86RcvZWZxdM1BWJbMLEpb6wFtG6NBMcU1Q2A0rQMOYxX3Hqtr3reNVSPqBWOc7FkSy3+YC2Tr6d10mptRgqZLBhnucouMzE8kndvj2bOaZHmS5acNhc2NgBmBrpvUMm1CIoxFYO965sLi7icidMjuXq4xOKysxbkWCsoJVulX5h1RDSy84xsAb71yQTm3gW7z1p7aun5rge4u92waWjJ3EO3DqVcFJ0G86Dv0moXBoxHQLGYwucGjU5LtOz8SlVQUO7QjnB655TI0tOa76SN0ZsVMsALnQDeeYSNRLmvyh7QStVpimbhFYE8xuRu6tJ2/szE5kLy7eR8vusHbrCyRgdrYnzWTnSLCRBCIIRBCIIRBCIIRBCdxv0j+u3xGNb0QnOGZTMcksiCLK02Hsc4osBUVMttTbW9+ckAbumZu0NoikwjDcm++2i0tn7NNXiOKwbbdfXqVx/Qo/pNLxpf8kzf1gP8ADH4x6LR/V/8A9h/AfVH9Cj+k0vGl/wAkP1gP8MfjHoj9X/8A2H8B9Vntp4I0KhQsG0BBtbQ9XNNmiqxVQiQC3UseuozSzGMm++6g1VuJZcFDEbFaLYXC+vh1yNaqoFlDk5lPNZt5XqPcRI8F1XqKKOQ4hkepVeLxb13NSq2Zm3no6ABzAdElaLKVrGsbhboo7paOITUiIiyLwRZdX+TvgHQeimJxicY1QZqdNicip9UsB5xYa2OliNJl1VU8OwMNlbgjac3Lp1CmlNQlNFVRoFUBVHYBoJmm5NyrgI0SmsRYgEdBAt4RCLpwdbRZnhHwap1FzYdVSoBfKNFfqtuB6/Hqpz0QcLsFj81pUm1XRvDZTdp37x9lgKgIJBBBBsQdCCN4ImVa2q6dpBFwmXMUZZp1r5FQX4HPUVqyErTAJyhGqVCeimg84dpA6+jp6LaziwNlGfHS/b6rj9o7HjbIXQnLUjW3Z6Kj2jsSrhqaPXAQ1DyKZPzhAGrFfqjcNdbndNmOoZK4tZnbU7lhSU742hz8r7t6rbyZQIvBCudg7PLEVGHJHm9Z6ewTD2xXhjDAw5nXqHDtPyXSbC2a58gqJB7o06zx7B81pMNiWpMGQ2I8D1Ec4nKuaHCxXYPY14s5O7V2tUr6Hkr6I3dpPPEihazPemQ07I8xmVidr1s1U25uT4b/AGkzt9lxcnTNvvz8dPKy4Xbk4mrHW0bZvhr5kqHeaCyUXgheExUi2uF+Tqu6KxxFFbgG2ul9bdc5x3tHCHEBhNjbVo+ZWsNkvIBLh4FO/wBWtb9Jo/z3xP1ki/hn8TfVL+iX/F5FU/CXgnVwKLUerTdWbLyb3BIJHdyTLtBtiOskMYaQQL6g5Xtu7VWqaF0DQ8m4vZZ2811SXt4ITuN+kf12+IxreiErtSmYqREEWWl4GV8hcm+9d1r7mHOCPZOc290oz/N9F1Ps4zEyUfy/Va1dqKTaz69LUQO8mnYTAxfnL0XQGnI4eDv6k/5V1j/Pwn7sd+dW+iZyf5wv9VzrhI1637K/fOq2IP8AxR2lcpt8f+Z/tH1TXB7ZD46uaCOEsjOWIJFlyiwHPqy9nslqrqhA3ERfcqlHScsVZ1vk+xdOnUq1KtEcUC4VSzZlUEtrlFjYaDn6pTZtKN8jWtvmVdkoXMjc42yCpUE2gsMlPoskAUJK8ODB3Ej2w5MFN5QhO4PYzVatOmpvxlRUNtCAxAJ7hcyORpY0u4JzZQTYr6EwbAclRYAAAdAGgEwHhWoZLkqTxkjsrGNe8ZCyXGmKuIGbLcXte19bXte3RHtbkopH5rPcIuD3lLCpSKq5ID33MOnT6w9soVVFyhxN13rZ2Ztjm7THJct3cR1dnyUrY3BehQszjjX6WHJB/VTd43ixUTGZnMpajbM02TfdHVr3n+ygcMOElNGCUCrVRo53qB0Eg6tfw1vK1U9t7N1Wnsukkc3FJk06cf7Lne1QMS2etym3ZtxA5gLc2p0jaetngPuOy4blp1Gy6Wdtns79D4+qgJwazaioQOtbk+0TSHtA4CzmAnqNvoVhS+zUeL3JDbrF/MEfJTMNwfpJq13PXovgPvlSfbdRILMs0dWvj6K1TbBpojifdx69PD1urEiZN75lbgyTbCOCeoG08WKSE850Udf8JeoKU1MobuGZ7PuqG0q4UkBf/mOTe37arKEztl50c8yvLwQi8EIaAQu37OxY4tdRuH1kHMPSUmeaFoxO7Tw49YK7jAbDsHH6FPPjwOa/YaZ/2RhIH5b/AEpwhJ/J9VkPlIxQfDpb86vR6NToAm37PZ1biPgPDi3gAsrbMeGnF/iHyK5zOzXNWRBCexv0j+u3xGNb0QnHUpmOSIghOUcQyeYxF99jIpYY5RaRoPapoaiWAkxOIvwTv5Rq/nW8ZBzCm/hjwVj9J1n8V3ipFHarZGVnbMdVbfbdp7PbKsuzI+WbIxowjVvHrV6HbEvN3xSPOI5tdrbTI9Rt16qBUqFjdiSTzmabGNY3CwWCxpJHyOL3m5O8refJrtAkNSKAimCQ/OBUIuveVvfqnP7aiwuEoOuRHZvW9saUvaYiNM79u5afhTtFKOFql2AzIyKOdmYFQAOfffsBmdQMdJUNDdxBPYFfrntjgcTvBA7SuTUrHdO4Ga4t2SkIJIAoSU+gjwFE4rScCaN8SGP1EZu/Rf8AdIKs2itxURdYrpmCrXJ7JiytyVilkuSpnGSGyu417xkMKMa5p8qO06uGxeFq0XKutN+wjMLqw51PRLtKwOY4FBN1Y7N+UvCtTzVs9OoBrTCs9z+owFretaNdSuvkmAOBUPH8NHxakUCaac/5w9TH6vYPEzBr3zsdgIsPn3rstjUFK5glxY3cPhPZ9T3KhPZM2y6ZO4OmGazX6h0xryQMkx7iBkrjD0VN85KqBe+gt4yzs2jFVIWG+l8vuud25tOWghbJGASXWzvwJ3EcEo08L+kD7SfhNtns7doLg8Hhll5LmpPa+ra4hrGEbjZwv12xZJFTDUCrGnVzFVJsCp3dNhIqvYjaeF0l3ZDfb0VvZ3tRVVNVHC9jQHG2WK//AGVHjsWlJbuewc57BMelpZKh+Fg7TuC7GrrIqVmOQ9g3nsWSxuMaq2Zu4cwE7KlpWU0eBneeJXB1tZJVy8o/uHAfneo95ZVOyLwQlDZmJqpxlKhWdMxS9NWflAAkELcjQjUi0qyzsa7CXAd9lfgpyW4gLqNSSojlGRwV85WVgV3ecDqu8b+kR0b72zyKbPFkTaxCusBtl6KOoZyWXKt2OVBrcgX39G60rVOz455GOIAANzlm48D1cdbp9PXvhjc0EkkWGeTesdfDRRfyhW/PVftv+Mtc1g/ht/CPRVuczfG7xKbrYl3893a27Mxa3iY9kUcfQaB2ABMfK9/TcT2klNXkiYi8EJ3G/SVPXf4jGt6ISnUpm8ciyLwRZF4iLIiosiCLLd8CuCFOtTGIxQLBiclO5AKg2zNbU3INhut03nK7Z21JDIYIMiNTrnwG779i16Gga9vKSdwW9wmGpUly06SIvQqhR7JzTayUvxSEuvxK2o42xizBbsVRt/gthsYczZkqWADqeYcxU6Ea9vXNCn23NTm0YGHgePbqq9VRMqDidrxXLNrYF8JWekx1U6MNzKdVNusffO2o6ptTC2Zm/wAjvC5qogMTzG7cvKOOH1h3j8JebJxVR0J3KbSxdM/XHfp75MJG8VXdE/grLZm30wj8Z54IylVIzWJBuOy3PI6jC5lrqLmz5DbTtXRuDm2aOJu1GoG5Oo3Muo85TqJlzNyUcLJIpCHjcr3jJWsrmNe8ZDClxrmPyw/SYY/qVR4Gn+Mt0uQKmiN1neAlYpii6khlw+JZSN4IoVCCO+SVABaAeI+asR5EkcCtRs/beKemrNj61yLn54D2ZdJWlhs8hrRb+W//AOlJG+7QSTf+YeiVUx+NJuu06gHMC4Y+Onuj2CMCzowT2W8s01wkJ919h4+iiYram01NkxzuLb+NRdddLM383krW0xGbLdyidzgHJ10jgrwrxtTHUaVXFVWUuyupa4NlbTrFxEnhhERc1oSwvlx2cVWidMVzqk4euadOuy7xRa3iJn7SibLDgdoVZopXRVDJGag5LH1qzOczsSek/wA6TOjiZE3CwWC3JZXyuxyG5SI9R2RBFkQRZdH+S3aC8VVo35YfjAOlWVVuOmxX2ic9tlhD2ybrW71v7HeCx0e+9+5WfDDANUpVmw1EPXdFRyqk1Gpq1yABvO89g7JT2dOOXY15yFyOF7K3tCIinc5ozyHcuSXnWrlUQQi8EIvBCLwQnsb9JU9dviMa3ohOOpTMckTlKgzBiouEGZrcwuBfsuR4wumlwBAO9XPB/Zi1KWIruLilSfIOYvkJuRz2FtOvqiG6rVExa9jBvOfZdUUVW16qkmw1J0A6zoIhIAuUWJyC7hgqQo0kpjciKv2QB908unkMsrpDvJPiV2cUQYwNG4WTq1LyOykIRnhZFlzn5SqQ42lU9JGU/sEEfHOx9mpCYnx8CD4j7LB2zHZ7XcQR4f3WPnSrGRBCIIWk+T7adHDYsvXqLTVqTIGbRcxambE7lFlOp0kU2bbKKaN72e4LrrlHH03F0qow6VZSPEGVLLPOIahJrbTopq9ako/WdV95hZKA46ArnPyl7Yw2J4gUK6VGQ1M2Q5gA2S3KGm9emWIARdXYI3tviFlQ8EWtXf8A9tiv/oqR0/RHaPmrcep7CrXZLjiU+cA5O7Ow9gxifCJXmZEXklov2D+g/NPiLwwWJ8T/AFJythaDG7ikzHnZiT4nHxWy4BhbkOq39CHQ4zdwv+f5lQ7R2UM/IrUMp1s9WjTtcnQDjXJXdqTeTsqLjQ+Z+gURp7HJOcC2y7QoC40qMNCCNFcaEbx1wndeI/nelibZ6sxOkK5pKqH5mv8A4Le8SpV9BSwfvW9qydGmXZUUXZmCqBvJY2A8SJlk2Fyt4C6K1MozKwsysVYdBU2I8QYA3FwgiyReKkRBCXRrMhDIzKw3MpKkdhGojXNa4WcLjrTmuLTdpsV3zgBQd8Lh6jtfNSVmc+cxN7C/YBcznpYY45XYBbNa3LySRtDzewTfD3gVRx6NUpIqYkC6uAAKhH1Klt99wbeNOa4NinqXRmx0/Oirywh4y1XBnUqSGBBBIIOhBGhBHMbzauqFldjgtX8k8rumS2bLc58l7Zt1uu193hMz9LQc75rni0vuvrbj9/FWuZycjyu76KivNNVUXghPY36Sp67/ABGI3ohKdUzFSWVlwbxpo4mmw3MwRhzFXIUg+IPdDVQVMYfE4d/gtrg8LTovXoqOQ5FQL0LUXIV7Lo3daSsbfJZEsjnhkh1GXeM/queYmiabshPmsVv02NryM5FbjHYmh3FT+DFEVMXQU7s4b7AL/wC2UNpyGOkkcOFvHL6q7Qsx1DB1/LNdYrVdJ53Zdg1qap17RLJ5ZdSGeLZR2VhtfgHhcWqCtVrgprdGQakWO9DpOqoGczJLM7jO65+slNSAHbjlZVn9UOA/SMX9qj/xzS/SEnAefqqXNm8SqvhN8mODwuEr11xOJLUqbMoY0ipYeaDZAdTYb+eSRVr3vDbDPt9U18DWtJXJ5pKqmMTzSORTwb0wtIHmHhGBTlxCdWiBuAjrKMvKdpLaOaFFIbq74L/TNbUnD4gADfrRqSOc+73j5pIh73cVLwG0alOmq5GFhbVK1/ZSI9sjfDTvOJ1r93ok5Wpb7rQbfn/UPknvyvV9E/Yrf8UbzWl6vL0S84q+B/P+5Q8ZjKtRgTRotpa9ShWc7zz8Xu198e2KJgsx1h2/ZHKTOze0k939SZ4KUagx1FjScDjGJIRlUclt1xoIkrxgIvw+aexpveykiifQ/wBKfvTsS4cfn6LncY4+Z9E+gy0q+lr0jzAc/UTKVcbsSxm8rO1ZpXKkFTYg3B6CNQfGY1hvW0rnhhY4pqqiy4hUxC/+ZQzf688hpycGE7svBPk6V+OapbyZMReCEdmvVBC+kODeFOFwdCiTdkpqG9a1z3XnPyvxvLuK0mNwtAUg4m5kacuM/Krs0UcXxqiy4hc59dbB/HkntYzYopMUeE7lRqG2dfirvhE3E7JWnz8XQQ9vILe4zldn/ttrF/W8/O30W1VN5OiA6gPkuZXnbLn0XghO436Sp67/ABGNb0QlIzSsAoaqilcwZ1Urci+YgbwQQdY5MkyYTpktLR2GlLHWUk00UVRfU3JIUE89iCe4SRjLlZslUXU1zqTZTMTjgr1ax3ABB1hC3vZmHcJZY0NaXlVQwuwxDXXx+yzePof2alWtrVq1i567gKOzRz3mUzfVa0Tv2ro+AFvz4KLsrHHD1UqqAShOh0uCCpF+bQmVaunFRC6Jxtf+6v08xhkEgGn9l0bZG3qeKUlAylbZgw3XvbUaHdOHrdnyUjgHkG+hHUuto6plS0lgOWt1O40b5Tw3V3CrfD4J+Q5tl5LEX1A0OoluGjeXtJ0yKoTztaxw7VdjG9c31gop443a+6+nZYffeIhZD5Vdr/2HiwfpaiL3KeMPtQeMuULby34D7KGc+5ZcdmuqVk3UW8a4KSM2XtNNYgCc52SeCR9lHiXjraKkvdSNmbQfDVBVpEBlva4uNQQdOwyORge3C7RK0lpuFd/06xvp0/sfxlfmUXX4qTl3rVcA9rYvF1v7TSc0DTYq60nVSwZALPuOhbTq6pVqoYo2+6c78VNE97jmqDa3CnaFCoy1ENMZmycZSZcyg2BGa2bS2ok7KWFwuPmo3SyApzY3CvFVmZXZPMuLLbW4HT1y1T7Pgc/MHxVKsrJYmAttrwSfJm6vGdFygXP4k1jqZWjVvbVCPdIKlwMZU1Obyt7VkZkLfsrbHvxmEw789JqlBj1X46n3WeoO6QsykcONj9CnkXaD3JOwtgYjGkiggIG92OVB1FunqFzGz1UcHTOfDepIaaSbojLjuWy2X8lFV7mviqaAHdTUuT3tlt4Sr+kmu6DfFTPonMNnHwWk2b8nGCw7K7NVqsrBhmYBbqbjkqBfUbjeQvrJHC2QQ2BozWg2ltJUKpmGepcIvObasbdAGvhKwabXUt0ytawtESrHfKfQ46hQtv49U7qisD7Qst0cmAuJ4E+ChmZjsOu3ioXyhuPJlF91RSB02DC3tmT7NxYppJDub8z9lo7afhYxg3k+Q/sudXnWrBReCE7jfpKnrv8AEY1ugTjqndk4gU61N23K4J6ua/dvj2nPNQzsL43NGtlrcbXK1y43VKWVT+shZgO8NfuMuhtndoWK0B0NuBz7DYfRVrrTZKYqtaklNXbUjMSLKL7+ZuvdFcAWgE5AAqZpe17iwe8SQOq2v0UXbO2kqUlo0UsikG503XtYd+8yrI9pyardNSvY8ySHMqjkKvK74M7VXDl8+azBdwvqL9fXMja1BJVhvJ2uL69dvRauy62OlLuUvY206r+q0uE4Q4V2tUqtTFvONN2F+iyXMxhsCq328f7LWdtumA9257rK3w/CfBoCPyhcG2+jidLdHIlum2TUxOu7Pv8AuqNVtOGZmFosn14UYQ7san+ViP3Je5lP8PmPVZpqYhqfIpf5fwx/7tT+xWH+yLzCo+HzHqm88h+L5rE8PdsU8Q1JaVUOqBi1ldQGNgBygNbA+MtUkLo74hYpkzw+1llJcUNkpBeKM0XsnVSOASFyeCR9lFiTWKWwEa/JOYbq82bwloUaKU3wKOyg3c5LtqTzoTz9MjCqy0kj3lwkI6s/VbMbPpMqsMPSGZQbZU5xfokrcKx3SyAkYj4oZnQBVuoAsArWAHQAN0kEMRNy0eCUVE2mN3iVXY4NUtxi57bs5zW6bX3SwyKIaAeCXl5Dq8+JTOFSmugw63tqQVF/ZJDHbMG3cmue5wzcVK0/M/6x+Ebn8XkmZcUMqkWOHuOgsCPdEIJ1d5JQbG4Kb8lo/oieKfuxvJjiPBP5V/xnzUzA4pqAIoU2phrZhTqZAbbr5RrI308b+lY/7U5tRK3R58SpDbWqneKp7at/ukTqCndqG/hUra+paLNld4leptisNwqj/wAv8IChgGgb+FIa6pdmZXeJVVtPhq9GpxbU6zGwOlY89/1eqQvgja6waD3K3DziVmLliPz2qh2NjWrbRWu5ZFux+ce9lKMoUM1r6ncOuV6lhERAb4BalMbFoc65G8ldC/KNPfxifaX8Zj4HcCtHEOKo9u7Zw1XiqQr02bj6bWVg3mm+pGg74r45GwyOwnonzCfAWulYCf8AMFTfKBXulJf1ifAfxiez0eGGR/EgeAPqnbbeDUsYNzSfxEW/6rE3m+spF4IsnsafnKnrv8RjW6BKdUzeOQui8FtkYWrhabHEVC1uWmZSqONbAZbrbQ75zdbt2upJ3RBrcO64OY46rQg2NT1TBIb332P2Tu0ODWFcW4ypYcwYddvq9ZlU+0lY/Ihvgf6lfh9n6dhuMXiPTqWE25hqVKsUosWUAXJIJDa3GgG6dDQTSzQB8osT8txWVWwxxTFkZuB894UfCYKpWJFJGa2+24dpOgk01TFCLyOAUcNPLMbRtJU+hsTEA8qi1rdKn3GRM2nSE25QefopJNmVdriM+XqkPhivnKR2gj3zRYWvF2EHszWa/HGbPBHaLfNJ4qOwpvKJ3DYZmNkUk2vYdH8mRySxwjFI4AaZp8cUk5wxtJOuXBSaMttVF6rtsU7OCPrDXtGn4SvOLOurdI67LcCoF5CrSfwguT2RzNVHIbBSxTktlDiTwSPsosSibRFsvf8AdIpdyngN7qEZErC7Lhvoqf8Ahp8Ij2LlJOme0qPWlhqaoFeWGpUjAJepbqMdKbMS7la+TSpjTUeTxMaF75NDGhHk0MaEeTQ5RCrNr1zTOVdDa5PP3SeJocMRT2C6zmIYnUkk9ce5XY1XV5XcrjFX1xIHK4xRVpM2YqrEILsQCQoOgLEbh2yuXta4AmxOnX2cVasS05LRcMU4vyel6FL32X/ZLEh0Cydn+9jfxP5+azt5EtFF4IT2N+kqeu/xGI3QJTqmLxULo/yX0c9Ct1Vfei/hOQ9ozadh/wBP1K3dlPwxuHX9AtfWwOm6c6ZFrNlzXE9q/T1v8Wp8bT0mkyp4/wCVvyC5GfOV56z81q+CZzUAFKKQzCxYZmOhzW7/AGSrPshtVIZHSEHha+Xipm+0RoGCJsFxqTitck/yn5q2t/e0vtr+Mg/V+H+L/wAfunfrhL/9b/kf6Up6RGhq0x1F1EP1fiaf3p/D90n64yOH+Gv/ALj/AErO7SoWqtqDqNVII3DnE6Glh5KFrAb2yusOoq+cSumw4cWduHkPkntiUfnDylXknViAN45zK+0aNtTFgc7Dne9r8VNQ7TdQy8q1mPK1r21sb6HgoFETQCpOVdttuWo/V95Mr1B94diuUQ9wnrVdK6tqVs3Vj2feJJF0lDUZNVmKcs2VLEl0luAekCKBcJrjYkKBtgWy9/3SCfcrVIb3VaZAra6E/C1aeHoPxLHMCtsw04uy33c8k6LQVhcxL5ntxadXFQH4bqf+3b7Y/COEttyl/RR+LyUapwvU/wDRb7Q/CSCptuSjZbvi8vuptfhCMJWGakX5AOjAed3R089xhsoIKEzMxB1s+Cf/AKwqf6K32x+7Kdypf0U74/JH9YVP9Fb7Y/dhco/RTvj8vupOzuG6Vqq0xhmGYkXzg2sCd2XqitBcbKObZxijL8WnUmanD+mpI8lbQkeeOY29GJcp7dlkgHH5KRgOGyVSbYZgANTnB37h5vbJIo3SHVQz0JiAu69+pMbRxwrtnClbACxN91zf2zQhZgZZV8GEqvptRDDyhmWnrdlBJHRoATv6pFUFwaS3Xx9FchBJybfqvbzT5bZJ34mof2av/HM1zpz/AJx+H7q80yD/AOD/AJp0UdkqoqFyVJsCwrkEj9W3vEgkpqlzb8sQOoN/upWVrg/AKYEjPN59bKww/CPZ1NClOqiob3VaVQA30NwE1ma7YjXyCR8riRxV79L1QYWNpmgfzLF8LtoU8RiC9JsyBFUGxF7XJ0YA7yZuk3Kz6GF0UWF2t1SxFcRBCex30lT13+IxrdAlIzTBMVFl0ng5tDC7MUo+IOaqtOoVZW5JK8xVbW/CZe0tkx1rmue4ggblXpdp1UYdycYIvxtp3q3/AKeYL88Ps1f3ZmfqxB/Ed4BW/wBMV38Efi+65xwmwdOnUV6VQ1FrKauYjL5zNuHMO2dKxoY0NGgAHgqkEz5cRkFiCm+C63xKdjfCZYgNnhRbQ/w7u75qsxI5Tdre8yI6q5H0R3K34WJauP8ADX3tJqg3eqOzv3PefopWwVzUuxiPv++WaYXYq1ccMvcEjhBTtSHrj3NEqhZneloHXlPZ6JyhuEVqbJqqnbDXqnqAH3/fKtQffV+jFolCkKtKZsj6TuMmg6arVf7vvV5kl2yzMSTgVvTQ/qr7okYuwdiWc2kcOsqs29oy9h98rVOoV2hzae1VcrK8rraQ/sWE7a3xx7j7oVKH/Ey/7fkqWMV1eMdDBKNVe8MBbED/AAqfuMfIc1Q2f+57yqOMV5EEK14Ki+Lo+s3wNHx9JVa7/Du/O8Kvxf0j+u3xGMOqnj6A7Ar/AGJRy0r87EnuGg91++aNM2zL8Vk1smKW3BTaFUZivPbN3XtJmuF8KrSMOEO3aKJtUfNt2e6RT9AqxS/vGrMzNW0rbED+xUj/AHre5pMT+yHaqbP8W/8AlCqZCriIIRBCIIVhXwoZmbMeUxNu03k4gAFrqlzs/Cmzgh6R8IciOKOdn4VotsUKDMnGYhEbiqYysGJsFFjoIt2NyKpQmYgljSRc/NRsUKFXLnxtI5FCLyX0UbhugXxlSMZUMvhYc893qk7fwysuHyuGUUQAwGhGZtReJyYdndFPO+MvBGd0cFMIBikN76P8LRWxhpvdFZUF8JFuHzUHEbHcs3Jqb2+oekw5BStrgANPFWXC/CA1xc2+bX3tFcwON7qCinLI7W3lK4O0wquL35QPiLfdLVK3CCFBXSF7gbbk9tzCmpTAUEnMDoCTuP4x1SzE23WmUc3JSFx4eii0FtYHm0kbVYeb5qtx2GDVGOY7/cAJBJGHOJurMVQWMDbJjyIekfCR8iOKl527gpey8MFqA35j7pLDGA/VQVFQXRkWVzWTkt6p90tuHulUGu94JOzqdqaDoFvDSETfcCJ33kJVbtvDhnGtrKPeZWqGXcrlJOWMOW9V3kY9I+Eg5IcVa50eCu9pYUeRYQX3Gt8cMF8rqrFORO91tbfJUnkY9I+EOSHFWudHgvGwYseUfCHJDilFUeCveGOFBxAN/wDpU/cYYA7O6qUc5ZHa28qj8jHpHwhyQ4q3zo8EeRj0j4Q5IcUc6PBWvBXCgYuibnzm+BocmG53VerqC6Fwt+bqBicFeo4DG5dvaxhyV96lbVENGW5aIoEUDmUW7gJpWDRbgsnEXuJO8qpwTXr57nlAi3Vze4SrH+9xX1V2U/scFtM1Mx63Rh0gyWUXaQoYHYXAqg8kHpGUuSHFaXOjwV3icD/YqYvoGzX62JH3+yTGJvJBUWVJ5051tRbwVJ5IPSMg5IcVf5yeCPJB6RhyQ4pOdHgjyMekYckOKXnJ4I8kHpHwhyQ4o5yeCkZ5LdVsK8Lwulwq42nsx6zKyrccWgvccy9ZjzFfNVYqkRgtvvKaxWyKj5bUFXKoXk5Rmt9Y66nriGDqTmVmG/vXSdroUFFDoVpAW/aMRww2CWE8oXO4lSuBvKxdMdT/AANI3uAF0lU08kbKLidt4gMwFepozc/QTFFk9tOy3RCncOOTiQP7pPe0RjgRko6Rh5PPionB+rymXpAPgf4xX10VK3HJexyyF+Kts2ZNWv5OG1wCczbLJWmOaqq3oMQ19cpsbdGvd4Sm/b1HKcNyOsjL18ldb7K1zBie1p6gc/MAeaYwuDLqHZ7M2pBGt+vXfKcu32xSFgjuBvxa+S0YPZeSaJry/DcaFunVr9FUY7C1KZJYaE7wbjX+eeXqfaENSfcOfA6/nsWdVbJqaQXkblxGY+3eomeW7qjgUrZjXqoOlrd7aD3wM7YgZH6AEnwSGnfNaNmpIA8Vo9sYJ6VB3YC1rXBB87Qad8hi23R1DuSicS4g7iPmEP2NWU/vytAAPEFM8HqJq0hltyWKm+n63uIizbYpqSzJSb2vkL7ynR7FqqsmSIC17Zm24KTtHgzcmpUxVOmtucE7u8XmLJ7StlktFE4+H3WtF7Pvhj/aSD8+Cx7Nrvv19M3WuuAVlFljZafEV+KwOFZqKOGNXzwbDlEi1jzj3SJlRG6R0bXAuGo3hVjSS4y8ghptY7jkqv8ALCfoeH8G/GT4il5sfjPihttJb/0eG8G/GGIo5sfjd4qZw5BXEi4tekh94+4yCnnjlbijcCL7jdOhp5Im4ZGkHrFln88mupcK8zwulwq44IcrGUQOlvgaRTTMjYXPIA4lRTQvkYWsBJ4DVXdLDHOzVMNh1AZraEudTY77DpmVPt+KPKIYj4Dx3+C2aP2XmmaDNIWgjTU+G5RdrbSSmB8zRa5sQcx07Ly5R7VfVkjAW2HG/wBAq1f7OiiaHctiubWAtbzKNjvx3K8joKmozgENuI5Ou+NrNqxUpsc3a2A+Z3JtHsGoqxdryG8T6b/zmmto0VRWvUW+U2Ggubdsrx7ekne1rYrXIBNyfoFqv9mY6eNz3zXsCQLAZjTeVnqFN6htTRmO+ygsbdNhNV8rGC7yAOs2WG2JzjZoutjjdm1fyelqVQtZOSEbN52vJteRc/p7W5Rv4h6qnHSz85PuOtnuPosbUBUlWBBGhBBBHaDukzXhwu03CtmMg2KRni3RhRnhdGFGeF0YU3njbqTAjPC6MKkDaNUaCq/2jHco7iozTxn/ACjwXv5Sq/nan2j+MOUdxRzaP4R4JmriWc3dmY9ZJ98QuJ1T2xBvRFkvB46pRbPScq1iLjoO8SGaGOZmCRtxwKlic+J2JhsU01Ukkk6k3J6995ILAYRomuBcbnVPY3aFSs2eq5drWud9tTzdpkUEEUDcETQB1J8r5JTiebnRR88kdZwsU1uJpu02KdTGON1Rx+0ZXdSU7tWBW219W3SQrxsUxNyxv07j3kamOFNCBhwiyaauoLsRebobFORYuxHQSTBtNCx2JrQCh9ZUyNLHvJB3JvPJ7qrhXq1SCCDYjUGI4BwIOhTm3a4ObkQna+NqP57s1uY7pDFTQxG7G2KnmqZ5haR1/BKwm0alK4puQDvEbUUsM5BkbeyWmqp6cERusD2FNV8Uzm7sSesySKKOIWY0BRyyyym8jifzw0TeeS3UOFLbEMQFLMVG4Ekgdg5owNaHFwAud+9PJcQGkmw3bkjPH3TMCM0MSXCl1cQzm7szHddiSbdFzGMa1gs0AdmSc4uebuJPam88fdNwozwujClU6xU3ViCOcEg+IjXBrhZwuOtObdpu02K9bEMd7se0kxojjGjR4BPMkp1cfEpGePBsoy0nVLXEMBYMwHQCQIx0cbjdzQT2KVkkrBZriB1EhINQneY4BrdAmOxO6RJ7SnsLj6lIk0qjIToSptcSOaGKYWkaDbinRSSRG7HEdilfl/FfpNX7Rlf9H0n8JvgFNzup/iFQ8Ri3qMWqOWY72JuTYWGvZLMbGRtwMFhwCgeXPdicblNZ5JdNwozwujCjPC6MKRnjbp+FeZ4XS4UZ4XRhRnhdGFGeJdGFGeF0YEZ4XRhRnhdGFGeF0YV5nhdLhRnhdGFGeF0YUZ4XRhRnhdGFGeF0YV5niXS4UZ4XRhRnhdGBGeF0YUZ4XRhRnhdGFGeF0YEZ4XS4EZ4XRhXmeF0YUZoXRgRmhdGFGeF0uFGeJdGFGeF0YEZoXRhXmeF0YUZ4XRhRnhdGBGeGJGBf/9k=" alt="Herramientas de desarrollo">
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-lightbulb"></i> Ejemplo práctico: E-commerce</h4>
+                    <p>En el desarrollo de una app de <span class="keyword">e-commerce</span>, el proceso podría incluir comunicación con stakeholders para definir requisitos, modelado para diseñar la arquitectura (por ejemplo, usando <span class="keyword2">microservicios</span>), y herramientas como <span class="keyword3">Docker</span> para automatizar el despliegue. La calidad se asegura mediante pruebas automatizadas y revisiones técnicas.</p>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-lightbulb"></i> Ejemplo práctico: Clínica Veterinaria</h4>
+                    <p>En el desarrollo del sistema de gestión para una clínica veterinaria, el proceso podría incluir reuniones con veterinarios y personal administrativo para definir requisitos específicos (como gestión de historias clínicas, agenda de citas e inventario de medicamentos), modelado para diseñar la arquitectura del sistema (utilizando un enfoque de microservicios para separar módulos funcionales), y herramientas como <span class="keyword">Git</span> para control de versiones y <span class="keyword2">Jenkins</span> para integración continua. La calidad se asegura mediante pruebas automatizadas para cada módulo, revisiones de código por pares y retrospectivas semanales siguiendo metodología <span class="keyword3">Scrum</span>.</p>
+                </div>
+            </article>
+
+            <article class="article animate delay-1">
+                <h2><i class="fas fa-cogs"></i> El Proceso de Ingeniería de Software</h2>
+
+                <div class="content-with-image">
+                    <div class="text-content">
+                        <p>Pressman describe un marco de proceso genérico con cinco actividades principales (Pressman):</p>
+
+                        <div class="two-columns">
+                            <div>
+                                <h4><i class="fas fa-comments"></i> Comunicación</h4>
+                                <p>Colaborar con los <span class="keyword">stakeholders</span> para entender objetivos y requisitos.</p>
+                            </div>
+                            <div>
+                                <h4><i class="fas fa-tasks"></i> Planificación</h4>
+                                <p>Crear un plan del proyecto que detalle tareas, riesgos, recursos y cronogramas.</p>
+                            </div>
+                        </div>
+
+                        <div class="two-columns">
+                            <div>
+                                <h4><i class="fas fa-project-diagram"></i> Modelado</h4>
+                                <p>Diseñar modelos para entender los requisitos y la solución (análisis y diseño).</p>
+                            </div>
+                            <div>
+                                <h4><i class="fas fa-code"></i> Construcción</h4>
+                                <p>Generar código y realizar pruebas para detectar errores.</p>
+                            </div>
+                        </div>
+
+                        <div class="definition">
+                            <h4><i class="fas fa-rocket"></i> Despliegue</h4>
+                            <p>Entregar el software al cliente y obtener retroalimentación.</p>
+                        </div>
+
+                        <p>Estas actividades se complementan con actividades paraguas, como la gestión de riesgos, el aseguramiento de la calidad y la gestión de configuraciones, que se aplican a lo largo de todo el proceso (Pressman).</p>
+                    </div>
+
+                    <div class="image-content">
+                        <img src="https://innevo.com/hs-fs/hubfs/Blog%20Centro%20de%20Mejora/2024/Art%C3%ADculo%2033-6-Ciclo%20de%20Vida%20del%20Software.jpeg?width=865&height=433&name=Art%C3%ADculo%2033-6-Ciclo%20de%20Vida%20del%20Software.jpeg" alt="Proceso de desarrollo">
+                        <img src="https://bambu-mobile.com/wp-content/uploads/2024/07/Modelos-del-ciclo-de-vida-del-desarrollo-de-software-1024x1024.jpg" alt="Metodologías ágiles">
+                        <img src="https://www.santanderopenacademy.com/es/blog/metodologias-desarrollo-software/_jcr_content/root/container/responsivegrid/image_850078443.coreimg.jpeg/1630420740530/metodologias-desarrollo-software.jpeg" alt="Planificación de proyectos">
+                    </div>
+                </div>
+
+                <div class="two-columns">
+                    <div>
+                        <h4><i class="fas fa-history"></i> Metodologías Tradicionales</h4>
+                        <ul>
+                            <li>PLANTEAMIENTO</li>
+                            <li>ANÁLISIS</li>
+                            <li>DIREMO</li>
+                            <li>PROCESAMAZÓN</li>
+                            <li>PILLERAS</li>
+                            <li>PUESTA EN MARCHA</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4><i class="fas fa-bolt"></i> Metodologías Ágiles</h4>
+                        <ul>
+                            <li>PLANTEAMIENTO</li>
+                            <li>ANÁLISIS</li>
+                            <li>DIREMO</li>
+                            <li>PROCESAMAZÓN</li>
+                            <li>PUESTA EN MARCHA</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <blockquote>
+                    "Farley añade que el proceso debe ser iterativo y centrado en la retroalimentación. En lugar de un enfoque lineal, aboga por ciclos cortos de desarrollo (como en metodologías ágiles) para aprender y ajustar rápidamente (Farley)."
+                    <span class="quote-author">- David Farley, Modern Software Engineering</span>
+                </blockquote>
+
+                <p>En 2025, este enfoque es estándar, con prácticas como <span class="keyword">DevOps</span> y <span class="keyword2">CI/CD</span> (integración y despliegue continuo) que permiten iteraciones rápidas y despliegues frecuentes.</p>
+
+                <div class="definition">
+                    <h4><i class="fas fa-sync-alt"></i> Adaptabilidad del Proceso</h4>
+                    <p>Pressman enfatiza que el proceso no es rígido; debe adaptarse al proyecto, al equipo y a la cultura organizacional. Farley también aboga por la adaptabilidad, sugiriendo que los equipos deben experimentar y ajustar sus procesos para mejorar continuamente.</p>
+                </div>
+
+                <p>En 2025, la adaptabilidad es aún más crítica debido a la rápida evolución de las tecnologías. Por ejemplo, un equipo que desarrolla una app de realidad aumentada podría necesitar iteraciones más frecuentes y un enfoque más colaborativo con los usuarios para ajustar la experiencia de usuario en tiempo real.</p>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-lightbulb"></i> Ejemplo práctico: Adaptación del Proceso</h4>
+                    <p>Un equipo que desarrolla un sistema de salud podría usar un proceso más riguroso con revisiones formales debido a regulaciones estrictas, mientras que un equipo que crea una app de juegos podría adoptar un enfoque más ágil con iteraciones rápidas y menos documentación formal.</p>
+                </div>
+            </article>
+
+            <article class="article animate delay-2">
+                <h2><i class="fas fa-balance-scale"></i> Principios Generales de la Ingeniería de Software</h2>
+
+                <div class="content-with-image">
+                    <div class="text-content">
+                        <p>Pressman cita siete principios de David Hooker que guían la práctica de la ingeniería de software:</p>
+
+                        <div class="definition">
+                            <h4><i class="fas fa-gem"></i> Valor para el Usuario</h4>
+                            <p>El software existe para proporcionar <span class="keyword">valor a los usuarios</span>: <strong>Todas las decisiones deben centrarse en este objetivo.</strong></p>
+                        </div>
+
+                        <div class="definition">
+                            <h4><i class="fas fa-feather-alt"></i> KISS (Keep It Simple, Stupid)</h4>
+                            <p>Mantener el diseño simple para facilitar el mantenimiento.</p>
+                        </div>
+
+                        <div class="definition">
+                            <h4><i class="fas fa-eye"></i> Mantener la Visión</h4>
+                            <p>Una visión clara y consistente evita sistemas fragmentados.</p>
+                        </div>
+
+                        <div class="definition">
+                            <h4><i class="fas fa-users"></i> Consumidores del Software</h4>
+                            <p>Lo que produces, otros lo consumirán: Diseñar pensando en los usuarios, implementadores y mantenedores.</p>
+                        </div>
+
+                        <div class="definition">
+                            <h4><i class="fas fa-door-open"></i> Abierto al Futuro</h4>
+                            <p>Estar abierto al futuro: Diseñar sistemas adaptables a cambios.</p>
+                        </div>
+
+                        <div class="definition">
+                            <h4><i class="fas fa-recycle"></i> Planificar para la Reutilización</h4>
+                            <p>Planificar para la reutilización: Crear componentes reutilizables para ahorrar tiempo y esfuerzo.</p>
+                        </div>
+
+                        <div class="definition">
+                            <h4><i class="fas fa-brain"></i> Pensar</h4>
+                            <p>Pensar: Reflexionar antes de actuar para obtener mejores resultados.</p>
+                        </div>
+                    </div>
+
+                    <div class="image-content">
+                        <img src="https://innevo.com/hs-fs/hubfs/Blog%20Centro%20de%20Mejora/2024/BLOG%20-%2049%20-%20Mejores%20Pr%C3%A1cticas%20Desarrollo%20Software_DeudaTecnica.jpg?width=500&height=408&name=BLOG%20-%2049%20-%20Mejores%20Pr%C3%A1cticas%20Desarrollo%20Software_DeudaTecnica.jpg" alt="Principios de ingeniería">
+                        <img src="https://zimbronapps.com/wp-content/uploads/2017/11/calidad-de-sotfware.png" alt="KISS principle">
+                        <img src="https://www.testingit.com.mx/hs-fs/hubfs/Atributos-de-calidad-del-Software-2022%20(1).png?width=2034&height=1386&name=Atributos-de-calidad-del-Software-2022%20(1).png" alt="Reutilización de componentes">
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-lightbulb"></i> Ejemplo práctico: API de Sistema de Pagos</h4>
+                    <p>En el desarrollo de una API para un sistema de pagos, aplicarías el principio <span class="keyword">KISS</span> diseñando endpoints simples y bien documentados. Mantendrías la visión asegurándote de que la API sea segura y escalable, y planificarías para la reutilización creando componentes que puedan usarse en otros proyectos.</p>
+                </div>
+
+                <div class="image-gallery">
+                    <img src="https://www.lyra.com/la/wp-content/uploads/sites/23/2022/05/Medios-pago-en-linea-latam.webp" alt="Principio 1">
+                    <img src="https://conoce.cobiscorp.com/hubfs/blog/images/2023/Pagos%20digitales%20servicios%20financieros.jpg" alt="Principio 2">
+                    <img src="https://elceo.com/wp-content/uploads/2024/02/mercado_pago_.jpg" alt="Principio 3">
+                </div>
+            </article>
+
+            <article class="article animate delay-3">
+                <h2><i class="fas fa-question-circle"></i> Desafíos Actuales de la Ingeniería de Software</h2>
+
+                <div class="content-with-image">
+                    <div class="text-content">
+                        <p>La ingeniería de software enfrenta varios desafíos fundamentales que afectan su práctica:</p>
+
+                        <div class="definition">
+                            <h4><i class="fas fa-clock"></i> Tiempo de Desarrollo</h4>
+                            <p>¿Por qué toma tanto tiempo terminar el software?</p>
+                        </div>
+
+                        <div class="definition">
+                            <h4><i class="fas fa-money-bill-wave"></i> Costos Elevados</h4>
+                            <p>¿Por qué los costos de desarrollo son tan altos?</p>
+                        </div>
+
+                        <div class="definition">
+                            <h4><i class="fas fa-bug"></i> Errores en el Software</h4>
+                            <p>¿Por qué no podemos encontrar todos los errores antes de entregar el software?</p>
+                        </div>
+
+                        <div class="definition">
+                            <h4><i class="fas fa-tools"></i> Mantenimiento</h4>
+                            <p>¿Por qué dedicamos tanto tiempo a mantener programas existentes?</p>
+                        </div>
+
+                        <div class="definition">
+                            <h4><i class="fas fa-chart-line"></i> Medición del Progreso</h4>
+                            <p>¿Por qué seguimos teniendo dificultades para medir el progreso?</p>
+                        </div>
+
+                        <p>Muchos de estos problemas surgen porque no se aplica un verdadero enfoque de ingeniería. Por ejemplo, la falta de medición y experimentación lleva a retrasos y errores (Farley).</p>
+
+                        <p>En 2025, herramientas como la <span class="keyword">IA para la generación de código</span> y <span class="keyword2">pipelines de CI/CD</span> han mitigado algunos de estos problemas, pero la complejidad sigue siendo un desafío.</p>
+                    </div>
+
+                    <div class="image-content">
+                        <img src="https://itequia.com/wp-content/uploads/2023/12/Estimacion-de-Tiempo-en-Desarrollo-de-Software-Estrategias-Eficientes_Itequia.jpg" alt="Desafíos del software">
+                        <img src="https://media.licdn.com/dms/image/v2/D4D12AQHNP6qTd02jhQ/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1684873336121?e=2147483647&v=beta&t=u-A-dyU1RYZWCXN4jJpQUQjkGqorj0QIv6T4JuGIy6o" alt="Complejidad del desarrollo">
+                        <img src="https://qawerk.es/wp-content/uploads/2024/08/Cover-3.png" alt="Soluciones modernas">
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-lightbulb"></i> Ejemplo práctico: App de Fitness</h4>
+                    <p>Un equipo que agrega 20 nuevas funciones a una app de fitness podría pensar que está progresando, pero si los usuarios solo usan una función (como el seguimiento de pasos), el esfuerzo no ha entregado valor real. Esto ilustra la dificultad de medir el progreso real versus el progreso percibido.</p>
+                </div>
+
+                <div class="image-gallery">
+                    <img src="https://img.computing.es/wp-content/uploads/2024/02/23102942/Software.jpg" alt="Desafío 1">
+                    <img src="https://togrowagencia.com/wp-content/uploads/2022/06/software-con-inteligencia-artificial.jpg" alt="Desafío 2">
+                    <img src="https://adictosaltrabajo.com/wp-content/uploads/2025/02/desarrollador-software-ia-entorno-futurista.webp" alt="Desafío 3">
+                </div>
+            </article>
+        </div>
+
+        <div class="sidebar">
+            <h3>Temas del Tutorial</h3>
+            <ul class="topic-list">
+                <li><i class="fas fa-layer-group"></i> Definición y Capas</li>
+                <li><i class="fas fa-cogs"></i> Proceso de Ingeniería</li>
+                <li><i class="fas fa-balance-scale"></i> Principios Fundamentales</li>
+                <li><i class="fas fa-question-circle"></i> Desafíos Actuales</li>
+            </ul>
+
+            <h3>Conceptos Clave</h3>
+            <ul class="topic-list">
+                <li><i class="fas fa-medal"></i> Calidad como Base</li>
+                <li><i class="fas fa-sitemap"></i> Procesos Adaptables</li>
+                <li><i class="fas fa-tools"></i> Métodos y Herramientas</li>
+                <li><i class="fas fa-wrench"></i> Herramientas CASE</li>
+                <li><i class="fas fa-bolt"></i> Metodologías Ágiles</li>
+                <li><i class="fas fa-history"></i> Enfoques Tradicionales</li>
+                <li><i class="fas fa-recycle"></i> Reutilización</li>
+                <li><i class="fas fa-brain"></i> Principio KISS</li>
+            </ul>
+
+            <h3>Recursos Adicionales</h3>
+            <ul class="topic-list">
+                <li><i class="fas fa-book"></i> Pressman: Ingeniería de Software</li>
+                <li><i class="fas fa-book"></i> Farley: Modern Software Engineering</li>
+                <li><i class="fas fa-globe"></i> Guía de Metodologías Ágiles</li>
+                <li><i class="fas fa-video"></i> Tutoriales CI/CD</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>SoftwareEngineering</h4>
+                <p>Explorando los fundamentos de la ingeniería de software como disciplina profesional.</p>
+                <
+            </div>
+
+            <div class="footer-section">
+                <h4>Enlaces Rápidos</h4>
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#">Tutoriales</a></li>
+                    <li><a href="#">Recursos</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Material de apoyo de la clase</h4>
+                <p>Ve a Moodle.</p>
+
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--gray);">
+            <p>&copy; 2023 SoftwareEngineering. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Smooth scrolling for navigation
+    document.querySelectorAll('.topic-btn, .topic-list li').forEach(item => {
+        item.addEventListener('click', function() {
+            // Remove active class from all buttons
+            document.querySelectorAll('.topic-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Add active class to clicked button
+            if (this.classList.contains('topic-btn')) {
+                this.classList.add('active');
+            }
+
+            // Scroll to corresponding section
+            const topicIndex = Array.from(this.parentElement.children).indexOf(this);
+            const articles = document.querySelectorAll('.article');
+
+            if (articles[topicIndex]) {
+                articles[topicIndex].scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Add animation on scroll
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // Observe all articles for animation
+    document.querySelectorAll('.article').forEach(article => {
+        article.style.opacity = '0';
+        article.style.transform = 'translateY(20px)';
+        article.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(article);
+    });
+</script>
+</body>
+</html>

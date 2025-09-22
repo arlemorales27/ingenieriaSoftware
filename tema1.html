@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingeniería de Software</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Source+Code+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --accent2: #f97316;
+            --accent3: #22c55e;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f1f5f9;
+            --gray: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--darker);
+            color: var(--light);
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(to right, var(--dark), var(--darker));
+            padding: 20px 0;
+            border-bottom: 2px solid var(--primary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .date-badge {
+            background: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /* Newspaper Layout */
+        .newspaper-title {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .newspaper-title h1 {
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .newspaper-title::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--primary), transparent);
+            margin-top: 10px;
+        }
+
+        /* Navigation */
+        .topics-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+        }
+
+        .topic-btn {
+            background: rgba(30, 41, 59, 0.7);
+            color: var(--light);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        .topic-btn i {
+            margin-right: 8px;
+            color: var(--accent);
+        }
+
+        .topic-btn:hover, .topic-btn.active {
+            background: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(14, 165, 233, 0.4);
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .article {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+
+        .article:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.2);
+        }
+
+        .article h2 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .article h2 i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+
+        .article p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .article img {
+            width: 100%;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .article img:hover {
+            transform: scale(1.02);
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .keyword {
+            background: linear-gradient(120deg, rgba(14, 165, 233, 0.2), transparent);
+            padding: 0 5px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .keyword2 {
+            background: linear-gradient(120deg, rgba(236, 72, 153, 0.2), transparent);
+            padding: 0 5px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .keyword3 {
+            background: linear-gradient(120deg, rgba(249, 115, 22, 0.2), transparent);
+            padding: 0 5px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: var(--accent2);
+        }
+
+        .example-box {
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid var(--accent2);
+        }
+
+        .example-box h4 {
+            color: var(--accent2);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .example-box h4 i {
+            margin-right: 10px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            border-left: 4px solid var(--secondary);
+            position: sticky;
+            top: 120px;
+            align-self: start;
+        }
+
+        .sidebar h3 {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .sidebar h3::after {
+            content: '';
+            display: block;
+            width: 50%;
+            height: 2px;
+            background: var(--secondary);
+            margin: 10px auto;
+        }
+
+        .topic-list {
+            list-style: none;
+        }
+
+        .topic-list li {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .topic-list li:hover {
+            transform: translateX(5px);
+            background: rgba(14, 165, 233, 0.1);
+        }
+
+        .topic-list i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+
+        /* Blockquote */
+        blockquote {
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            color: var(--gray);
+        }
+
+        .quote-author {
+            display: block;
+            text-align: right;
+            color: var(--accent);
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* Definition boxes */
+        .definition {
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid var(--accent3);
+        }
+
+        .definition h4 {
+            color: var(--accent3);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .definition h4 i {
+            margin-right: 10px;
+        }
+
+        /* Two-column layout for lists */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 50px;
+            border-top: 2px solid var(--primary);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 300px;
+            margin-bottom: 20px;
+        }
+
+        .footer-section h4 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .social-icons a {
+            color: var(--light);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--accent);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate {
+            animation: fadeIn 1s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .newspaper-title h1 {
+                font-size: 2.5rem;
+            }
+
+            .article h2 {
+                font-size: 1.5rem;
+            }
+
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .logo {
+                font-size: 2rem;
+            }
+
+            .newspaper-title h1 {
+                font-size: 2rem;
+            }
+
+            .article {
+                padding: 15px;
+            }
+
+            .topic-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="logo">Software<span>Engineering</span></div>
+        <div class="date-badge"><i class="fas fa-calendar-alt"></i> Septiembre 2025 | Tutorial Completo</div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="newspaper-title">
+        <h1>Ingeniería de Software</h1>
+        <p>La aplicación práctica de la ciencia para resolver problemas del mundo real</p>
+    </div>
+
+    <div class="main-content">
+        <div class="content">
+            <article class="article animate">
+                <h2><i class="fas fa-cogs"></i> Ingeniería: La Aplicación Práctica de la Ciencia</h2>
+                <p>La ingeniería, en su esencia, es la <span class="keyword">aplicación práctica de principios científicos</span> para resolver problemas del mundo real. En el contexto del software, esto significa usar conocimientos de matemáticas, lógica y ciencias de la computación para diseñar, construir y mantener sistemas de software que sean confiables, eficientes y escalables.</p>
+
+                <blockquote>
+                    "La ingeniería de software no es solo escribir código, sino aplicar un enfoque sistemático y disciplinado para resolver problemas complejos."
+                    <span class="quote-author">- David Farley, Modern Software Engineering</span>
+                </blockquote>
+
+                <blockquote>
+                    "La ingeniería de software es un proceso que abarca métodos, herramientas y procedimientos para desarrollar software de alta calidad."
+                    <span class="quote-author">- Roger Pressman, Ingeniería de Software: Un Enfoque Práctico</span>
+                </blockquote>
+
+                <div class="definition">
+                    <h4><i class="fas fa-book"></i> Definición de Ingeniería de Software (IEEE)</h4>
+                    <p>Según la definición del IEEE citada por Pressman, es <span class="keyword">"la aplicación de un enfoque sistemático, disciplinado y cuantificable al desarrollo, operación y mantenimiento de software; es decir, la aplicación de la ingeniería al software"</span> (Pressman, página 8).</p>
+                </div>
+
+                <p>David Farley, en Modern Software Engineering, añade que esta disciplina debe centrarse en resolver problemas complejos mediante principios científicos, con un enfoque en la <span class="keyword2">repetibilidad, la precisión y la escalabilidad</span> (Farley, sección 2.3).</p>
+
+                <img src="https://solocodigoweb.com/wp-content/uploads/2025/04/evolucion_ingenieria_software_2025.jpg" alt="Ingeniería de Software">
+            </article>
+
+            <article class="article animate delay-1">
+                <h2><i class="fas fa-code"></i> La Naturaleza del Software</h2>
+                <p>El software, como lo define Pressman, tiene un <span class="keyword">rol dual</span>: es un producto en sí mismo y un vehículo para entregar otros productos.</p>
+
+                <div class="two-columns">
+                    <div>
+                        <h4><i class="fas fa-cube"></i> Como Producto</h4>
+                        <p>Transforma información (desde un bit hasta representaciones complejas de realidad aumentada) y reside en diversos entornos, desde dispositivos móviles hasta sistemas en la nube (Pressman, página 4).</p>
+                    </div>
+                    <div>
+                        <h4><i class="fas fa-truck"></i> Como Vehículo</h4>
+                        <p>Permite el control de hardware (sistemas operativos), la comunicación de información (redes) y la creación de otros programas (herramientas de desarrollo).</p>
+                    </div>
+                </div>
+
+                <p>El software <span class="keyword2">no se desgasta</span>, pero sí se deteriora debido a los cambios (Pressman, páginas 5-6). Cada cambio introduce nuevos errores, lo que incrementa la tasa de fallos con el tiempo.</p>
+
+                <blockquote>
+                    "El software no debe ser visto como un 'arte' o una 'craft' (artesanía), sino como un proceso de ingeniería que requiere medición, experimentación y optimización."
+                    <span class="quote-author">- David Farley, Modern Software Engineering</span>
+                </blockquote>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-lightbulb"></i> Ejemplo Práctico 2025</h4>
+                    <p>Imagina una aplicación de banca en línea en 2025. No solo debe procesar transacciones (transformación de información), sino también integrarse con sistemas biométricos para autenticación, cumplir con regulaciones de seguridad avanzadas y ofrecer experiencias de usuario personalizadas mediante IA.</p>
+                </div>
+
+                <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Naturaleza del software">
+            </article>
+
+            <article class="article animate delay-2">
+                <h2><i class="fas fa-history"></i> La Evolución e Importancia del Software</h2>
+                <p>El software ha evolucionado dramáticamente en los últimos 60 años, pasando de ser una herramienta especializada a una industria que impulsa la economía global.</p>
+
+                <p>Pressman destaca que el software ha permitido:</p>
+                <ul>
+                    <li>La creación de nuevas tecnologías (como la ingeniería genética)</li>
+                    <li>La extensión de tecnologías existentes (telecomunicaciones)</li>
+                    <li>La transformación de industrias tradicionales (medios de comunicación)</li>
+                </ul>
+
+                <p>En 2025, esta tendencia continúa: el software impulsa innovaciones como la <span class="keyword">inteligencia artificial generativa</span>, los sistemas de realidad aumentada y las ciudades inteligentes.</p>
+
+                <div class="two-columns">
+                    <div>
+                        <h4><i class="fas fa-users"></i> Desafíos - Equipos de Desarrollo</h4>
+                        <ul>
+                            <li>Equipos grandes</li>
+                            <li>Multidisciplinarios</li>
+                            <li>Coordinación compleja</li>
+                            <li>Decisiones estratégicas y tácticas</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4><i class="fas fa-exclamation-triangle"></i> Desafíos - Criticidad del Software</h4>
+                        <ul>
+                            <li>Consecuencias de fallos</li>
+                            <li>Pérdida económica</li>
+                            <li>Pérdida humana</li>
+                            <li>Complejidad creciente</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <blockquote>
+                    "El verdadero progreso en el desarrollo de software no se mide por la cantidad de código escrito, sino por el valor entregado al usuario."
+                    <span class="quote-author">- David Farley, Modern Software Engineering (Sección 2.13)</span>
+                </blockquote>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-lightbulb"></i> Ejemplo Práctico: Sistema de Gestión de Tráfico Aéreo</h4>
+                    <p>Un fallo en el software podría causar accidentes mortales. La ingeniería de software asegura que el sistema sea confiable (alta calidad), pueda actualizarse para incluir nuevas rutas (mantenibilidad) y se adapte a tecnologías emergentes como drones (adaptabilidad).</p>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-lightbulb"></i> Ejemplo Práctico en Inteligencia Artificial</h4>
+                    <p>Imagina un sistema de diagnóstico médico asistido por IA utilizado en hospitales. Un error en el algoritmo podría llevar a diagnósticos incorrectos, retrasos en tratamientos o incluso la muerte de pacientes.</p>
+                </div>
+
+                <img src="https://images.unsplash.com/photo-1535223289827-42f1e9919769?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Evolución del software">
+            </article>
+
+            <article class="article animate delay-3">
+                <h2><i class="fas fa-layer-group"></i> Dominios de Aplicación del Software</h2>
+
+                <div class="definition">
+                    <h4><i class="fas fa-book"></i> Definición de Software</h4>
+                    <p><span class="keyword">Conjunto ordenado de instrucciones</span> escritas en un lenguaje de programación que permite realizar tareas específicas. Conjunto de instrucciones que se agrupan para realizar una tarea recurrente dentro de un programa.</p>
+                    <p><span class="keyword">1. Software:</span> Conjunto de programas, rutinas, reglas informáticas y datos que operan en distintos dispositivos electrónicos y que forman parte de las operaciones que realizan tareas específicas.</p>
+                    <p>Son la lógica que define el comportamiento esperado de un programa según distintos inputs o condiciones.</p>
+                </div>
+
+                <h3><i class="fas fa-desktop"></i> Tipos de Software</h3>
+
+                <h4><i class="fas fa-window-restore"></i> Software de aplicación</h4>
+                <p>Programas independientes que resuelven una necesidad de negocio específica, procesando datos para facilitar operaciones o la toma de decisiones.</p>
+
+                <div class="two-columns">
+                    <div>
+                        <h5><i class="fas fa-file-word"></i> Ofimática</h5>
+                        <p>Procesadores de texto, hojas de cálculo, presentaciones, bases de datos, etc.</p>
+                    </div>
+                    <div>
+                        <h5><i class="fas fa-globe"></i> Navegadores web</h5>
+                        <p>Permiten a los usuarios acceder a información en Internet.</p>
+                    </div>
+                </div>
+
+                <h5><i class="fas fa-tasks"></i> Software de productividad</h5>
+                <p>Ayuda a los usuarios a realizar tareas cotidianas, como organizarse, planificar y gestionar su tiempo.</p>
+
+                <h4><i class="fas fa-cog"></i> Software de sistema</h4>
+                <p>Colección de programas que dan servicio a otros programas, como compiladores, editores, utilidades de administración de archivos, componentes del sistema operativo, controladores, software de redes, etc.</p>
+
+                <div class="two-columns">
+                    <div>
+                        <h5><i class="fas fa-desktop"></i> Sistemas operativos</h5>
+                        <p>Controlan el hardware y los recursos del sistema, y proporcionan una interfaz para que los usuarios interactúen con el dispositivo. Algunos ejemplos de sistemas operativos son Windows, macOS, Linux y Android.</p>
+                    </div>
+                    <div>
+                        <h5><i class="fas fa-print"></i> Controladores de dispositivos</h5>
+                        <p>Permiten que el dispositivo se comunique con los dispositivos periféricos, como impresoras, escáneres y cámaras.</p>
+                    </div>
+                </div>
+
+                <h5><i class="fas fa-tools"></i> Utilidades</h5>
+                <p>Realizan tareas de mantenimiento y administración del sistema, como formatear discos, desfragmentar el disco duro y optimizar el rendimiento del sistema.</p>
+
+                <h4><i class="fas fa-flask"></i> Software de ingeniería/científico</h4>
+                <p>Diversos programas para el procesamiento de datos en áreas como astronomía, análisis de estrés automotriz, dinámica orbital, diseño asistido por computadora, meteorología, etc.</p>
+
+                <div class="two-columns">
+                    <div>
+                        <h5><i class="fas fa-drafting-compass"></i> Software de diseño asistido por computadora (CAD)</h5>
+                        <p>Permite a los ingenieros diseñar productos y estructuras.</p>
+                    </div>
+                    <div>
+                        <h5><i class="fas fa-vial"></i> Software de simulación</h5>
+                        <p>Permite a los ingenieros probar productos y sistemas en un entorno virtual.</p>
+                    </div>
+                </div>
+
+                <h5><i class="fas fa-calculator"></i> Software de análisis numérico</h5>
+                <p>Permite a los científicos resolver problemas complejos mediante métodos numéricos.</p>
+
+                <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/blogs/2147488964/images/42003cf-64ca-bd4-6d52-b688505d2adf_DALL_E_2024-05-09_13.01.29_-_A_diverse_group_of_business_professionals_sitting_around_a_modern_conference_table_actively_engaged_in_a_discussion_about_integrating_AI_tools_into_t.webp" alt="Dominios de aplicación del software">
+            </article>
+
+            <article class="article">
+                <h2><i class="fas fa-microchip"></i> Software Embebido</h2>
+                <p>El <span class="keyword">software embebido</span> es el software que se ejecuta en dispositivos que no son computadoras personales tradicionales, como relojes inteligentes, electrodomésticos, automóviles y sistemas de control industriales. Este software está diseñado para realizar una función específica, como controlar el motor de un automóvil o procesar imágenes de una cámara digital.</p>
+
+                <p>El software embebido se utiliza en una amplia gama de aplicaciones, que incluyen:</p>
+
+                <div class="two-columns">
+                    <div>
+                        <h4><i class="fas fa-mobile-alt"></i> Electrónica de consumo</h4>
+                        <p>Teléfonos inteligentes, tabletas, reproductores de música, cámaras digitales, etc.</p>
+                    </div>
+                    <div>
+                        <h4><i class="fas fa-blender"></i> Electrodomésticos</h4>
+                        <p>Lavadoras, secadoras, hornos, refrigeradores, etc.</p>
+                    </div>
+                </div>
+
+                <div class="two-columns">
+                    <div>
+                        <h4><i class="fas fa-car"></i> Automóviles</h4>
+                        <p>Sistemas de control de motor, sistemas de entretenimiento, sistemas de seguridad, etc.</p>
+                    </div>
+                    <div>
+                        <h4><i class="fas fa-industry"></i> Sistemas de control industrial</h4>
+                        <p>Sistemas de automatización, sistemas de control de procesos, sistemas de supervisión, etc.</p>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-lightbulb"></i> Ejemplo Práctico 2025</h4>
+                    <p>Un vehículo autónomo en 2025 utiliza docenas de sistemas embebidos que deben coordinarse en tiempo real: sensores LIDAR, sistemas de visión por computadora, control de tracción, navegación GPS y sistemas de comunicación V2X (vehicle-to-everything).</p>
+                </div>
+
+                <img src="https://es.digi.com/getattachment/Blog/post/Examples-of-Embedded-Systems/GettyImages-1259149536-1280x720.jpg?lang=en-US" alt="Software embebido">
+            </article>
+
+            <article class="article">
+                <h2><i class="fas fa-boxes"></i> Software de Línea de Productos (LPS)</h2>
+                <p>El <span class="keyword">software de línea de productos (LPS)</span> es un enfoque de desarrollo de software que se basa en la reutilización de componentes. Un LPS se compone de un conjunto de productos de software que comparten un conjunto común de características. Estas características se implementan a través de componentes reutilizables.</p>
+
+                <p>Los componentes reutilizables son unidades de código que se pueden utilizar en diferentes productos de software. Estos componentes se desarrollan una vez y se pueden utilizar en muchos productos diferentes. Esto reduce el costo y el tiempo de desarrollo de software.</p>
+
+                <div class="two-columns">
+                    <div>
+                        <h4><i class="fas fa-building"></i> Software de gestión empresarial</h4>
+                        <p>Sistemas ERP, CRM, etc.</p>
+                        <p><span class="keyword">ERP</span> significa Planificación de Recursos Empresariales (Enterprise Resource Planning).</p>
+                        <p><span class="keyword">CRM</span> significa Gestión de Relaciones con los Clientes (Customer Relationship Management).</p>
+                    </div>
+                    <div>
+                        <h4><i class="fas fa-th"></i> Otras categorías LPS</h4>
+                        <ul>
+                            <li>Software de aplicaciones: software de productividad, software de juegos, etc.</li>
+                            <li>Software de sistema: sistemas operativos, sistemas de base de datos, etc.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-lightbulb"></i> Ejemplo Práctico 2025</h4>
+                    <p>Una empresa de software desarrolla una línea de productos para gestión educativa que incluye: sistema de gestión de aprendizaje (LMS), plataforma de videoconferencia educativa, sistema de evaluación en línea y portal para padres. Todos comparten componentes comunes de autenticación, gestión de usuarios y reporting.</p>
+                </div>
+
+                <img src="https://cdn.prod.website-files.com/657b24018d72422f5109a72e/66d6d5344860347e527b2313_personas-trabajando-con-robot-con-ia.webp" alt="Software de línea de productos">
+            </article>
+
+            <article class="article">
+                <h2><i class="fas fa-cloud"></i> Aplicaciones Web/Móviles</h2>
+                <p>Las <span class="keyword">aplicaciones web/móviles</span> son una categoría de software que se centra en las redes. Estas aplicaciones se ejecutan en servidores remotos y se accede a ellas a través de una red, como Internet.</p>
+
+                <div class="two-columns">
+                    <div>
+                        <h4><i class="fas fa-window-maximize"></i> Aplicaciones basadas en navegador</h4>
+                        <p>Estas aplicaciones se ejecutan en un navegador web y se accede a ellas a través de una dirección URL. Los ejemplos incluyen sitios web, blogs, redes sociales y tiendas en línea.</p>
+                    </div>
+                    <div>
+                        <h4><i class="fas fa-cloud"></i> Computación en la nube</h4>
+                        <p>Esta categoría abarca una amplia gama de servicios, como almacenamiento, procesamiento, bases de datos y análisis.</p>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-lightbulb"></i> Ejemplo Práctico 2025</h4>
+                    <p>En 2025, las aplicaciones web progresivas (PWAs) dominan el panorama móvil, ofreciendo experiencias similares a las apps nativas pero con actualizaciones instantáneas y sin necesidad de instalación. Estas aplicaciones aprovechan tecnologías como WebAssembly para un rendimiento cercano al nativo.</p>
+                </div>
+
+                <img src="https://comprasmartphone.com/_next/image?url=https%3A%2F%2Fstorage.comprasmartphone.com%2Fposts%2Fios-26-apple-intelligence-iphone-17-novedades.jpg&w=1920&q=75" alt="Aplicaciones web y móviles">
+            </article>
+
+            <article class="article">
+                <h2><i class="fas fa-robot"></i> Software de Inteligencia Artificial (IA)</h2>
+                <p>El <span class="keyword">software de inteligencia artificial (IA)</span> es un tipo de software que utiliza técnicas de IA para resolver problemas. La IA es un campo de la informática que se ocupa de la creación de agentes inteligentes, que son sistemas que pueden actuar de forma inteligente en un entorno.</p>
+
+                <p>El software de IA utiliza <span class="keyword2">heurísticas</span> para resolver problemas complejos que no pueden abordarse mediante cálculo directo. Las heurísticas son reglas o procedimientos que se utilizan para encontrar una solución aproximada a un problema.</p>
+
+                <div class="two-columns">
+                    <div>
+                        <h4><i class="fas fa-robot"></i> Robótica</h4>
+                        <p>El software de IA se utiliza para controlar robots. Los robots utilizan la IA para realizar tareas complejas, como navegar por entornos desconocidos y manipular objetos.</p>
+                    </div>
+                    <div>
+                        <h4><i class="fas fa-clipboard-list"></i> Sistemas de decisión</h4>
+                        <p>El software de IA se utiliza para tomar decisiones. Los sistemas de decisión utilizan la IA para evaluar diferentes opciones y seleccionar la mejor.</p>
+                    </div>
+                </div>
+                <!-- Continuación del artículo de Inteligencia Artificial -->
+                <article class="article">
+                    <h2><i class="fas fa-robot"></i> Software de Inteligencia Artificial (IA)</h2>
+                    <p>El <span class="keyword">software de inteligencia artificial (IA)</span> es un tipo de software que utiliza técnicas de IA para resolver problemas. La IA es un campo de la informática que se ocupa de la creación de agentes inteligentes, que son sistemas que pueden actuar de forma inteligente en un entorno.</p>
+
+                    <p>El software de IA utiliza <span class="keyword2">heurísticas</span> para resolver problemas complejos que no pueden abordarse mediante cálculo directo. Las heurísticas son reglas o procedimientos que se utilizan para encontrar una solución aproximada a un problema.</p>
+
+                    <div class="two-columns">
+                        <div>
+                            <h4><i class="fas fa-robot"></i> Robótica</h4>
+                            <p>El software de IA se utiliza para controlar robots. Los robots utilizan la IA para realizar tareas complejas, como navegar por entornos desconocidos y manipular objetos.</p>
+                        </div>
+                        <div>
+                            <h4><i class="fas fa-clipboard-list"></i> Sistemas de decisión</h4>
+                            <p>El software de IA se utiliza para tomar decisiones. Los sistemas de decisión utilizan la IA para evaluar diferentes opciones y seleccionar la mejor.</p>
+                        </div>
+                    </div>
+
+                    <div class="two-columns">
+                        <div>
+                            <h4><i class="fas fa-fingerprint"></i> Reconocimiento de patrones</h4>
+                            <p>El software de IA se utiliza para identificar patrones en datos. El reconocimiento de patrones se utiliza en una amplia gama de aplicaciones, como la detección de fraudes, la clasificación de imágenes y la identificación de clientes potenciales.</p>
+                        </div>
+                        <div>
+                            <h4><i class="fas fa-brain"></i> Aprendizaje automático</h4>
+                            <p>El software de aprendizaje automático se utiliza para que los sistemas aprendan de los datos. El aprendizaje automático se utiliza en una amplia gama de aplicaciones, como la recomendación de productos, la detección de spam y la traducción automática.</p>
+                        </div>
+                    </div>
+
+                    <div class="two-columns">
+                        <div>
+                            <h4><i class="fas fa-square-root-alt"></i> Demostración de teoremas</h4>
+                            <p>El software de IA se utiliza para demostrar teoremas matemáticos. La demostración de teoremas es un problema complejo que requiere una gran cantidad de razonamiento lógico.</p>
+                        </div>
+                        <div>
+                            <h4><i class="fas fa-gamepad"></i> Juegos</h4>
+                            <p>El software de IA se utiliza para jugar juegos. Los sistemas de IA se utilizan para jugar a juegos de mesa, juegos de cartas y juegos de vídeo.</p>
+                        </div>
+                    </div>
+
+                    <div class="example-box">
+                        <h4><i class="fas fa-lightbulb"></i> Ejemplo Práctico 2025</h4>
+                        <p>En 2025, los sistemas de IA generativa son capaces de crear contenido multimedia hiperrealista, asistir en el descubrimiento de nuevos fármacos mediante simulación molecular y proporcionar tutores educativos personalizados que se adaptan al estilo de aprendizaje de cada estudiante.</p>
+                    </div>
+
+                    <img src="https://bwe.mx/media/inteligencia-artificial-2025_1735574636.webp" alt="Inteligencia Artificial">
+                </article>
+
+                <article class="article">
+                    <h2><i class="fas fa-tools"></i> Software de Desarrollo de Software</h2>
+                    <p>El <span class="keyword">software de desarrollo de software</span> se refiere a las herramientas, aplicaciones y entornos utilizados por los programadores y desarrolladores de software para diseñar, construir, probar y mantener otros programas informáticos. Estas herramientas facilitan y agilizan el proceso de desarrollo de software.</p>
+
+                    <h4><i class="fas fa-code"></i> Entornos de desarrollo integrados (IDEs)</h4>
+                    <p>Los IDEs proporcionan un entorno completo para el desarrollo de software, integrando diversas herramientas en una sola aplicación.</p>
+
+                    <div class="two-columns">
+                        <div>
+                            <h5><i class="fas fa-desktop"></i> Ejemplos</h5>
+                            <p>Visual Studio Code, IntelliJ IDEA, Android Studio, Xcode</p>
+                        </div>
+                        <div>
+                            <h5><i class="fas fa-cogs"></i> Características</h5>
+                            <p>Edición de código, depuración, compilación, despliegue, gestión de proyectos, integración con sistemas de control de versiones, etc.</p>
+                        </div>
+                    </div>
+
+                    <h5><i class="fas fa-microchip"></i> Tecnologías clave</h5>
+                    <p>Lenguajes de programación (C++, Java, Python, JavaScript, etc.), frameworks (.NET, Spring, React, Angular, etc.), bases de datos, herramientas de automatización.</p>
+
+                    <h4><i class="fas fa-code-branch"></i> Herramientas de control de versiones</h4>
+                    <p>Estas herramientas permiten gestionar los cambios en el código fuente a lo largo del tiempo.</p>
+
+                    <div class="two-columns">
+                        <div>
+                            <h5><i class="fas fa-desktop"></i> Ejemplos</h5>
+                            <p>Git, Subversion, Mercurial</p>
+                        </div>
+                        <div>
+                            <h5><i class="fas fa-cogs"></i> Características</h5>
+                            <p>Seguimiento de cambios en el código, ramificación, fusión, colaboración en equipo.</p>
+                        </div>
+                    </div>
+
+                    <h5><i class="fas fa-microchip"></i> Tecnologías clave</h5>
+                    <p>Sistemas de control de versiones distribuidos, plataformas de alojamiento (GitHub, GitLab, Bitbucket).</p>
+
+                    <h4><i class="fas fa-vial"></i> Herramientas de pruebas</h4>
+                    <p>Estas herramientas permiten automatizar las pruebas de software para garantizar su calidad.</p>
+
+                    <div class="two-columns">
+                        <div>
+                            <h5><i class="fas fa-desktop"></i> Ejemplos</h5>
+                            <p>Selenium, Cypress, Jest, Junit</p>
+                        </div>
+                        <div>
+                            <h5><i class="fas fa-cogs"></i> Características</h5>
+                            <p>Automatización de pruebas unitarias, de integración, de aceptación, de rendimiento.</p>
+                        </div>
+                    </div>
+
+                    <h5><i class="fas fa-microchip"></i> Tecnologías clave</h5>
+                    <p>Frameworks de pruebas (TDD, BDD), herramientas de análisis de cobertura de código.</p>
+
+                    <h4><i class="fas fa-chart-line"></i> Herramientas de monitorización y análisis</h4>
+                    <p>Estas herramientas permiten supervisar el rendimiento y comportamiento del software en producción.</p>
+
+                    <div class="two-columns">
+                        <div>
+                            <h5><i class="fas fa-desktop"></i> Ejemplos</h5>
+                            <p>Prometheus, Grafana, Kibana</p>
+                        </div>
+                        <div>
+                            <h5><i class="fas fa-cogs"></i> Características</h5>
+                            <p>Seguimiento del rendimiento, análisis de logs, detección de problemas.</p>
+                        </div>
+                    </div>
+
+                    <h5><i class="fas fa-microchip"></i> Tecnologías clave</h5>
+                    <p>Métricas, registros, trazas, plataformas de observabilidad.</p>
+
+                    <h4><i class="fas fa-cogs"></i> Herramientas de automatización de construcción</h4>
+                    <p>Estas herramientas automatizan el proceso de construcción, prueba y despliegue del software.</p>
+
+                    <div class="two-columns">
+                        <div>
+                            <h5><i class="fas fa-desktop"></i> Ejemplos</h5>
+                            <p>Jenkins, Travis CI, GitHub Actions</p>
+                        </div>
+                        <div>
+                            <h5><i class="fas fa-cogs"></i> Características</h5>
+                            <p>Compilación, empaquetado, pruebas, despliegue automático.</p>
+                        </div>
+                    </div>
+
+                    <h5><i class="fas fa-microchip"></i> Tecnologías clave</h5>
+                    <p>Lenguajes de scripting (Bash, PowerShell, Python), contenedores (Docker, Kubernetes).</p>
+
+                    <h4><i class="fas fa-tasks"></i> Herramientas de gestión de proyectos</h4>
+                    <p>Estas herramientas facilitan la planificación, seguimiento y colaboración en proyectos de software.</p>
+
+                    <div class="two-columns">
+                        <div>
+                            <h5><i class="fas fa-desktop"></i> Ejemplos</h5>
+                            <p>Jira, Trello, Asana</p>
+                        </div>
+                        <div>
+                            <h5><i class="fas fa-cogs"></i> Características</h5>
+                            <p>Seguimiento de tareas, planificación, colaboración, reportes.</p>
+                        </div>
+                    </div>
+
+                    <h5><i class="fas fa-microchip"></i> Tecnologías clave</h5>
+                    <p>Metodologías ágiles (Scrum, Kanban), integración con herramientas de desarrollo.</p>
+
+                    <div class="example-box">
+                        <h4><i class="fas fa-lightbulb"></i> Ejemplo Práctico 2025</h4>
+                        <p>Un equipo de desarrollo en 2025 utiliza una plataforma de desarrollo completamente integrada que combina IA para sugerir mejoras de código, herramientas de colaboración inmersiva con realidad virtual para reuniones de equipo, y pipelines de CI/CD completamente automatizados que despliegan actualizaciones en múltiples entornos en minutos.</p>
+                    </div>
+
+                    <img src="https://i.blogs.es/9ea802/n8n-f/1366_521.jpeg" alt="Herramientas de desarrollo">
+                </article>
+
+                <article class="article">
+                    <h2><i class="fas fa-folder"></i> Software Legado</h2>
+                    <p>El <span class="keyword">software legado</span>, definido por Pressman como sistemas desarrollados hace décadas y modificados continuamente, presenta desafíos significativos (Pressman). Estos sistemas suelen tener diseños inextensibles, código confuso y documentación deficiente, pero son indispensables para muchas organizaciones.</p>
+
+                    <p>La <span class="keyword2">reingeniería</span> es necesaria cuando el software legado debe adaptarse a nuevas tecnologías, cumplir con nuevos requisitos o integrarse con sistemas modernos.</p>
+
+                    <blockquote>
+                        "La ingeniería de software debe centrarse en la evolución: los sistemas deben diseñarse para cambiar y cooperar con otros."
+                        <span class="quote-author">- David Farley, Modern Software Engineering</span>
+                    </blockquote>
+
+                    <p>En 2025, el software legado sigue siendo un problema, especialmente en sectores como la banca y la salud, donde sistemas antiguos aún manejan funciones críticas.</p>
+
+                    <div class="two-columns">
+                        <div>
+                            <h4><i class="fas fa-exclamation-circle"></i> Desafíos del Software Legado</h4>
+                            <ul>
+                                <li>Diseños inextensibles y arquitecturas obsoletas</li>
+                                <li>Código confuso y documentación deficiente</li>
+                                <li>Dependencia de hardware y software obsoletos</li>
+                                <li>Falta de personal con conocimiento del sistema</li>
+                                <li>Dificultad para integrarse con sistemas modernos</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4><i class="fas fa-tools"></i> Estrategias de Modernización</h4>
+                            <ul>
+                                <li>Reingeniería y refactorización del código</li>
+                                <li>Migración a nuevas plataformas y tecnologías</li>
+                                <li>Implementación de APIs modernas para integración</li>
+                                <li>Extracción de componentes clave para microservicios</li>
+                                <li>Documentación y transferencia de conocimiento</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="example-box">
+                        <h4><i class="fas fa-lightbulb"></i> Ejemplo Práctico 2025</h4>
+                        <p>Un banco que usa un sistema de mainframe de los años 90 para procesar transacciones necesita integrarlo con una app móvil moderna. La reingeniería implica migrar datos a una base de datos en la nube, rediseñar la arquitectura hacia microservicios, implementar APIs RESTful para comunicación, y garantizar que el sistema siga siendo seguro y confiable mediante pruebas exhaustivas.</p>
+                    </div>
+
+                    <div class="example-box">
+                        <h4><i class="fas fa-lightbulb"></i> Ejemplo en Sector Salud</h4>
+                        <p>Un hospital que utiliza un sistema de registros médicos desarrollado en los años 80 necesita modernizarlo para cumplir con nuevas regulaciones de privacidad, integrarse con dispositivos médicos IoT y permitir el acceso remoto para telemedicina. La solución implica crear una capa de API moderna alrededor del sistema legado mientras se migra gradualmente a una plataforma cloud-native.</p>
+                    </div>
+
+                    <img src="https://i.ytimg.com/vi/5m6q63h3XyQ/maxresdefault.jpg" alt="Software legado">
+                </article>
+            </article>
+
+    </div>
+        <div class="sidebar">
+            <h3>Temas del Tutorial</h3>
+            <ul class="topic-list">
+                <li><i class="fas fa-cogs"></i> Introducción a la Ingeniería de Software</li>
+                <li><i class="fas fa-code"></i> La Naturaleza del Software</li>
+                <li><i class="fas fa-history"></i> Evolución e Importancia</li>
+                <li><i class="fas fa-layer-group"></i> Dominios de Aplicación</li>
+                <li><i class="fas fa-microchip"></i> Software Embebido</li>
+                <li><i class="fas fa-boxes"></i> Línea de Productos</li>
+                <li><i class="fas fa-cloud"></i> Aplicaciones Web/Móviles</li>
+                <li><i class="fas fa-robot"></i> Inteligencia Artificial</li>
+                <li><i class="fas fa-tools"></i> Herramientas de Desarrollo</li>
+                <li><i class="fas fa-folder"></i> Software Legado</li>
+            </ul>
+
+            <h3>Recursos Adicionales</h3>
+            <ul class="topic-list">
+                <li><i class="fas fa-book"></i> Modern Software Engineering - Farley</li>
+                <li><i class="fas fa-book"></i> Ingeniería de Software - Pressman</li>
+                <li><i class="fas fa-globe"></i> IEEE Computer Society</li>
+                <li><i class="fas fa-graduation-cap"></i> Cursos Online Recomendados</li>
+                <li><i class="fas fa-tools"></i> Herramientas Populares 2025</li>
+            </ul>
+
+            <h3>Próximos Temas</h3>
+            <ul class="topic-list">
+                <li><i class="fas fa-shield-alt"></i> Seguridad en el Software</li>
+                <li><i class="fas fa-sync-alt"></i> DevOps y CI/CD</li>
+                <li><i class="fas fa-project-diagram"></i> Arquitecturas Modernas</li>
+                <li><i class="fas fa-chart-line"></i> Métricas y Calidad</li>
+                <li><i class="fas fa-users"></i> Metodologías Ágiles</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Software Engineering Tutorial</h4>
+                <p>Un recurso completo para entender los fundamentos y avances de la ingeniería de software en 2025.</p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Enlaces Rápidos</h4>
+                <p><a href="#">Inicio</a> | <a href="#">Tutoriales</a> | <a href="#">Recursos</a> | <a href="#">Contacto</a></p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Conéctate</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <p>&copy; 2025 Software Engineering Tutorial. Todos los derechos reservados.</p>
+    </div>
+</footer>
+
+<script>
+    // Script para la navegación entre temas
+    document.addEventListener('DOMContentLoaded', function() {
+        const topicButtons = document.querySelectorAll('.topic-btn');
+        const articles = document.querySelectorAll('.article');
+
+        topicButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remover clase active de todos los botones
+                topicButtons.forEach(btn => btn.classList.remove('active'));
+
+                // Añadir clase active al botón clickeado
+                this.classList.add('active');
+
+                // Obtener el texto del botón para hacer match con los artículos
+                const topic = this.textContent.trim();
+
+                // Ocultar todos los artículos
+                articles.forEach(article => {
+                    article.style.display = 'none';
+                });
+
+                // Mostrar solo el artículo correspondiente al tema seleccionado
+                // Esta es una implementación básica, se puede mejorar
+                if (topic.includes('Introducción')) {
+                    document.querySelector('.article:nth-child(1)').style.display = 'block';
+                } else if (topic.includes('Naturaleza')) {
+                    document.querySelector('.article:nth-child(2)').style.display = 'block';
+                } else if (topic.includes('Evolución')) {
+                    document.querySelector('.article:nth-child(3)').style.display = 'block';
+                } else if (topic.includes('Dominios')) {
+                    document.querySelector('.article:nth-child(4)').style.display = 'block';
+                } else if (topic.includes('Embebido')) {
+                    document.querySelector('.article:nth-child(5)').style.display = 'block';
+                } else if (topic.includes('Línea Productos')) {
+                    document.querySelector('.article:nth-child(6)').style.display = 'block';
+                } else if (topic.includes('Web/Móvil')) {
+                    document.querySelector('.article:nth-child(7)').style.display = 'block';
+                } else if (topic.includes('Inteligencia Artificial')) {
+                    document.querySelector('.article:nth-child(8)').style.display = 'block';
+                } else if (topic.includes('Herramientas')) {
+                    document.querySelector('.article:nth-child(9)').style.display = 'block';
+                } else if (topic.includes('Software Legado')) {
+                    document.querySelector('.article:nth-child(10)').style.display = 'block';
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,15 +1,425 @@
-<!doctype html><html lang="es"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tema 3 — Próximamente</title>
-<link rel="stylesheet" href="css/styles.css">
-</head><body class="page-tema">
-<header class="site-header glass"><div class="brand"><a href="index.html" class="crumb">← Inicio</a><span>Tema 3</span></div></header>
-<main class="container">
-  <section class="intro big">
-    <h1>Tema 3 — Próximamente</h1>
-    <p>Este tema se habilitará en la próxima iteración.</p>
-  </section>
-</main>
-<footer class="site-footer"><p>© 2025</p></footer>
-<script type="module" src="js/supabase.js"></script>
-</body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Moderno de Ingeniería de Software 2025</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --accent2: #f97316;
+            --accent3: #22c55e;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f1f5f9;
+            --gray: #64748b;
+        }
+        body {
+            background: var(--darker);
+            color: var(--light);
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .main-header {
+            background: linear-gradient(90deg, var(--primary) 60%, var(--secondary) 100%);
+            color: #fff;
+            padding: 24px 0 12px 0;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(14,165,233,0.12);
+        }
+        .main-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: 2px;
+        }
+        .main-header p {
+            font-size: 1.1rem;
+            margin: 8px 0 0 0;
+            color: #f1f5f9;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        .header {
+            text-align: center;
+            padding: 30px 0 10px 0;
+        }
+        .header h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(14,165,233,0.3);
+        }
+        .header p {
+            color: var(--accent);
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+        .ecards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .ecard {
+            background: rgba(30,41,59,0.7);
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(14,165,233,0.12);
+            padding: 28px 24px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-left: 5px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease;
+        }
+        .ecard:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 12px 32px rgba(14,165,233,0.18);
+        }
+        .ecard .icon {
+            font-size: 2.5rem;
+            color: var(--accent2);
+            margin-bottom: 10px;
+            display: block;
+        }
+        .ecard h2 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .ecard img {
+            width: 100%;
+            border-radius: 10px;
+            margin: 18px 0;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+        }
+        .highlight {
+            color: var(--accent3);
+            font-weight: 700;
+            background: linear-gradient(120deg, rgba(34,197,94,0.15), transparent);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .keyword {
+            color: var(--accent);
+            font-weight: 600;
+            background: linear-gradient(120deg, rgba(236,72,153,0.15), transparent);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .ecard ul {
+            margin: 10px 0 0 20px;
+        }
+        .ecard li {
+            margin-bottom: 8px;
+        }
+        .ecard .badge {
+            background: var(--secondary);
+            color: #fff;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            margin-left: 8px;
+        }
+        .ecard .example {
+            background: rgba(249,115,22,0.12);
+            border-left: 4px solid var(--accent2);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 14px;
+            color: var(--accent2);
+            font-size: 1rem;
+        }
+        .ecard .concept {
+            margin-bottom: 10px;
+            font-size: 1.08rem;
+            color: var(--gray);
+        }
+        .footer {
+            background: var(--dark);
+            color: var(--light);
+            text-align: center;
+            padding: 18px 0 10px 0;
+            margin-top: 40px;
+            font-size: 1rem;
+            border-top: 2px solid var(--primary);
+        }
+        .footer a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        @media (max-width: 700px) {
+            .ecards-grid {
+                grid-template-columns: 1fr;
+            }
+            .main-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="main-header">
+    <h1><i class="fas fa-rocket"></i> Tutorial Moderno de Ingeniería de Software 2025</h1>
+    <p>Basado en Pressman, Smallville, Google, Farley | Actualizado a tendencias 2025</p>
+</div>
+<div class="container">
+    <div class="header">
+        <h2>Conceptos Clave y Ejemplos Prácticos</h2>
+        <p>Explora los fundamentos y tecnologías que están transformando la ingeniería de software.</p>
+    </div>
+    <div class="ecards-grid">
+        <!-- 1. Adaptabilidad -->
+        <div class="ecard">
+            <span class="icon"><i class="fas fa-arrows-rotate"></i></span>
+            <h2>Adaptabilidad: Diseñando para el Cambio</h2>
+            <div class="concept">
+                La <span class="highlight">adaptabilidad</span> en software es la capacidad de un sistema para ajustarse rápidamente a cambios internos o externos, como nuevas funcionalidades, regulaciones o tecnologías. Un software adaptable reduce costos de mantenimiento y mejora la satisfacción del usuario.
+            </div>
+            <ul>
+                <li><span class="keyword">Diseño modular</span>: permite modificar partes del sistema sin afectar el resto.</li>
+                <li><span class="keyword">Automatización</span>: facilita actualizaciones y pruebas continuas.</li>
+                <li><span class="keyword">Feedback continuo</span>: mejora el producto con base en datos reales.</li>
+            </ul>
+            <img src="https://media.licdn.com/dms/image/v2/D4E12AQGnHtpXScvD7w/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1680198921411?e=2147483647&v=beta&t=Nz2gpqyYY_AOfi402iTLuy4dE7e6l-5yBJ72ec0hOX4" alt="Adaptabilidad en software">
+            <div class="example"><i class="fas fa-lightbulb"></i> Ejemplo: Netflix adapta su plataforma constantemente, integrando nuevas tecnologías y ajustando la experiencia según el comportamiento de los usuarios.</div>
+        </div>
+        <!-- 2. Tecnologías que facilitan la adaptabilidad -->
+        <div class="ecard">
+            <span class="icon"><i class="fas fa-cloud"></i></span>
+            <h2>Tecnologías para la Adaptabilidad 2025</h2>
+            <div class="concept">
+                Las tecnologías modernas permiten que el software evolucione y se escale fácilmente. El uso de la nube, contenedores y orquestadores facilita la gestión y despliegue de aplicaciones en diferentes entornos.
+            </div>
+            <ul>
+                <li><i class="fas fa-server"></i> <span class="highlight">Nube</span>: Infraestructura flexible y escalable. <br><b>Ejemplo:</b> Spotify usa AWS para distribuir música globalmente y escalar según la demanda.</li>
+                <li><i class="fas fa-box"></i> <span class="highlight">Contenedores</span>: Ejecutan aplicaciones de forma aislada. <br><b>Ejemplo:</b> PayPal utiliza Docker para desplegar microservicios de pago.</li>
+                <li><i class="fas fa-network-wired"></i> <span class="highlight">Orquestación</span>: Gestiona múltiples contenedores. <br><b>Ejemplo:</b> Mercado Libre usa Kubernetes para administrar miles de servicios.</li>
+                <li><i class="fas fa-plug"></i> <span class="highlight">APIs y estándares abiertos</span>: Facilitan la integración entre sistemas. <br><b>Ejemplo:</b> Twilio ofrece APIs para comunicación global en apps.</li>
+                <li><i class="fas fa-robot"></i> <span class="highlight">Automatización con IA</span>: Optimiza procesos y despliegues. <br><b>Ejemplo:</b> Google Cloud usa IA para balancear cargas y detectar anomalías.</li>
+            </ul>
+            <img src="https://media.datacenterdynamics.com/media/images/Software_en_la_Nube.original.jpg" alt="Tecnologías adaptables">
+        </div>
+        <!-- 3. Evolución del Software como Servicio -->
+        <div class="ecard">
+            <span class="icon"><i class="fas fa-cloud-upload-alt"></i></span>
+            <h2>Evolución: Software como Servicio (SaaS)</h2>
+            <div class="concept">
+                <span class="keyword">SaaS</span> es un modelo donde el software se ofrece como servicio a través de internet. Los usuarios acceden a aplicaciones sin preocuparse por la instalación o mantenimiento, pagando solo por lo que usan.
+            </div>
+            <ul>
+                <li>Ejemplos: <span class="highlight">Salesforce</span> (CRM), <span class="highlight">Google Workspace</span> (productividad), <span class="highlight">Shopify</span> (e-commerce).</li>
+                <li>Ventajas: <span class="keyword">Menor costo</span>, <span class="keyword">flexibilidad</span>, <span class="keyword">seguridad</span>.</li>
+            </ul>
+            <img src="https://zd-brightspot.s3.us-east-1.amazonaws.com/wp-content/uploads/2021/07/23080841/Iaas_Paas-3-1.png" alt="SaaS empresas">
+            <div class="example"><i class="fas fa-lightbulb"></i> Ejemplo: Una clínica médica usa SaaS para gestionar citas, historiales y facturación, accediendo desde cualquier dispositivo.</div>
+            <img src="https://cdn.prod.website-files.com/60edc0a8835d5b38bf11f03f/61cf056d15d42428a5c28a75_SaaS-Management.jpeg" alt="Tecnologías adaptables">
+        </div>
+        <!-- 4. Futuro de la Ingeniería de Software -->
+        <div class="ecard">
+            <span class="icon"><i class="fas fa-brain"></i></span>
+            <h2>Futuro: IA, Ciberseguridad, RA, Sostenibilidad</h2>
+            <div class="concept">
+                El futuro de la ingeniería de software está marcado por la integración de <span class="highlight">IA</span>, la importancia de la <span class="highlight">ciberseguridad</span>, el auge de la <span class="highlight">realidad aumentada</span> y el enfoque en <span class="highlight">sostenibilidad</span>.
+            </div>
+            <ul>
+                <li><i class="fas fa-robot"></i> <span class="highlight">Inteligencia Artificial</span>: Automatiza tareas y personaliza experiencias.<br><b>Ejemplo:</b> Duolingo usa IA para adaptar ejercicios a cada usuario.</li>
+                <li><i class="fas fa-shield-alt"></i> <span class="highlight">Ciberseguridad</span>: Protege datos y sistemas.<br><b>Ejemplo:</b> Bancos implementan autenticación biométrica y detección de fraudes con IA.</li>
+                <li><i class="fas fa-vr-cardboard"></i> <span class="highlight">Realidad Aumentada</span>: Enriquece la interacción.<br><b>Ejemplo:</b> IKEA Place permite visualizar muebles en tu casa usando RA.</li>
+                <li><i class="fas fa-leaf"></i> <span class="highlight">Sostenibilidad</span>: Reduce el impacto ambiental.<br><b>Ejemplo:</b> Microsoft optimiza sus centros de datos para consumir menos energía.</li>
+            </ul>
+            <img src="https://distillery.com/wp-content/uploads/2024/09/A-Basic-Guide-to-Start-Implementing-AI-in-Your-Software-Development-Teams.png" alt="Futuro software">
+            <div class="example"><i class="fas fa-lightbulb"></i> Ejemplo: Apps de salud que usan IA para monitorear y recomendar hábitos personalizados, cuidando la privacidad y el consumo energético.</div>
+        </div>
+        <!-- 5. Desafíos de la Ingeniería de Software -->
+        <div class="ecard">
+            <span class="icon"><i class="fas fa-exclamation-triangle"></i></span>
+            <h2>Desafíos Actuales</h2>
+            <div class="concept">
+                Los principales desafíos incluyen la complejidad de los sistemas, la seguridad, la escalabilidad y la gestión de equipos distribuidos. Superarlos requiere buenas prácticas y herramientas modernas.
+            </div>
+            <ul>
+                <li><span class="keyword">Complejidad creciente</span>: Sistemas con miles de componentes.<br><b>Ejemplo:</b> Amazon gestiona millones de productos y usuarios en tiempo real.</li>
+                <li><span class="keyword">Seguridad y privacidad</span>: Proteger datos sensibles.<br><b>Ejemplo:</b> WhatsApp cifra mensajes de extremo a extremo.</li>
+                <li><span class="keyword">Escalabilidad y rendimiento</span>: Soportar más usuarios sin perder calidad.<br><b>Ejemplo:</b> Zoom escaló su infraestructura durante la pandemia.</li>
+                <li><span class="keyword">Gestión de equipos distribuidos</span>: Colaborar globalmente.<br><b>Ejemplo:</b> GitHub permite que miles de desarrolladores trabajen juntos en proyectos open source.</li>
+            </ul>
+            <img src="https://media.licdn.com/dms/image/v2/D4D12AQE-Kk1F6temlw/article-cover_image-shrink_720_1280/B4DZbKoDMKG8AQ-/0/1747156219582?e=2147483647&v=beta&t=xXofsCgQs95c9RMDeHWlGRU4w4bbmihbV22vZ1M8yaM" alt="Desafíos software">
+        </div>
+        <!-- 6. ¿Qué es el proceso de software? -->
+        <div class="ecard">
+            <span class="icon"><i class="fas fa-diagram-project"></i></span>
+            <h2>¿Qué es el Proceso de Software?</h2>
+            <div class="concept">
+                El proceso de software es el conjunto de actividades, métodos y prácticas que guían el desarrollo, mantenimiento y evolución de sistemas de calidad. Incluye desde la concepción de la idea hasta el despliegue y soporte.
+            </div>
+            <img src="https://linexperts.com/images/Blog/2022/img_articulo_como_se_gestiona_el_desarrollo_de_software_img1_modo_cascada.jpg" alt="Proceso software">
+            <img src="https://agenciadigitalamd.com/wp-content/uploads/2021/04/ciclos-de-desarrollo-de-software-800x793-1.jpg" alt="Proceso software">
+            <div class="example"><i class="fas fa-lightbulb"></i> Ejemplo: El desarrollo de una app bancaria sigue procesos definidos para garantizar seguridad y cumplimiento normativo.</div>
+        </div>
+        <!-- 7. Elementos Claves del Proceso -->
+        <div class="ecard">
+            <span class="icon"><i class="fas fa-cubes"></i></span>
+            <h2>Elementos Claves del Proceso</h2>
+            <div class="concept">
+                Los elementos clave son las actividades (análisis, diseño, pruebas), los artefactos (documentos, código), los roles (desarrollador, tester) y las herramientas (IDEs, sistemas de versiones).
+            </div>
+            <ul>
+                <li><span class="keyword">Actividades</span>: análisis, diseño, implementación, pruebas, mantenimiento.<br><b>Ejemplo:</b> Un equipo ágil realiza sprints de desarrollo y revisión cada dos semanas.</li>
+                <li><span class="keyword">Artefactos</span>: documentos, código, casos de prueba.<br><b>Ejemplo:</b> Jira almacena historias de usuario y casos de prueba.</li>
+                <li><span class="keyword">Roles</span>: desarrollador, tester, líder, DevOps.<br><b>Ejemplo:</b> Un DevOps automatiza el despliegue y monitoreo de la aplicación.</li>
+                <li><span class="keyword">Herramientas</span>: IDEs, sistemas de versiones, CI/CD.<br><b>Ejemplo:</b> WebStorm y GitHub para desarrollo colaborativo.</li>
+            </ul>
+            <img src="https://bambu-mobile.com/wp-content/uploads/2024/07/Modelos-del-ciclo-de-vida-del-desarrollo-de-software-1024x1024.jpg" alt="Elementos proceso">
+        </div>
+        <!-- 8. Tipos de Proceso -->
+        <div class="ecard">
+            <span class="icon"><i class="fas fa-stream"></i></span>
+            <h2>Tipos de Proceso</h2>
+            <div class="concept">
+                Existen procesos tradicionales (cascada, V-Model), ágiles (Scrum, Kanban) y DevOps (integración y despliegue continuo), cada uno con ventajas según el contexto del proyecto.
+            </div>
+            <ul>
+                <li><span class="highlight">Tradicionales</span>: Cascada, V-Model.<br><b>Ejemplo:</b> Proyectos gubernamentales suelen usar cascada por su estructura rígida.</li>
+                <li><span class="highlight">Ágiles</span>: Scrum, Kanban, XP.<br><b>Ejemplo:</b> Startups usan Scrum para lanzar productos rápidamente.</li>
+                <li><span class="highlight">DevOps</span>: Integración y despliegue continuo.<br><b>Ejemplo:</b> Spotify automatiza pruebas y despliegues con DevOps.</li>
+            </ul>
+            <img src="https://www.santanderopenacademy.com/es/blog/metodologias-desarrollo-software/_jcr_content/root/container/responsivegrid/image_850078443.coreimg.jpeg/1630420740530/metodologias-desarrollo-software.jpeg" alt="Tipos proceso">
+        </div>
+        <!-- 9. Actividades del Proceso de Software -->
+        <div class="ecard">
+            <span class="icon"><i class="fas fa-tasks"></i></span>
+            <h2>Actividades del Proceso</h2>
+            <div class="concept">
+                Las actividades incluyen comunicación con stakeholders, planificación, modelado, construcción, pruebas, despliegue y mantenimiento. Cada etapa es esencial para el éxito del software.
+            </div>
+            <ul>
+                <li><span class="keyword">Comunicación</span> con stakeholders.<br><b>Ejemplo:</b> Reuniones de revisión con clientes para ajustar requisitos.</li>
+                <li><span class="keyword">Planificación</span> y estimación.<br><b>Ejemplo:</b> Uso de Trello para organizar tareas y tiempos.</li>
+                <li><span class="keyword">Modelado</span> y diseño.<br><b>Ejemplo:</b> Diagramas UML para visualizar la arquitectura.</li>
+                <li><span class="keyword">Construcción</span> y pruebas.<br><b>Ejemplo:</b> Implementación de código y pruebas automatizadas con Jest.</li>
+                <li><span class="keyword">Despliegue</span> y mantenimiento.<br><b>Ejemplo:</b> Actualizaciones periódicas en apps móviles.</li>
+            </ul>
+            <img src="https://ingsotfwarekarlacevallos.wordpress.com/wp-content/uploads/2015/04/21.png" alt="Actividades proceso">
+        </div>
+        <!-- 10. Actividades Sombrilla o Paraguas -->
+        <div class="ecard">
+            <span class="icon"><i class="fas fa-umbrella"></i></span>
+            <h2>Actividades Sombrilla</h2>
+            <div class="concept">
+                Son actividades transversales como gestión de riesgos, aseguramiento de calidad, gestión de configuración y documentación, que protegen y mejoran el proceso de desarrollo.
+            </div>
+            <ul>
+                <li><span class="keyword">Gestión de riesgos</span>.<br><b>Ejemplo:</b> Identificar posibles fallos antes de lanzar una app.</li>
+                <li><span class="keyword">Aseguramiento de la calidad</span>.<br><b>Ejemplo:</b> Revisiones de código y pruebas automatizadas.</li>
+                <li><span class="keyword">Gestión de configuración</span>.<br><b>Ejemplo:</b> Uso de Git para controlar versiones.</li>
+                <li><span class="keyword">Documentación</span>.<br><b>Ejemplo:</b> Manuales de usuario y guías técnicas.</li>
+            </ul>
+            <img src="https://static.wixstatic.com/media/382fbe_e98b6d192bbc47928454f4f84aa483a1.png/v1/fill/w_444,h_299,al_c,q_85,enc_avif,quality_auto/382fbe_e98b6d192bbc47928454f4f84aa483a1.png" alt="Actividades sombrilla">
+        </div>
+        <!-- 11. Influencia de Pruebas y Calidad -->
+        <div class="ecard">
+            <span class="icon"><i class="fas fa-vial"></i></span>
+            <h2>Pruebas y Calidad</h2>
+            <div class="concept">
+                Las pruebas y el aseguramiento de calidad garantizan que el software funcione correctamente y sea seguro. Incluyen pruebas unitarias, de integración y revisiones de código.
+            </div>
+            <ul>
+                <li>Pruebas unitarias, de integración, de sistema.<br><b>Ejemplo:</b> Facebook realiza pruebas automáticas antes de cada despliegue.</li>
+                <li>Revisiones de código y automatización.<br><b>Ejemplo:</b> GitHub Actions ejecuta pruebas en cada pull request.</li>
+            </ul>
+            <img src="https://zimbronapps.com/wp-content/uploads/2017/11/calidad-de-sotfware.png" alt="Pruebas y calidad">
+        </div>
+        <!-- 12. Artefactos Principales del Proceso -->
+        <div class="ecard">
+            <span class="icon"><i class="fas fa-file-alt"></i></span>
+            <h2>Artefactos Principales</h2>
+            <div class="concept">
+                Los artefactos son los productos generados durante el proceso: requisitos, diseños, código fuente, casos de prueba y documentación técnica.
+            </div>
+            <ul>
+                <li><span class="keyword">Requisitos</span> y especificaciones.<br><b>Ejemplo:</b> Documentos de requisitos en Confluence.</li>
+                <li><span class="keyword">Diseños</span> y diagramas.<br><b>Ejemplo:</b> Diagramas de arquitectura en Lucidchart.</li>
+                <li><span class="keyword">Código fuente</span>.<br><b>Ejemplo:</b> Repositorios en GitHub.</li>
+                <li><span class="keyword">Casos de prueba</span>.<br><b>Ejemplo:</b> Scripts de prueba automatizados en Selenium.</li>
+                <li><span class="keyword">Documentación técnica</span>.<br><b>Ejemplo:</b> Guías de API para desarrolladores externos.</li>
+            </ul>
+            <img src="https://media.deloitte.com/is/image/deloitte/Deloitte-ES-tecnologia-artefactos-scrum-1x1:1200-x-675?$Responsive$&fmt=webp&fit=stretch,1&dpr=off" alt="Artefactos proceso">
+        </div>
+        <!-- 13. Roles Actuales de la Ingeniería de Software -->
+        <div class="ecard">
+            <span class="icon"><i class="fas fa-users-cog"></i></span>
+            <h2>Roles Actuales</h2>
+            <div class="concept">
+                Los roles han evolucionado para cubrir todo el ciclo de vida del software, desde el desarrollo hasta la operación y mejora continua.
+            </div>
+            <ul>
+                <li><span class="highlight">Desarrollador Full Stack</span>.<br><b>Ejemplo:</b> Desarrolla tanto el frontend como el backend de una app web.</li>
+                <li><span class="highlight">DevOps Engineer</span>.<br><b>Ejemplo:</b> Automatiza el despliegue y monitoreo de sistemas.</li>
+                <li><span class="highlight">QA Automation</span>.<br><b>Ejemplo:</b> Crea pruebas automáticas para validar funcionalidades.</li>
+                <li><span class="highlight">Product Owner</span>.<br><b>Ejemplo:</b> Define prioridades y requisitos del producto.</li>
+                <li><span class="highlight">Cloud Architect</span>.<br><b>Ejemplo:</b> Diseña la infraestructura en la nube para soportar millones de usuarios.</li>
+            </ul>
+            <img src="https://www.intelivita.com/wp-content/uploads/2023/10/Key-Roles-and-their-Responsibilities-In-a-Software-Development-Team.png" alt="Roles software">
+            <img src="https://www.techempower.com/wp-content/uploads/2023/09/top-20-symptoms-mobile-hero.png" alt="Roles software">
+        </div>
+        <!-- 13b. Otros Roles Emergentes en Ingeniería de Software -->
+        <div class="ecard">
+            <span class="icon"><i class="fas fa-user-astronaut"></i></span>
+            <h2>Otros Roles Emergentes</h2>
+            <div class="concept">
+                La ingeniería de software evoluciona y surgen nuevos roles especializados que impulsan la innovación y la calidad en los proyectos tecnológicos.
+            </div>
+            <ul>
+                <li><span class="highlight">Arquitecto de Software</span>: Diseña la estructura y componentes de sistemas complejos.<br><b>Ejemplo:</b> Define microservicios y patrones de integración en una fintech.</li>
+                <li><span class="highlight">Analista de Datos</span>: Extrae, analiza y visualiza datos para la toma de decisiones.<br><b>Ejemplo:</b> Analiza métricas de usuarios para mejorar una app de salud.</li>
+                <li><span class="highlight">Ingeniero de IA</span>: Desarrolla modelos y soluciones basadas en inteligencia artificial.<br><b>Ejemplo:</b> Crea algoritmos de recomendación para e-commerce.</li>
+                <li><span class="highlight">Administrador de Bases de Datos</span>: Gestiona y optimiza sistemas de almacenamiento de datos.<br><b>Ejemplo:</b> Mantiene la seguridad y el rendimiento de bases de datos en una empresa de logística.</li>
+                <li><span class="highlight">Especialista en Ciberseguridad</span>: Protege sistemas y datos contra amenazas.<br><b>Ejemplo:</b> Implementa firewalls y monitorea accesos en plataformas bancarias.</li>
+                <li><span class="highlight">Ingeniero de Realidad Aumentada/Virtual</span>: Desarrolla experiencias inmersivas.<br><b>Ejemplo:</b> Diseña simuladores de entrenamiento para la industria médica.</li>
+            </ul>
+
+            <div class="example"><i class="fas fa-lightbulb"></i> Ejemplo: Un equipo moderno puede incluir arquitectos, analistas de datos y expertos en IA para crear soluciones inteligentes y seguras.</div>
+        </div>
+
+        <!-- 14. Herramientas del Proceso de Ingeniería de Software -->
+        <div class="ecard">
+            <span class="icon"><i class="fas fa-toolbox"></i></span>
+            <h2>Herramientas del Proceso</h2>
+            <div class="concept">
+                Las herramientas modernas agilizan el desarrollo, la colaboración y la automatización de tareas, mejorando la calidad y velocidad de entrega.
+            </div>
+            <ul>
+                <li><i class="fab fa-git-alt"></i> <span class="keyword">Sistemas de versiones</span> (Git, GitHub, GitLab).<br><b>Ejemplo:</b> Git permite trabajar en equipo y controlar cambios.</li>
+                <li><i class="fas fa-code"></i> <span class="keyword">Editores</span> (VSCode, WebStorm).<br><b>Ejemplo:</b> WebStorm facilita el desarrollo en JavaScript con herramientas integradas.</li>
+                <li><i class="fas fa-robot"></i> <span class="keyword">Automatización</span> (Jenkins, GitHub Actions).<br><b>Ejemplo:</b> Jenkins ejecuta pruebas y despliegues automáticos.</li>
+                <li><i class="fas fa-cloud"></i> <span class="keyword">Plataformas cloud</span> (AWS, Azure).<br><b>Ejemplo:</b> Azure aloja aplicaciones empresariales con alta disponibilidad.</li>
+            </ul>
+            <img src="https://d1nz2cwxocqem8.cloudfront.net/image/380230487157/image_7e3qmgfckp591fuh2rko208c3v/-FWEBP,Q75,-S3840" alt="Herramientas software">
+            <img src="https://www.processmaker.com/wp-content/uploads/2020/10/29938-scaled.jpg" alt="Herramientas software">
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <span>© 2025 Tutorial Ingeniería de Software | Desarrollado por Arle Morales Ortiz| <a href="https://github.com/arlemorales27" target="_blank"><i class="fab fa-github"></i> GitHub</a></span>
+</div>
+</body>
+</html>

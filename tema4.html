@@ -1,15 +1,489 @@
-<!doctype html><html lang="es"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tema 4 — Próximamente</title>
-<link rel="stylesheet" href="css/styles.css">
-</head><body class="page-tema">
-<header class="site-header glass"><div class="brand"><a href="index.html" class="crumb">← Inicio</a><span>Tema 4</span></div></header>
-<main class="container">
-  <section class="intro big">
-    <h1>Tema 4 — Próximamente</h1>
-    <p>Este tema se habilitará en la próxima iteración.</p>
-  </section>
-</main>
-<footer class="site-footer"><p>© 2025</p></footer>
-<script type="module" src="js/supabase.js"></script>
-</body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Tutorial Moderno de Ingeniería de Requisitos – Parte 1 (2025)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --primary:#0ea5e9;--secondary:#8b5cf6;--accent:#ec4899;--accent2:#f97316;--accent3:#22c55e;
+            --dark:#0f172a;--darker:#020617;--light:#f1f5f9;--gray:#94a3b8;
+        }
+        *{box-sizing:border-box}
+        body{background:var(--darker);color:var(--light);font-family:'Montserrat',sans-serif;margin:0}
+        .main-header{
+            background:linear-gradient(90deg,var(--primary) 60%,var(--secondary) 100%);color:#fff;
+            padding:24px 0 12px;text-align:center;box-shadow:0 4px 16px rgba(14,165,233,.12);
+            position:sticky;top:0;z-index:50;
+        }
+        .main-header h1{font-size:2.3rem;font-weight:800;margin:0;letter-spacing:1.5px}
+        .main-header p{font-size:1.05rem;margin:8px 0 0;color:#e2e8f0}
+        .container{max-width:1200px;margin:0 auto;padding:30px 20px}
+        .header{text-align:center;padding:28px 0 6px}
+        .header h2{font-size:2rem;color:var(--primary);font-weight:800;letter-spacing:2px;text-shadow:0 0 10px rgba(14,165,233,.3)}
+        .header p{color:var(--accent);font-size:1.1rem;margin-top:10px}
+        .ecards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:28px;margin-top:24px}
+        .ecard{
+            background:rgba(30,41,59,.75);border-radius:16px;box-shadow:0 8px 24px rgba(14,165,233,.12);
+            padding:24px 22px;border-left:5px solid var(--primary);position:relative;overflow:hidden;
+            animation:fadeIn .9s ease;backdrop-filter:blur(4px)
+        }
+        .ecard:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 12px 32px rgba(14,165,233,.18)}
+        .ecard .icon{font-size:2.2rem;color:var(--accent2);margin-bottom:8px;display:block}
+        .ecard h2{font-size:1.35rem;color:var(--primary);margin:6px 0 8px;font-weight:800;display:flex;align-items:center;gap:10px}
+        .ecard .badge{background:var(--secondary);color:#fff;padding:3px 10px;border-radius:999px;font-size:.85rem;margin-left:8px}
+        .ecard .tag{background:rgba(14,165,233,.15);color:var(--primary);padding:2px 8px;border-radius:999px;font-size:.75rem;margin-left:8px}
+        .concept{margin-bottom:10px;font-size:1.02rem;color:#cbd5e1}
+        .ecard ul{margin:10px 0 0 20px}
+        .ecard li{margin-bottom:8px}
+        .highlight{color:var(--accent3);font-weight:800;background:linear-gradient(120deg,rgba(34,197,94,.14),transparent);padding:2px 6px;border-radius:4px}
+        .keyword{color:var(--accent);font-weight:700;background:linear-gradient(120deg,rgba(236,72,153,.18),transparent);padding:2px 6px;border-radius:4px}
+        .example{background:rgba(249,115,22,.12);border-left:4px solid var(--accent2);padding:12px 14px;border-radius:10px;margin-top:12px;color:#f59e0b;font-size:.98rem}
+        .literatura{background:rgba(139,92,246,.12);border-left:4px solid var(--secondary);padding:12px 14px;border-radius:10px;margin-top:12px;color:#c4b5fd;font-size:.98rem}
+        .ecard img{width:100%;border-radius:10px;margin:14px 0;box-shadow:0 4px 16px rgba(0,0,0,.18)}
+        .footnote{font-size:.9rem;color:#a1a1aa;margin-top:6px}
+        .footer{background:var(--dark);color:var(--light);text-align:center;padding:18px 0 10px;margin-top:40px;font-size:1rem;border-top:2px solid var(--primary)}
+        .footer a{color:var(--accent);text-decoration:none;font-weight:600}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes floatIcon{0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)}}
+        .ecard .icon i{animation:floatIcon 3.5s ease-in-out infinite}
+        @media (max-width:700px){.ecards-grid{grid-template-columns:1fr}.main-header h1{font-size:1.5rem}}
+    </style>
+</head>
+<body>
+<div class="main-header">
+    <h1><i class="fas fa-sheet-plastic"></i> Ingeniería de Requisitos de Software – Parte 1 (2025)</h1>
+    <p>Basado en Pressman, <span class="keyword">Sommerville</span> (“Smallville”), Google & Farley/Humble • Tendencias y prácticas modernas</p>
+</div>
+
+<div class="container">
+    <div class="header">
+        <h2>Conceptos, técnicas y prácticas alineadas a la industria</h2>
+        <p>Primera parte de la ingeniería de requisitos</p>
+    </div>
+
+    <div class="ecards-grid">
+        <!-- PAGE 1 -->
+        <div class="ecard" id="p1">
+            <span class="icon"><i class="fas fa-bullseye"></i></span>
+            <h2>1) Definición de Requisito <span class="badge">Pág. 1 / 15</span></h2>
+            <div class="concept">
+                <strong class="keyword">Ingeniería de Requisitos de Software – Fundamentos y Prácticas Modernas</strong><br/>
+                <span class="highlight">1. Definición de Requisito</span><br/>
+                Un <span class="keyword">requisito</span> en el contexto de la ingeniería de software es una <span class="highlight">descripción</span> de lo que un
+                <span class="keyword">sistema</span> debe hacer o las <span class="keyword">características</span> que debe tener para satisfacer las
+                necesidades de los usuarios, stakeholders y el entorno en el que operará.
+            </div>
+            <div class="concept">
+                Un requisito puede incluir:
+            </div>
+            <ul>
+                <li><span class="highlight">Funciones</span> (qué debe hacer el sistema).</li>
+                <li><span class="highlight">Restricciones</span> (limitaciones bajo las cuales debe operar).</li>
+                <li><span class="highlight">Atributos de calidad</span> (como rendimiento, seguridad o usabilidad).</li>
+            </ul>
+            <img alt="Requisitos, funciones y atributos de calidad" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgtIe6IrGFAvwWOjCr0PCqlzgL-uExGqHgPNry6Zd-8YgWwXkDWas4FfUn9MRYLNeCgnNDRkzE-UPm60jWdOM04z9kp6u7HsPs9DSsDBQYCGnMUqxABtppsJf-07SJ7fktALOdmLy0_ZscZ/s1600/7+T%25C3%25A9cnicas+de+levantamiento+de+requerimientos+-+Tormenta+de+ideas.jpg"/>
+            <div class="literatura">
+                <i class="fas fa-book"></i> <b>Ampliación bibliográfica</b>:
+                <ul>
+                    <li><b>Pressman</b>: Un buen requisito debe ser <em>correcto, no ambiguo, verificable, consistente, completo y trazable</em>.</li>
+                    <li><b>Sommerville</b>: Diferencia requisitos <em>funcionales</em> y <em>no funcionales</em> (atributos de calidad) y destaca la necesidad de criterios de verificación.</li>
+                    <li><b>Google</b> (SRE): Los atributos de calidad se operacionalizan como <span class="keyword">SLO</span>/<span class="keyword">SLI</span> para conectar requisitos con confiabilidad.</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- PAGE 2 -->
+        <div class="ecard" id="p2">
+            <span class="icon"><i class="fas fa-code-branch"></i></span>
+            <h2>2) Requisito vs. Requerimiento + ejemplo <span class="badge">Pág. 2 / 15</span></h2>
+            <div class="concept">
+                <span class="highlight">Requisito</span> como "una condición o capacidad que debe cumplir un sistema para
+                resolver un problema o alcanzar un objetivo".
+            </div>
+            <div class="concept">
+                <span class="highlight">Requerimiento</span>: Es un término más general que puede referirse a una
+                necesidad expresada de manera informal, no necesariamente documentada o
+                formalizada.
+            </div>
+            <div class="concept">
+                Por ejemplo, un usuario podría decir: <span class="keyword">"Requiero que la app sea fácil de usar"</span>,
+                lo que luego se traduce en requisitos específicos como: <span class="keyword">"La interfaz debe tener un
+                    diseño intuitivo con un máximo de 3 clics para completar una acción"</span>.
+            </div>
+            <div class="concept">
+                En la práctica, el proceso de ingeniería de requisitos convierte los "<span class="keyword">requerimientos</span>"
+                (necesidades expresadas por los stakeholders) en "<span class="keyword">requisitos</span>" (especificaciones
+                formales que guían el desarrollo).
+            </div>
+            <div class="example">
+                <b>Ejemplo práctico</b>: Un cliente de un sistema de reservas de vuelos podría expresar un requerimiento:
+                "<em>Quiero encontrar vuelos baratos rápidamente</em>". Esto se traduce en requisitos específicos como:
+                "<strong>El sistema debe permitir buscar vuelos por precio en menos de 5 segundos</strong>" (requisito funcional) y
+                "<strong>El sistema debe manejar 10,000 búsquedas simultáneas sin degradar el rendimiento</strong>" (requisito no funcional).
+            </div>
+            <img alt="De requerimientos informales a requisitos verificables" src="https://www.northware.mx/wp-content/uploads/2021/04/caracteristicas-tecnicas-efectivas-para-la-toma-de-requerimientos.png"/>
+            <div class="literatura">
+                <i class="fas fa-book"></i> <b>Ampliación bibliográfica</b>:
+                <ul>
+                    <li><b>Sommerville</b>: Distingue entre declaraciones informales de necesidad y especificaciones formales con criterios de aceptación.</li>
+                    <li><b>Pressman</b>: Recomienda <span class="highlight">modelos</span> (UML, casos de uso) para refinar requerimientos hacia requisitos verificables.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- PAGE 3 -->
+        <div class="ecard" id="p3">
+            <span class="icon"><i class="fas fa-diagram-project"></i></span>
+            <h2>3) ¿Qué es la Ingeniería de Requisitos de Software? <span class="badge">Pág. 3 / 15</span></h2>
+            <div class="concept">
+                La <span class="keyword">ingeniería de requisitos</span> es una de las primeras actividades del proceso de desarrollo
+                de software, incluida en la fase de "<span class="highlight">Comunicación</span>" y "<span class="highlight">Modelado</span>".
+            </div>
+            <div class="concept">
+                Es una subdisciplina de la ingeniería de software que se centra en <span class="highlight">identificar,
+                    documentar, analizar, validar y gestionar</span> los requisitos de un sistema de software.
+            </div>
+            <div class="concept">
+                La ingeniería de requisitos no solo se trata de recopilar necesidades, sino de
+                garantizar que estas sean <span class="keyword">claras, completas, consistentes y verificables</span>, para que
+                sirvan como base sólida para el diseño, desarrollo y pruebas del software.
+            </div>
+            <div class="concept">
+                En <span class="highlight">2025</span>, este proceso se ha vuelto aún más crítico debido a la creciente complejidad de los sistemas, la
+                diversidad de stakeholders y la rápida evolución de las tecnologías.
+            </div>
+            <div class="example">
+                <b>Importancia en 2025</b>: En un mundo donde el software impulsa aplicaciones como la <span class="keyword">inteligencia artificial</span>, el
+                <span class="keyword">metaverso</span> y los <span class="keyword">sistemas autónomos</span>, una ingeniería de requisitos deficiente puede llevar a sistemas que no
+                cumplan con las expectativas, fallen en entornos críticos o generen problemas éticos (como sesgos en
+                algoritmos de IA). Por ejemplo, un sistema de conducción autónoma mal especificado podría ignorar
+                requisitos de seguridad, resultando en accidentes.
+            </div>
+            <img alt="Estructura conceptual de la ingeniería de requisitos" src="https://ik.imagekit.io/proefexperu/analisis-del-problema_ExBBKaUHQ.png"/>
+            <div class="literatura">
+                <i class="fas fa-book"></i> Pressman propone un flujo RE clásico (<em>Elicitación→Análisis→Especificación→Validación→Gestión</em>).
+                Google enfatiza <span class="keyword">medición</span> y <span class="keyword">postmortems</span> para realimentar requisitos en sistemas complejos.
+            </div>
+        </div>
+
+        <!-- PAGE 4 -->
+        <div class="ecard" id="p4">
+            <span class="icon"><i class="fas fa-handshake-angle"></i></span>
+            <h2>3.1 Elicitación – Descripción <span class="badge">Pág. 4 / 15</span></h2>
+            <div class="concept">
+                La <span class="keyword">elicitación</span> es el proceso de recopilar requerimientos de los stakeholders (clientes,
+                usuarios finales, gerentes, ingenieros, etc.) y otras fuentes, como normativas o sistemas
+                existentes.
+            </div>
+            <div class="concept">
+                Es la etapa inicial, donde se busca:
+            </div>
+            <ul>
+                <li><span class="highlight">Entender el problema</span></li>
+                <li><span class="highlight">Los objetivos</span></li>
+                <li><span class="highlight">Las expectativas del proyecto</span></li>
+            </ul>
+            <div class="concept">
+                <b>Pressman</b> enfatiza que esta etapa requiere una <span class="keyword">comunicación</span> efectiva con los
+                stakeholders para capturar tanto <span class="highlight">necesidades explícitas</span> como <span class="highlight">implícitas</span>.
+            </div>
+            <img alt="Elicitación y conversación con stakeholders" src="https://i.ytimg.com/vi/-9NsuoSa_Ao/maxresdefault.jpg"/>
+            <div class="literatura">
+                <i class="fas fa-book"></i> Sommerville sugiere combinar fuentes (<em>personas, procesos, documentos</em>) y detectar conflictos entre objetivos.
+            </div>
+            <img alt="Elicitación y conversación con stakeholders" src="https://0901.static.prezi.com/preview/v2/7jt3d6s423nlbl24oxuo64bhap6jc3sachvcdoaizecfr3dnitcq_3_0.png"/>
+        </div>
+
+        <!-- PAGE 5 -->
+        <div class="ecard" id="p5">
+            <span class="icon"><i class="fas fa-list-check"></i></span>
+            <h2> 3.1.2 Técnicas de Elicitación (listado) <span class="badge">Pág. 5 / 15</span></h2>
+            <ul>
+                <li><span class="highlight">Entrevistas</span>: Conversaciones estructuradas o semi-estructuradas con
+                    stakeholders para recopilar información.</li>
+                <li><span class="highlight">Talleres de Requisitos</span>: Reuniones colaborativas donde los
+                    stakeholders discuten y priorizan necesidades.</li>
+                <li><span class="highlight">Encuestas y Cuestionarios</span>: Útiles para recopilar información de un
+                    gran número de usuarios.</li>
+                <li><span class="highlight">Observación</span>: Observar a los usuarios en su entorno para identificar
+                    necesidades implícitas.</li>
+                <li><span class="highlight">Prototipos</span>: Crear versiones iniciales del sistema para obtener
+                    retroalimentación temprana.</li>
+                <li><span class="highlight">Análisis de Documentos</span>: Revisar documentos existentes, como
+                    manuales de usuario o normativas.</li>
+            </ul>
+            <img alt="Técnicas de elicitar requisitos" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEinGLKlOJFeY0Bd6qZOB5IAW7R-LzAjsQuUnb_6s-lm7l15X4IyPqZwTV16PEo8JuMSoBJvEL35OYDqVw-uo5PczC-dBFDDa2QDBrSbcLt9UEcLTRk4drKVDlgH1skLaXrUOyYPabMLUjr6/s1600/7+T%25C3%25A9cnicas+de+levantamiento+de+requerimientos+-+Tormenta+de+ideas.jpg"/>
+        </div>
+
+        <!-- PAGE 6 -->
+        <div class="ecard" id="p6">
+            <span class="icon"><i class="fas fa-robot"></i></span>
+            <h2> En 2025: IA, RA y ejemplo de telemedicina veterinaria <span class="badge">Pág. 6 / 15</span></h2>
+            <div class="concept">
+                En <span class="highlight">2025</span>: Herramientas de <span class="keyword">IA</span>, como asistentes conversacionales (por ejemplo, ChatGPT
+                integrado en plataformas de gestión de proyectos), pueden facilitar la elicitación al
+                analizar transcripciones de entrevistas o chats con usuarios para identificar
+                necesidades clave. Además, herramientas de <span class="highlight">realidad aumentada</span> permiten a los
+                stakeholders interactuar con prototipos inmersivos, mejorando la retroalimentación.
+            </div>
+            <div class="example">
+                <b>Ejemplo Práctico</b>: Imagina que estás desarrollando una app de telemedicina para <span class="keyword">clinica
+                    veterinaria</span>. Durante la elicitación, realizas entrevistas con veterinarios y
+                clientes. Los veterinarios expresan el requerimiento: "<em>Necesito ver el
+                historial del paciente durante una consulta</em>". Los clientes dicen: "<em>Quiero
+                que sea fácil agendar citas</em>". Usas un prototipo de realidad aumentada
+                para mostrar una interfaz inicial, donde los veterinarios pueden ver el
+                historial en una pantalla virtual y los clientes agendan citas con un
+                asistente de voz. La retroalimentación del prototipo revela una
+                necesidad implícita: "<strong>El sistema debe cumplir con regulaciones de
+                privacidad como GDPR – “Reglamento General de Protección de Datos”</strong>".
+            </div>
+
+            <div class="literatura"><i class="fas fa-book"></i> Google (SRE) recomienda traducir requisitos de privacidad a <b>controles medibles</b>
+                (auditorías, alertas, SLOs de cumplimiento) para cerrar el ciclo requisito→operación.</div>
+        </div>
+
+        <!-- PAGE 7 -->
+        <div class="ecard" id="p7">
+            <span class="icon"><i class="fas fa-vr-cardboard"></i></span>
+            <h2>Prototipos inmersivos (RV/RA/3D/Holografía) <span class="badge">Pág. 7 / 15</span></h2>
+            <div class="concept">
+                Los <span class="keyword">prototipos inmersivos</span> busca recrear contextos, escenarios o interacciones de
+                manera que los usuarios puedan experimentar cómo funcionaría un sistema en un
+                entorno cercano a la realidad, lo que ayuda a descubrir necesidades implícitas,
+                validar suposiciones y mejorar la comunicación entre las partes involucradas.
+            </div>
+            <img alt="Prototipos inmersivos en requisitos" src="https://cdn.prod.website-files.com/679120736317a495c4b25b86/679ceff10c9b393fccf02dac_realidadvirtual-750x313.jpg"/>
+            <ul>
+                <li><span class="highlight">Realidad Virtual (RV)</span>: Ideal para entornos completamente simulados, como
+                    simulaciones de entrenamiento o diseño de espacios.</li>
+                <li><span class="highlight">Realidad Aumentada (RA)</span>: Útil para superponer elementos digitales en
+                    el mundo real, como visualizar una interfaz en un dispositivo físico.</li>
+                <li><span class="highlight">Simuladores 3D</span>: Entornos interactivos renderizados en tiempo real,
+                    como los usados en diseño arquitectónico o automotriz.</li>
+                <li><span class="highlight">Holografía o pantallas táctiles avanzadas</span>: Para interacciones menos
+                    inmersivas pero aún interactivas.</li>
+            </ul>
+            <img alt="Prototipos inmersivos en requisitos" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAAKhEJRvWNNSz0kDoavmGd6K3yHpag9oOMxzLa8rjPoddsYOcTswGpT5Up96H2PvMuhM&usqp=CAU"/>
+        </div>
+
+        <!-- PAGE 8 -->
+        <div class="ecard" id="p8">
+            <span class="icon"><i class="fas fa-user-group"></i></span>
+            <h2>3.1.3 Qué hacer en la Elicitación <span class="badge">Pág. 8 / 15</span></h2>
+            <ul>
+                <li><span class="highlight">Identificar a los Stakeholders</span>: Determinar quiénes tienen un interés en el sistema
+                    (por ejemplo, usuarios finales, gerentes de negocio, reguladores).</li>
+                <li><span class="highlight">Recopilar Necesidades Explícitas</span>: Capturar lo que los stakeholders
+                    dicen que quieren, como funcionalidades específicas o restricciones.</li>
+                <li><span class="highlight">Descubrir Necesidades Implícitas</span>: Identificar necesidades no expresadas, como
+                    requisitos de usabilidad o seguridad que los usuarios podrían dar por sentado.</li>
+                <li><span class="highlight">Establecer el Alcance Inicial</span>: Definir los límites del sistema, incluyendo qué se
+                    incluirá y qué no.</li>
+                <li><span class="highlight">Construir una Base para el Análisis</span>: Proporcionar información
+                    suficiente para pasar a las siguientes etapas (análisis, especificación, etc.).</li>
+            </ul>
+            <div class="footnote"><em>3.1.3 Que hacer en la Elicitación de Requisitos</em></div>
+            <img alt="Mapa de stakeholders y alcance" src="https://assets-blog.hostgator.mx/wp-content/uploads/2021/07/que-son-los-stakeholder-1.webp"/>
+            <div class="literatura"><i class="fas fa-book"></i> <b>Humble & Farley</b>: capturar <span class="keyword">trazabilidad</span> desde el día 1 (requisito→código→pruebas→despliegue)
+                acelera entregas y reduce riesgo en cambios.</div>
+        </div>
+
+        <!-- PAGE 9 -->
+        <div class="ecard" id="p9">
+            <span class="icon"><i class="fas fa-comments"></i></span>
+            <h2>3.1.4 Aplicación de técnicas – Entrevistas <span class="badge">Pág. 9 / 15</span></h2>
+            <div class="concept">
+                <b>Entrevistas</b><br/>
+                <span class="highlight">Descripción</span>: Conversaciones estructuradas o semi-estructuradas con stakeholders individuales
+                para recopilar información detallada sobre sus necesidades, expectativas y preocupaciones.
+            </div>
+            <ul>
+                <li><span class="highlight">Ventajas</span>: Permite profundizar en detalles específicos y aclarar
+                    dudas en tiempo real.</li>
+                <li><span class="highlight">Desafíos</span>: Puede ser difícil coordinar entrevistas con múltiples
+                    stakeholders, y los entrevistados podrían omitir información importante
+                    si no se les hacen las preguntas correctas.</li>
+            </ul>
+            <div class="example">
+                En <span class="highlight">2025</span>: Herramientas de videoconferencia como <b>Zoom</b> o <b>Microsoft Teams</b>,
+                con transcripción automática basada en IA, facilitan la captura y análisis de las
+                entrevistas. Además, asistentes de IA (como <b>Otter.ai</b>) pueden generar
+                resúmenes y destacar temas clave.
+            </div>
+            <img alt="Entrevistas con captura automática" src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1600&auto=format&fit=crop"/>
+            <div class="literatura"><i class="fas fa-book"></i> Pressman: preparar <em>guías de entrevista</em>, roles y preguntas abiertas;
+                Sommerville: validar hallazgos con <span class="keyword">revisiones</span> y <span class="keyword">prototipos</span>.</div>
+        </div>
+
+        <!-- PAGE 10 -->
+        <div class="ecard" id="p10">
+            <span class="icon"><i class="fas fa-people-group"></i></span>
+            <h2>Talleres de Requisitos <span class="badge">Pág. 10 / 15</span></h2>
+            <div class="concept">
+                <span class="highlight">Descripción</span>: Reuniones colaborativas con múltiples stakeholders para discutir y priorizar
+                necesidades. Los talleres suelen incluir actividades como <span class="keyword">lluvia de ideas</span>, <span class="keyword">priorización de requisitos</span>
+                y <span class="keyword">resolución de conflictos</span> iniciales.
+            </div>
+            <ul>
+                <li><span class="highlight">Ventajas</span>: Fomenta la colaboración y permite resolver malentendidos en tiempo real.</li>
+                <li><span class="highlight">Desafíos</span>: Puede ser difícil gestionar dinámicas de grupo,
+                    especialmente si hay <span class="keyword">conflictos</span> entre stakeholders.</li>
+            </ul>
+            <div class="example">
+                En <span class="highlight">2025</span>: Herramientas de colaboración como <b>Miro</b> o <b>MURAL</b> permiten realizar
+                talleres virtuales, con tableros interactivos para capturar ideas, priorizar
+                requisitos y crear diagramas en tiempo real. Además, la <span class="keyword">realidad aumentada (AR)</span>
+                permite a los stakeholders interactuar con prototipos inmersivos durante
+                el taller.
+            </div>
+            <img alt="Talleres de co-creación" src="https://images.unsplash.com/photo-1552581234-26160f608093?q=80&w=1600&auto=format&fit=crop"/>
+        </div>
+
+        <!-- PAGE 11 -->
+        <div class="ecard" id="p11">
+            <span class="icon"><i class="fas fa-square-poll-vertical"></i></span>
+            <h2>Encuestas y Cuestionarios <span class="badge">Pág. 11 / 15</span></h2>
+            <div class="concept">
+                <span class="highlight">Descripción</span>: Herramientas para recopilar información de un gran número de usuarios, especialmente
+                cuando no es posible entrevistarlos individualmente. Las encuestas pueden incluir <span class="keyword">preguntas abiertas</span> o
+                <span class="keyword">cerradas</span>.
+            </div>
+            <ul>
+                <li><span class="highlight">Ventajas</span>: Escalable, permite recopilar datos de muchos
+                    usuarios rápidamente.</li>
+                <li><span class="highlight">Desafíos</span>: Las respuestas pueden ser superficiales o
+                    malinterpretadas si las preguntas no están bien diseñadas.</li>
+            </ul>
+            <div class="example">
+                En <span class="highlight">2025</span>: Plataformas como <b>Google Forms</b> o <b>Typeform</b>, integradas
+                con análisis de <span class="keyword">IA</span>, permiten analizar respuestas masivas y detectar
+                patrones. Por ejemplo, la IA puede identificar que el <b>80%</b> de los
+                usuarios mencionan "<em>facilidad de uso</em>" como prioridad.
+            </div>
+            <img alt="Encuestas a escala" src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1600&auto=format&fit=crop"/>
+        </div>
+
+        <!-- PAGE 12 -->
+        <div class="ecard" id="p12">
+            <span class="icon"><i class="fas fa-eye"></i></span>
+            <h2>Observación <span class="badge">Pág. 12 / 15</span></h2>
+            <div class="concept">
+                <span class="highlight">Descripción</span>: Observar a los usuarios en su entorno natural para identificar necesidades implícitas y
+                entender cómo interactúan con sistemas existentes o procesos manuales.
+            </div>
+            <ul>
+                <li><span class="highlight">Ventajas</span>: Revela necesidades que los usuarios no expresan verbalmente, como problemas de
+                    <span class="keyword">usabilidad</span>.</li>
+                <li><span class="highlight">Desafíos</span>: Requiere tiempo y puede ser <span class="keyword">intrusivo</span> para los usuarios.</li>
+            </ul>
+            <div class="example">
+                En <span class="highlight">2025</span>: Dispositivos <b>wearables</b> y sensores <b>IoT</b>
+                permiten recopilar datos de observación de
+                manera no intrusiva. Por ejemplo, un wearable
+                puede registrar cómo un usuario interactúa con
+                una app (tiempo en cada pantalla, clics, etc.),
+                proporcionando datos para análisis.
+            </div>
+            <img alt="Estudios de observación y telemetría" src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1600&auto=format&fit=crop"/>
+        </div>
+
+        <!-- PAGE 13 -->
+        <div class="ecard" id="p13">
+            <span class="icon"><i class="fas fa-bezier-curve"></i></span>
+            <h2>Prototipos (baja/alta fidelidad) <span class="badge">Pág. 13 / 15</span></h2>
+            <div class="concept">
+                <span class="highlight">Descripción</span>: Crear versiones iniciales del sistema (prototipos de baja o alta fidelidad) para que
+                los stakeholders interactúen con ellos y proporcionen retroalimentación.
+            </div>
+            <ul>
+                <li><span class="highlight">Ventajas</span>: Ayuda a los stakeholders a
+                    visualizar el sistema y expresar
+                    necesidades más concretas.</li>
+                <li><span class="highlight">Desafíos</span>: Los usuarios podrían
+                    centrarse demasiado en detalles de
+                    <span class="keyword">diseño</span> en lugar de funcionalidades.</li>
+            </ul>
+            <div class="example">
+                En <span class="highlight">2025</span>: Herramientas como <b>Figma</b> o <b>Adobe XD</b> permiten crear prototipos interactivos
+                rápidamente. Además, la <b>realidad aumentada (AR)</b> y la <b>realidad virtual (VR)</b> permiten a
+                los stakeholders interactuar con prototipos inmersivos, como una <span class="keyword">interfaz 3D</span> para
+                médicos.
+            </div>
+            <img alt="Prototipado iterativo" src="https://miro.medium.com/v2/resize:fit:1400/1*jUswmNNlOUi0GvRMTk0S3w.gif"/>
+            <div class="literatura"><i class="fas fa-book"></i> Pressman y Sommerville recomiendan <b>prototipos desechables</b> para aprender rápido,
+                y <b>evolutivos</b> cuando el prototipo crece hacia el producto.</div>
+
+        </div>
+
+        <!-- PAGE 14 -->
+        <div class="ecard" id="p14">
+            <span class="icon"><i class="fas fa-file-lines"></i></span>
+            <h2>Análisis de Documentos <span class="badge">Pág. 14 / 15</span></h2>
+            <div class="concept">
+                <span class="highlight">Descripción</span>: Revisar documentos existentes, como manuales de usuario, normativas, estándares o
+                documentación de sistemas previos, para identificar requisitos.
+            </div>
+            <ul>
+                <li><span class="highlight">Ventajas</span>: Proporciona
+                    información objetiva y puede
+                    revelar requisitos <span class="keyword">legales</span> o
+                    <span class="keyword">técnicos</span>.</li>
+                <li><span class="highlight">Desafíos</span>: Los documentos
+                    pueden estar
+                    <span class="keyword">desactualizados</span> o ser
+                    difíciles de interpretar.</li>
+            </ul>
+            <div class="example">
+                En <span class="highlight">2025</span>: Herramientas de procesamiento de lenguaje natural (<b>NLP</b>) como <b>IBM
+                Watson</b> o <b>Google Cloud Natural Language</b> pueden analizar documentos
+                automáticamente, extrayendo requisitos y detectando <span class="keyword">inconsistencias</span>.
+            </div>
+            <img alt="Mining de documentos con NLP" src="https://digitalizacion.business/wp-content/uploads/2023/06/Cuales-son-los-6-tipos-de-documentos.jpg"/>
+            <div class="literatura"><i class="fas fa-book"></i> Farley/Humble: automatizar verificaciones de cumplimiento (por ejemplo, políticas como código)
+                conecta requisitos normativos con pipelines de entrega continua.</div>
+        </div>
+
+        <!-- PAGE 15 -->
+        <div class="ecard" id="p15">
+            <span class="icon"><i class="fas fa-lightbulb"></i></span>
+            <h2>Lluvia de Ideas (Brainstorming) <span class="badge">Pág. 15 / 15</span></h2>
+            <div class="concept">
+                <span class="highlight">Descripción</span>: Reunir a un grupo de stakeholders o miembros del equipo para generar ideas
+                libremente sobre las necesidades del sistema.
+            </div>
+            <ul>
+                <li><span class="highlight">Ventajas</span>: Fomenta la <span class="keyword">creatividad</span> y
+                    puede revelar <span class="keyword">ideas innovadoras</span>.</li>
+                <li><span class="highlight">Desafíos</span>: Puede generar muchas
+                    ideas irrelevantes si no se modera
+                    adecuadamente.</li>
+            </ul>
+            <div class="example">
+                En <span class="highlight">2025</span>: Herramientas colaborativas como <b>Miro</b> o <b>Jamboard</b>
+                permiten realizar sesiones de lluvia de ideas virtuales, con funciones
+                para <span class="keyword">organizar</span> y <span class="keyword">priorizar</span> ideas en tiempo real.
+            </div>
+            <img alt="Ideación y priorización visual" src="https://i.ytimg.com/vi/gz5RLhmBYGk/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLB6d3CvgkROXZgtcmdxbAq-g2dXBw"/>
+            <div class="literatura">
+                <i class="fas fa-book"></i> <b>Consejo de literatura</b>:
+                <ul>
+                    <li><b>Sommerville</b>: combine brainstorming con <span class="keyword">escenarios</span> y <span class="keyword">casos de uso</span> para aterrizar ideas.</li>
+                    <li><b>Pressman</b>: establezca <b>criterios de aceptación</b> temprano para filtrar ideas y reducir ambigüedad.</li>
+                    <li><b>Google</b>: cierre el ciclo con métricas (<span class="keyword">SLI/SLO</span>) y <span class="keyword">OKR</span> para enfocar la ideación en resultados.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+        <span>© 2025 Ingeniería de Requisitos – Parte 1 | Desarrollado por Arle Morales Ortiz
+           </span>
+</div>
+</body>
+</html>

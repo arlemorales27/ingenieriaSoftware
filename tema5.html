@@ -1,15 +1,658 @@
-<!doctype html><html lang="es"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tema 5 — Próximamente</title>
-<link rel="stylesheet" href="css/styles.css">
-</head><body class="page-tema">
-<header class="site-header glass"><div class="brand"><a href="index.html" class="crumb">← Inicio</a><span>Tema 5</span></div></header>
-<main class="container">
-  <section class="intro big">
-    <h1>Tema 5 — Próximamente</h1>
-    <p>Este tema se habilitará en la próxima iteración.</p>
-  </section>
-</main>
-<footer class="site-footer"><p>© 2025</p></footer>
-<script type="module" src="js/supabase.js"></script>
-</body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Requisitos de Software — Parte 2 (2025)</title>
+
+    <!-- Iconos y tipografía -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root{
+            --primary:#0ea5e9; --secondary:#8b5cf6; --accent:#ec4899; --accent2:#f97316; --accent3:#22c55e;
+            --dark:#0f172a; --darker:#020617; --light:#f1f5f9; --gray:#94a3b8;
+        }
+        *{box-sizing:border-box}
+        body{background:var(--darker); color:var(--light); font-family:'Montserrat',sans-serif; margin:0}
+        .main-header{
+            position:sticky; top:0; z-index:50;
+            background:linear-gradient(90deg,var(--primary) 60%,var(--secondary) 100%); color:#fff;
+            padding:24px 0 12px; text-align:center; box-shadow:0 4px 16px rgba(14,165,233,.12)
+        }
+        .main-header h1{font-size:2.35rem; font-weight:800; margin:0; letter-spacing:1.5px}
+        .main-header p{font-size:1.05rem; margin:8px 0 0; color:#e2e8f0}
+        .container{max-width:1200px; margin:0 auto; padding:30px 20px}
+        .header{text-align:center; padding:28px 0 6px}
+        .header h2{font-size:2rem; color:var(--primary); font-weight:800; letter-spacing:2px; text-shadow:0 0 10px rgba(14,165,233,.3)}
+        .header p{color:var(--accent); font-size:1.1rem; margin-top:10px}
+
+        .ecards-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(370px,1fr)); gap:28px; margin-top:24px}
+        .ecard{
+            background:rgba(30,41,59,.75); border-radius:16px; box-shadow:0 8px 24px rgba(14,165,233,.12);
+            padding:24px 22px; border-left:5px solid var(--primary); position:relative; overflow:hidden;
+            animation:fadeIn .9s ease; backdrop-filter:blur(4px)
+        }
+        .ecard:hover{transform:translateY(-6px) scale(1.01); box-shadow:0 12px 32px rgba(14,165,233,.18)}
+        .ecard .icon{font-size:2.2rem; color:var(--accent2); margin-bottom:8px; display:block}
+        .ecard h2{font-size:1.35rem; color:var(--primary); margin:6px 0 8px; font-weight:800; display:flex; align-items:center; gap:10px}
+        .badge{background:var(--secondary); color:#fff; padding:3px 10px; border-radius:999px; font-size:.85rem; margin-left:8px}
+        .tag{background:rgba(14,165,233,.15); color:var(--primary); padding:2px 8px; border-radius:999px; font-size:.75rem; margin-left:8px}
+        .concept{margin-bottom:10px; font-size:1.02rem; color:#cbd5e1; line-height:1.55}
+        .ecard ul{margin:10px 0 0 20px}
+        .ecard li{margin-bottom:8px}
+        .highlight{color:var(--accent3); font-weight:800; background:linear-gradient(120deg,rgba(34,197,94,.14),transparent); padding:2px 6px; border-radius:4px}
+        .keyword{color:var(--accent); font-weight:700; background:linear-gradient(120deg,rgba(236,72,153,.18),transparent); padding:2px 6px; border-radius:4px}
+        .example{background:rgba(249,115,22,.12); border-left:4px solid var(--accent2); padding:12px 14px; border-radius:10px; margin-top:12px; color:#f59e0b; font-size:.98rem}
+        .literatura{background:rgba(139,92,246,.12); border-left:4px solid var(--secondary); padding:12px 14px; border-radius:10px; margin-top:12px; color:#c4b5fd; font-size:.98rem}
+        .footnote{font-size:.9rem; color:#a1a1aa; margin-top:6px}
+        .ecard img{width:100%; border-radius:10px; margin:14px 0; box-shadow:0 4px 16px rgba(0,0,0,.18)}
+        @keyframes fadeIn{from{opacity:0; transform:translateY(16px)} to{opacity:1; transform:translateY(0)}}
+        @keyframes floatIcon{0%{transform:translateY(0)} 50%{transform:translateY(-6px)} 100%{transform:translateY(0)}}
+        .ecard .icon i{animation:floatIcon 3.5s ease-in-out infinite}
+        @media (max-width:700px){.ecards-grid{grid-template-columns:1fr} .main-header h1{font-size:1.55rem}}
+    </style>
+</head>
+<body>
+<div class="main-header">
+    <h1><i class="fas fa-magnifying-glass-chart"></i> 3.2 Análisis de Requisitos de Software </h1>
+    <p>Texto íntegro del material adjunto + ampliaciones (Pressman, Sommerville, Farley/Humble, Google, SWEBOK, Ron Jeffries).</p>
+
+</div>
+
+<div class="container">
+    <div class="header">
+        <h2>Sesiones </h2>
+
+    </div>
+
+    <div class="ecards-grid">
+
+        <!-- PÁGINA 1 -->
+        <section class="ecard" id="p1">
+            <span class="icon"><i class="fas fa-layer-group"></i></span>
+            <h2>3.2 Análisis de Requisitos de Software <span class="badge">1 / 15</span></h2>
+            <div class="concept">
+                <strong>El análisis de requisitos es la etapa del proceso de ingeniería de requisitos donde
+                    los requerimientos recopilados durante la elicitación se
+                    examinan,
+                    organizan
+                    y refinan
+                    para garantizar que sean <span class="highlight">claros, completos, consistentes, no ambiguos y viables</span>.</strong>
+            </div>
+            <div class="concept">
+                <strong>El objetivo es transformar los requerimientos iniciales (a
+                    menudo informales y desestructurados) en un conjunto de
+                    requisitos bien definidos que sirvan como base para las etapas
+                    posteriores de especificación, diseño y desarrollo del software.</strong>
+            </div>
+            <div class="concept">
+                <strong>El análisis de requisitos asegura que las necesidades de los
+                    stakeholders se comprendan correctamente y se traduzcan
+                    en requisitos que el equipo de desarrollo pueda
+                    implementar.</strong>
+            </div>
+            <img alt="Equipo analizando requisitos" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgtIe6IrGFAvwWOjCr0PCqlzgL-uExGqHgPNry6Zd-8YgWwXkDWas4FfUn9MRYLNeCgnNDRkzE-UPm60jWdOM04z9kp6u7HsPs9DSsDBQYCGnMUqxABtppsJf-07SJ7fktALOdmLy0_ZscZ/s1600/7+T%25C3%25A9cnicas+de+levantamiento+de+requerimientos+-+Tormenta+de+ideas.jpg"/>
+            <div class="literatura">
+                <i class="fas fa-book-open"></i> <b>Ampliación bibliográfica</b>:
+                <ul>
+                    <li><b>Pressman</b>: los requisitos deben ser <em>correctos, completos, consistentes, verificables, trazables y modificables</em>.</li>
+                    <li><b>SWEBOK (Rodríguez García)</b>: el área de <em>Software Requirements</em> conecta análisis con <span class="keyword">V&amp;V</span> y <span class="keyword">gestión de configuración</span>.</li>
+                    <li><b>Google (SRE)</b>: convertir requisitos en <span class="keyword">SLI/SLO</span> medibles evita ambigüedad y alinea expectativas con confiabilidad.</li>
+                    <li><b>Ron Jeffries</b> (*The Nature of Software Development*): entregar valor en <span class="highlight">incrementos pequeños</span> permite refinar requisitos continuamente.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- PÁGINA 2 -->
+        <section class="ecard" id="p2">
+            <span class="icon"><i class="fas fa-bullseye"></i></span>
+            <h2>3.2.1 Objetivos del Análisis de Requisitos <span class="badge">2 / 15</span></h2>
+            <ul class="concept">
+                <li><strong>Eliminar ambigüedades y asegurarse de que los requerimientos sean
+                    comprensibles para todos los involucrados.</strong></li>
+                <li><strong>Detectar contradicciones entre los requerimientos de diferentes stakeholders (por ejemplo,
+                    un usuario pide rapidez, pero otro pide seguridad, lo que podría ser conflictivo).</strong></li>
+                <li><strong>Asegurarse de que no falten requerimientos esenciales,
+                    incluyendo necesidades implícitas no expresadas durante la
+                    elicitación.</strong></li>
+                <li><strong>Determinar qué requerimientos son más importantes para los
+                    stakeholders y el proyecto.</strong></li>
+                <li><strong>Verificar que los requerimientos sean realistas y factibles dentro
+                    de las restricciones técnicas, de tiempo y presupuesto.</strong></li>
+                <li><strong>Proporcionar un conjunto de requisitos bien definidos que sirvan como entrada para la
+                    especificación y el diseño del sistema.</strong></li>
+            </ul>
+            <img alt="Objetivos y tableros" src="https://acdata.cl/wp-content/uploads/2023/07/Transformaciondigital-ic_Mesa-de-trabajo-1.png"/>
+            <div class="literatura">
+                <i class="fas fa-list-check"></i> <b>Ampliación bibliográfica</b>:
+                <ul>
+                    <li><b>Sommerville</b>: use <span class="keyword">criterios de aceptación</span> claros (p.ej. Gherkin Given–When–Then) para eliminar ambigüedad.</li>
+                    <li><b>Farley &amp; Humble</b>: requisitos deben ser <span class="highlight">testables</span> y conectarse al <b>pipeline</b> (CI/CD) desde el inicio.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- PÁGINA 3 -->
+        <section class="ecard" id="p3">
+            <span class="icon"><i class="fas fa-diagram-project"></i></span>
+            <h2>3.2.2 Pasos — A) Clasificación de Requerimientos <span class="badge">3 / 15</span></h2>
+            <div class="concept">
+                <strong>Requisitos Funcionales</strong>: Describen qué debe hacer el sistema (por ejemplo,
+                "El sistema debe permitir a los usuarios agendar citas médicas").<br/>
+                <strong>Requisitos No Funcionales</strong>: Especifican <span class="keyword">atributos de calidad</span>, como
+                rendimiento, seguridad, usabilidad o escalabilidad (por ejemplo,
+                "El
+                sistema debe responder en menos de 2 segundos").<br/>
+                <strong>Restricciones</strong>: Limitaciones impuestas al sistema, como plataformas soportadas o normativas
+                legales (por ejemplo,
+                "El sistema debe ejecutarse en iOS y Android").<br/>
+                <strong>Requisitos de Dominio</strong>: Necesidades específicas del <span class="keyword">dominio del problema</span> (por ejemplo,
+                "El
+                sistema debe cumplir con las normativas de telemedicina de la región").<br/>
+                <strong>Requisitos Éticos</strong>: Consideraciones éticas, como evitar sesgos o proteger la privacidad (por
+                ejemplo,
+                "El sistema no debe discriminar por género o etnia").<br/><br/>
+                <em>Ejemplo práctico:</em> En la app de telemedicina, clasificas los requerimientos: "Permitir a los médicos ver el historial del paciente" es
+                funcional,
+                "Cumplir con GDPR" es no funcional (seguridad),
+                "Ejecutarse en iOS y Android" es una restricción, y "No discriminar por
+                género o etnia" es ético. Usas Jira para etiquetar cada requerimiento con su categoría correspondiente.
+            </div>
+            <img alt="Clasificación de tipos de requisitos" src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1600&auto=format&fit=crop"/>
+            <div class="literatura">
+                <i class="fas fa-book"></i> <b>Ampliación bibliográfica</b>:
+                <ul>
+                    <li><b>SWEBOK</b> y <b>ISO/IEC/IEEE 29148</b>: taxonomías de requisitos (funcional/no funcional), <span class="keyword">fuentes</span>, <span class="keyword">prioridad</span> y <span class="keyword">estados</span>.</li>
+                    <li><b>Google</b>: los no funcionales se operacionalizan como <b>requisitos de confiabilidad</b> (SLO) y <b>seguridad</b> (controles verificables).</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- PÁGINA 4 -->
+        <section class="ecard" id="p4">
+            <span class="icon"><i class="fas fa-sitemap"></i></span>
+            <h2>B) Modelado de Requerimientos <span class="badge">4 / 15</span></h2>
+            <div class="concept">
+                <strong>El modelado implica crear representaciones visuales o
+                    textuales de los requerimientos</strong> para entender mejor el
+                sistema y sus interacciones. Esto ayuda a identificar
+                <span class="highlight">inconsistencias</span>, omisiones y relaciones entre requerimientos.
+            </div>
+            <ul>
+                <li><strong>Diagramas de Casos de Uso (UML)</strong>: Muestran
+                    las interacciones entre actores (usuarios,
+                    sistemas externos) y el sistema, identificando
+                    las funcionalidades principales.</li>
+                <li><strong>Diagramas de Procesos (BPMN)</strong>: Modelan flujos
+                    de trabajo detallados, incluyendo decisiones y
+                    secuencias.</li>
+                <li><strong>Diagramas de Flujo de Datos (DFD)</strong>: Representan
+                    cómo los datos fluyen entre procesos, actores y
+                    almacenes de datos.</li>
+                <li><strong>User Stories</strong>: En metodologías ágiles, los
+                    requerimientos se expresan como historias de
+                    usuario (por ejemplo,
+                    "Como médico, quiero ver
+                    el historial del paciente para tomar decisiones
+                    informadas").</li>
+            </ul>
+            <img alt="Modelado: UML, BPMN, DFD, User Stories" src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/384755682/original/34e8891f7d6125e15e574f3119f1819645c9e23a/make-uml-diagrams-for-your-projects.jpg"/>
+            <div class="literatura">
+                <i class="fas fa-cubes"></i> <b>Ampliación bibliográfica</b>:
+                <ul>
+                    <li><b>Pressman</b>: utilice modelos complementarios (escenarios, CRC, diccionario de datos).</li>
+                    <li><b>Sommerville</b>: <span class="keyword">prototipos</span> + modelos reducen riesgo de malentendidos.</li>
+                    <li><b>Arquitectura</b>: el <b>Modelo C4</b> ayuda a conectar requisitos con vistas de arquitectura.</li>
+                </ul>
+            </div>
+            <img alt="Modelado: UML, BPMN, DFD, User Stories" src="https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/55132-uml-diagramming-and-database-modeling-1?resMode=sharp2&op_usm=1.5,0.65,15,0&wid=752&hei=580&qlt=100&fmt=png-alpha&fit=constrain"/>
+        </section>
+
+        <!-- PÁGINA 5 -->
+        <section class="ecard" id="p5">
+            <span class="icon"><i class="fas fa-triangle-exclamation"></i></span>
+            <h2>C) Identificación de Conflictos y Ambigüedades <span class="badge">5 / 15</span></h2>
+            <div class="concept">
+                <strong>El análisis busca detectar conflictos (contradicciones entre requerimientos) y
+                    ambigüedades (requerimientos poco claros o mal definidos).</strong>
+            </div>
+            <div class="concept">
+                <b>Conflictos</b>: Diferentes stakeholders pueden tener
+                prioridades opuestas. Por ejemplo, los
+                veterinarios quieren acceso inmediato al historial
+                del paciente, pero las normativas requieren
+                autenticación adicional, lo que podría ralentizar
+                el acceso.
+            </div>
+            <div class="concept">
+                <b>Ambigüedades</b>: Requerimientos vagos como
+                "El sistema debe ser rápido" necesitan
+                clarificación (por ejemplo,
+                "¿Rápido significa
+                menos de 2 segundos o menos de 5
+                segundos?").
+            </div>
+            <div class="concept">
+                <b>Omisiones</b>: Identificar requerimientos
+                faltantes, como la necesidad de soporte
+                multilingüe en una app global.
+            </div>
+            <div class="example">
+                <strong>En 2025</strong>: Herramientas de análisis basadas en IA, como <b>IBM Watson</b> o <b>Google Cloud Natural Language</b>, pueden detectar
+                automáticamente conflictos y ambigüedades. Por ejemplo, Watson puede analizar un requerimiento como "El sistema debe
+                ser seguro" y sugerir que se especifique qué <span class="keyword">estándares de seguridad</span> (como GDPR o ISO 27001) se deben cumplir.
+            </div>
+            <img alt="Gestión de conflictos y ambigüedades" src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1600&auto=format&fit=crop"/>
+            <div class="literatura">
+                <i class="fas fa-scale-balanced"></i> <b>Ampliación bibliográfica</b>:
+                <ul>
+                    <li><b>Sommerville</b>: resolver conflictos con <span class="keyword">negociación</span> y <span class="keyword">escenarios</span> alternativos.</li>
+                    <li><b>Google</b>: usar <b>postmortems</b> sin culpa para retroalimentar requisitos y eliminar ambigüedades recurrentes.</li>
+                </ul>
+            </div>
+
+        </section>
+
+        <!-- PÁGINA 6 -->
+        <section class="ecard" id="p6">
+            <span class="icon"><i class="fas fa-sort-amount-up-alt"></i></span>
+            <h2>D) Priorización de Requerimientos <span class="badge">6 / 15</span></h2>
+            <div class="concept">
+                <strong>No todos los requerimientos tienen la misma importancia</strong>, por lo que es necesario
+                priorizarlos según las necesidades del proyecto y los stakeholders. Algunas técnicas:
+            </div>
+            <ul>
+                <li><b>MoSCoW</b>: Must have, Should have, Could have, Won’t have.</li>
+                <li><b>Puntuación Numérica</b>: puntaje (1–5) según importancia/urgencia.</li>
+                <li><b>Matriz de Priorización</b>: valor para el usuario, impacto negocio, esfuerzo.</li>
+                <li><b>Técnicas Ágiles</b>: priorización en <span class="keyword">backlog</span> durante planificación.</li>
+            </ul>
+            <div class="example">
+                <strong>En 2025</strong>: Jira y Azure DevOps permiten priorizar directamente en un backlog con tableros interactivos.
+            </div>
+            <img alt="Priorización visual MoSCoW/Backlog" src="https://librescrum.com/wp-content/uploads/2020/09/slide2.png"/>
+            <div class="literatura">
+                <i class="fas fa-ranking-star"></i> <b>Ampliación bibliográfica</b>:
+                <ul>
+                    <li><b>Kano</b>, <b>WSJF</b> y <b>RICE</b> para balancear valor, costo de retraso y riesgo técnico.</li>
+                    <li><b>Jeffries</b>: priorice por <span class="highlight">valor inmediato</span> y reduzca <em>work in progress</em>.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- PÁGINA 7 -->
+        <section class="ecard" id="p7">
+            <span class="icon"><i class="fas fa-clipboard-check"></i></span>
+            <h2>E) Evaluación de Viabilidad <span class="badge">7 / 15</span></h2>
+            <div class="concept">
+                <strong>El análisis también evalúa si los requerimientos son
+                    realistas y factibles</strong> dentro de las restricciones del
+                proyecto, como tiempo, presupuesto, tecnología y
+                habilidades del equipo. Esto incluye:
+            </div>
+            <ul>
+                <li><b>Viabilidad Técnica</b>: ¿Es posible con la tecnología disponible? p.ej., "Agendar citas con un asistente de voz" requiere <span class="keyword">NLP</span>.</li>
+                <li><b>Viabilidad Económica</b>: ¿El costo es aceptable? p.ej., soporte multilingüe con traducción y ajustes UI.</li>
+                <li><b>Viabilidad Temporal</b>: ¿Cabe en el cronograma? p.ej., privacidad/seguridad puede requerir auditorías adicionales.</li>
+                <li><b>Viabilidad Legal/Ética</b>: cumplimiento normativo; <span class="highlight">no discriminar</span> por género/etnia en IA.</li>
+            </ul>
+            <img alt="Viabilidad técnica, económica, temporal y legal" src="https://www.questionpro.com/blog/wp-content/uploads/2019/03/910-info-estudio-de-factibilidad.jpg"/>
+            <div class="literatura">
+                <i class="fas fa-shield-halved"></i> <b>Ampliación bibliográfica</b>:
+                <ul>
+                    <li><b>Farley &amp; Humble</b>: viabilidad se prueba con <span class="keyword">spikes</span> técnicos y <span class="keyword">experimentos</span> en el pipeline.</li>
+                    <li><b>SWEBOK</b>: usar <span class="keyword">análisis de riesgos</span> (probabilidad/impacto) para informar decisiones de viabilidad.</li>
+                </ul>
+            </div>
+
+        </section>
+
+        <!-- PÁGINA 8 -->
+        <section class="ecard" id="p8">
+            <span class="icon"><i class="fas fa-link"></i></span>
+            <h2>F) Dependencias y Relaciones <span class="badge">8 / 15</span></h2>
+            <div class="concept">
+                <strong>El análisis examina relaciones entre requerimientos</strong> para identificar <span class="highlight">dependencias</span> y <span class="highlight">relaciones</span>.
+            </div>
+            <ul>
+                <li><b>Dependencias</b>: "Agendar citas con un asistente de voz" depende de "Implementar reconocimiento de voz".</li>
+                <li><b>Relaciones</b>: "Ver el historial del paciente" y "Exportar historial en PDF" están relacionadas (manejo de datos).</li>
+            </ul>
+            <div class="example">
+                <strong>En 2025</strong>: Jama Connect y Azure DevOps facilitan matrices de <span class="keyword">rastreabilidad</span> para visualizar dependencias.
+            </div>
+            <img alt="Rastreabilidad de requisitos" src="https://repositorio.konradlorenz.edu.co/micrositios/001-1527/software.jpg"/>
+            <div class="literatura">
+                <i class="fas fa-diagram-next"></i> <b>Ampliación bibliográfica</b>:
+                <ul>
+                    <li><b>Pressman</b>: establezca <span class="keyword">trazabilidad bidireccional</span> requisito⇄diseño⇄código⇄pruebas.</li>
+                    <li><b>Google</b>: use <span class="keyword">Design Docs</span> y <span class="keyword">ADR</span> para documentar decisiones y sus dependencias.</li>
+                </ul>
+            </div>
+
+        </section>
+
+        <!-- PÁGINA 9 -->
+        <section class="ecard" id="p9">
+            <span class="icon"><i class="fas fa-user-check"></i></span>
+            <h2>G) Validación inicial + 3.2.3 Otras Técnicas <span class="badge">9 / 15</span></h2>
+            <div class="concept">
+                <strong>Antes de pasar a la especificación, se realiza una validación inicial con los
+                    stakeholders</strong> para confirmar que los requerimientos analizados reflejan
+                correctamente sus necesidades y que los conflictos y ambigüedades se han
+                resuelto.
+            </div>
+            <h3 class="concept"><span class="tag">3.2.3 Otras Técnicas para el Análisis de Requisitos</span></h3>
+            <ul>
+                <li><strong>Identificar riesgos</strong> asociados (poco realistas, problemas éticos).</li>
+                <li><strong>Crear escenarios de uso</strong> para evaluar situaciones (“¿Qué pasa si falla la autenticación?”).</li>
+                <li><strong>Evaluar impacto</strong> sobre otras partes del sistema/proyecto (p.ej., soporte multilingüe y base de datos).</li>
+            </ul>
+
+            <div class="literatura">
+                <i class="fas fa-people-arrows"></i> <b>Ampliación bibliográfica</b>:
+                <ul>
+                    <li><b>Three Amigos</b> (producto, desarrollo, pruebas) para alinear criterios de aceptación.</li>
+                    <li><b>SWEBOK</b>: <span class="keyword">Validación</span> vs <span class="keyword">Verificación</span> y su conexión con pruebas y QA.</li>
+                </ul>
+            </div>
+            <span class="icon"><i class="fas fa-briefcase"></i></span>
+            <h2>Ejemplo práctico completo (1/6) — Software de Prácticas Empresariales (U. Alexander von Humboldt) <span class="badge">10 / 15</span></h2>
+
+            <div class="concept">
+                <strong>Ejemplo Práctico Completo: Análisis de Requisitos para un <span class="keyword">Software de Prácticas Empresariales</span></strong><br/>
+                <span class="highlight">Contexto</span>: A partir de <b>semestre 4</b> el estudiante realiza <b>5 prácticas</b> consecutivas; cada práctica incluye un <span class="keyword">proyecto</span> alineado a su semestre.
+                El estudiante podrá ver <span class="keyword">vacantes</span>, gestionar sus <span class="keyword">postulaciones</span> y ser <span class="keyword">seleccionado</span> por la <b>Coordinadora Empresarial</b> y por la <b>Empresa</b>.
+                Un <b>Docente Asesor</b> realiza <span class="keyword">seguimiento</span> al proyecto. Al final, la <b>Coordinadora</b> genera <span class="keyword">estadísticas</span> institucionales de las prácticas.
+            </div>
+
+            <div class="concept">
+                <b>1. Clasificación</b><br/>
+                Clasificas los requerimientos recopilados para organizarlos en categorías claras:
+            </div>
+
+            <ul class="concept">
+                <li>
+                    <strong>Requisitos Funcionales</strong>:
+                    <ul>
+                        <li><span class="highlight">Estudiante</span>: crear/actualizar <b>perfil</b> (programa, <span class="keyword">semestre ≥ 4</span>, CV); <b>explorar vacantes</b> con filtros (semestre, ciudad, modalidad, empresa); <b>postularse</b>; ver <b>estado</b> (enviado, en revisión, preseleccionado, aceptado, rechazado).</li>
+                        <li><span class="highlight">Coordinadora Empresarial</span>: <b>crear/gestionar vacantes</b>; validar requisitos de cada práctica (1..5); <b>preseleccionar</b> candidatos; <b>asignar</b> Docente Asesor; aprobar <b>plan de práctica</b>; <b>generar estadísticas</b> (colocación por programa/semestre, empresas, sector, tasa de aprobación).</li>
+                        <li><span class="highlight">Empresa</span>: <b>publicar vacantes</b>; gestionar <b>preselección</b> y <b>aceptación</b>; registrar <b>tutor empresarial</b>; diligenciar <b>evaluaciones</b> intermedia/final.</li>
+                        <li><span class="highlight">Docente Asesor</span>: registrar <b>plan de proyecto</b> (objetivos, entregables, <span class="keyword">hitos</span>), aprobar bitácora semanal, <b>retroalimentar</b>, calificar avance y cierre.</li>
+                        <li><span class="highlight">Sistema</span>: <b>notificaciones</b> (correo/app) por cambios de estado; <b>calendario</b> de hitos; <b>rúbricas</b> de evaluación; <b>reportes</b> PDF/CSV; <b>historial</b> por práctica (1..5) y por estudiante.</li>
+                    </ul>
+                </li>
+            </ul>
+
+        </section>
+
+        <!-- PÁGINA 10 -->
+        <section class="ecard" id="p10">
+
+            <li>
+                <strong>Requisitos No Funcionales</strong>:
+                <ul>
+                    <li><span class="keyword">Usabilidad</span>: completar una <b>postulación</b> en ≤ <b>3 clics</b> desde una vacante; accesibilidad <b>WCAG 2.1 AA</b>.</li>
+                    <li><span class="keyword">Rendimiento</span>: listar <b>vacantes</b> en &lt; <b>2 s</b> con filtros comunes; panel de la Coordinadora en &lt; <b>3 s</b> para 5k registros.</li>
+                    <li><span class="keyword">Seguridad & Privacidad</span>: <b>autenticación multifactor</b>; cifrado en tránsito/reposo; cumplimiento de <b>normativas locales de protección de datos</b> (p. ej., <em>habeas data</em> o equivalentes).</li>
+                    <li><span class="keyword">Disponibilidad</span> (SLO): <b>99.5%</b> para módulos de <b>postulaciones</b> y <b>selección</b> durante ventana académica.</li>
+                </ul>
+            </li>
+
+            <li>
+                <strong>Restricciones</strong>:
+                <ul>
+                    <li>Solo estudiantes con <span class="keyword">semestre ≥ 4</span> pueden postular; cada registro de práctica almacena <b>número de práctica</b> <code>1..5</code>.</li>
+                    <li><span class="keyword">Integración</span> con sistemas académicos existentes (SGA/LDAP/correo institucional) para <b>single sign‑on</b> y validación de semestre.</li>
+                </ul>
+            </li>
+                <li>
+                    <strong>Requisitos de Dominio</strong>:
+                    <ul>
+                        <li>Cada práctica debe tener un <b>proyecto</b> alineado al plan de estudios y al <span class="keyword">semestre</span> del estudiante; registra <b>empresa</b>, <b>tutor</b>, <b>horas</b> y <b>evidencias</b>.</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <strong>Requisitos Éticos/Legales</strong>:
+                    <ul>
+                        <li><b>No discriminación</b> en procesos de selección; uso justo de datos; consentimiento explícito para comunicaciones.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="concept">
+                <em>Ejemplo de etiquetado:</em> usas <b>Jira/Notion</b> para marcar cada requerimiento con su <span class="highlight">categoría</span> (F/NF/Restricción/Dominio/Ético), <span class="keyword">prioridad</span> y <span class="keyword">trazabilidad</span> hacia historias y rúbricas.
+            </div>
+            <img alt="Rastreabilidad de requisitos" src="https://acdata.cl/wp-content/uploads/2023/07/Transformaciondigital-ic_Mesa-de-trabajo-1.png"/>
+            <div class="literatura">
+                <i class="fas fa-book-open"></i> <b>Ampliación bibliográfica</b>:
+                <ul>
+                    <li><b>Pressman</b>: requisitos <em>correctos, completos, verificables y trazables</em>; conecta cada requisito a <b>criterios de aceptación</b>.</li>
+                    <li><b>Sommerville</b>: separar <span class="keyword">funcionales</span> y <span class="keyword">no funcionales</span>; usar <b>escenarios</b> y <b>casos de uso</b> para clarificar selección/seguimiento.</li>
+                    <li><b>Farley & Humble</b>: llevar requisitos a <b>pipelines CI/CD</b> con pruebas de aceptación automatizadas (p. ej., flujo de postulación).</li>
+                    <li><b>Software Engineering at Google</b>: traducir NFR en <b>SLI/SLO</b> (p. ej., tiempo de respuesta del listado de vacantes, disponibilidad en épocas de matrícula).</li>
+                    <li><b>SWEBOK</b> (Rodríguez García): gobernanza de <b>trazabilidad</b> requisito⇄diseño⇄código⇄pruebas y gestión de configuración.</li>
+                    <li><b>The Nature of Software Development</b>: entregar <span class="highlight">valor incremental</span> (por ejemplo, liberar primero <b>vacantes + postulaciones</b> y luego <b>seguimiento</b> y <b>estadísticas</b>).</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- PÁGINA 11 · (2/6) MODELO -->
+        <section class="ecard" id="p11">
+            <span class="icon"><i class="fas fa-diagram-project"></i></span>
+            <h2>Ejemplo práctico completo (2/6) — Modelado para Prácticas Empresariales <span class="badge">11 / 15</span></h2>
+
+            <div class="concept">
+                <b>Objetivo</b>: crear <span class="highlight">representaciones visuales y textuales</span> de los requisitos del
+                <span class="keyword">Software de Gestión de Prácticas</span> para comprender el sistema, descubrir
+                <span class="keyword">inconsistencias</span> y preparar especificación/diseño.
+            </div>
+
+            <ul class="concept">
+                <li><b>Casos de uso (UML)</b> — Actores:
+                    <span class="highlight">Estudiante</span>, <span class="highlight">Coordinadora Empresarial</span>, <span class="highlight">Empresa</span>,
+                    <span class="highlight">Docente Asesor</span>, <span class="highlight">SGA/LDAP</span> (sistema externo).
+                    <br>Principales casos:
+                    <ul>
+                        <li><span class="keyword">Explorar vacantes</span> y <span class="keyword">postular</span> (estudiante).</li>
+                        <li><span class="keyword">Crear/gestionar vacantes</span> y <span class="keyword">preseleccionar</span> (coordinadora/empresa).</li>
+                        <li><span class="keyword">Aprobar plan de práctica</span> y <span class="keyword">asignar docente asesor</span> (coordinadora).</li>
+                        <li><span class="keyword">Seguimiento del proyecto</span>, <span class="keyword">bitácora</span>, <span class="keyword">retroalimentación</span> y <span class="keyword">calificación</span> (docente).</li>
+                        <li><span class="keyword">Generar estadísticas</span> (coordinadora).</li>
+                    </ul>
+                </li>
+                <li><b>DFD</b>
+                    <ul>
+                        <li>Nivel 0: <em>Estudiante</em> envía <span class="keyword">Solicitud de postulación</span> → Sistema → <span class="keyword">Confirmación</span>.</li>
+                        <li>Nivel 1 (Postulación): actualiza <span class="keyword">Almacén de postulaciones</span>; notifica a empresa/coordinadora.</li>
+                        <li>Flujo <em>Seguimiento</em>: <em>Docente</em> registra <span class="keyword">retroalimentación</span> y <span class="keyword">hitos</span> en <span class="keyword">Bitácora</span>.</li>
+                    </ul>
+                </li>
+                <li><b>BPMN</b>: procesos <span class="highlight">Publicar vacante</span>, <span class="highlight">Postulación</span>, <span class="highlight">Selección coordinadora+empresa</span>,
+                    <span class="highlight">Seguimiento</span> y <span class="highlight">Cierre</span> (con gateways para aprobación/rechazo).</li>
+                <li><b>User stories</b> (backlog):
+                    <ul>
+                        <li>“Como <span class="keyword">estudiante (≥ 4.º)</span>, quiero filtrar vacantes por semestre/ciudad para postular a opciones relevantes”.</li>
+                        <li>“Como <span class="keyword">coordinadora</span>, quiero ver el embudo <em>postulado→preseleccionado→aceptado</em> por vacante para agilizar asignaciones”.</li>
+                        <li>“Como <span class="keyword">empresa</span>, quiero preseleccionar/aceptar candidatos y dejar observaciones”.</li>
+                        <li>“Como <span class="keyword">docente asesor</span>, quiero revisar la <span class="keyword">bitácora</span> y comentar los <span class="keyword">hitos</span> semanalmente”.</li>
+                    </ul>
+                </li>
+            </ul>
+
+
+            <div class="literatura">
+                <i class="fas fa-book"></i> <b>Ampliación bibliográfica</b>:
+                <ul>
+                    <li><b>Pressman</b>: combinar <span class="keyword">casos de uso</span>, diccionario de datos y <span class="keyword">prototipos</span> para validar.</li>
+                    <li><b>Sommerville</b>: modelos + escenarios para reducir <span class="keyword">ambigüedad</span>.</li>
+                    <li><b>SWEBOK</b> (Daniel Rodríguez G.): modelado de requisitos y su <span class="keyword">trazabilidad</span> hacia diseño y pruebas.</li>
+                    <li><b>Software Engineering at Google</b>: <span class="keyword">Design Docs</span> y ADR para registrar decisiones de producto.</li>
+                </ul>
+            </div>
+
+
+        </section>
+
+        <!-- PÁGINA 12 · (3/6) CONFLICTOS/AMBIGÜEDADES -->
+        <section class="ecard" id="p12">
+            <span class="icon"><i class="fas fa-rotate-exclamation"></i></span>
+            <h2>Ejemplo práctico completo (3/6) — Conflictos, ambigüedades y omisiones <span class="badge">12 / 15</span></h2>
+
+            <div class="concept">
+                <b>Conflictos (dominio prácticas)</b>:
+                <ul>
+                    <li><span class="keyword">Rapidez</span> en postulación vs <span class="keyword">validación académica</span> (semestre ≥ 4) desde SGA.</li>
+                    <li><span class="keyword">Transparencia</span> para empresas vs <span class="keyword">privacidad</span> (ocultar datos sensibles del estudiante).</li>
+                    <li><span class="keyword">Fechas de cierre</span> de vacantes vs tiempos de <span class="keyword">entrevista</span> y <span class="keyword">aprobación</span> del plan.</li>
+                </ul>
+            </div>
+
+            <div class="concept">
+                <b>Ambigüedades</b>:
+                <ul>
+                    <li>“<span class="highlight">Rápido</span>” al listar vacantes → <b>&lt; 2s</b> para filtros comunes.</li>
+                    <li>“<span class="highlight">Seleccionado</span>” → diferenciar <b>preseleccionado</b> (coordinadora/empresa) y <b>aceptado</b> (oferta confirmada).</li>
+                    <li>“<span class="highlight">Seguimiento</span>” → definir frecuencia, artefactos de <span class="keyword">bitácora</span> y criterios de <span class="keyword">hitos</span>.</li>
+                </ul>
+            </div>
+
+            <div class="concept">
+                <b>Omisiones habituales</b>:
+                <ul>
+                    <li>Renuncia o reprogramación de práctica y su <span class="keyword">flujo de notificación</span>.</li>
+                    <li>Política de <span class="keyword">retención de datos</span> (CV, evaluaciones) y consentimiento para comunicaciones.</li>
+                    <li>Reglas de <span class="keyword">no discriminación</span> en filtros de búsqueda/selección.</li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <i class="fas fa-robot"></i> <b>IA en 2025</b>: un analizador de texto (NLP) marca términos vagos como
+                “rápido”, “fácil” o “seleccionado”. El equipo los convierte en <span class="keyword">criterios de aceptación</span>
+                medibles (e.g., “<b>listar en &lt;2 s</b>”).
+            </div>
+
+            <img alt="Gestión de conflictos y ambigüedades en requisitos" src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=1600&auto=format&fit=crop"/>
+
+            <div class="literatura">
+                <i class="fas fa-book"></i> <b>Ampliación bibliográfica</b>:
+                <ul>
+                    <li><b>Sommerville</b>: resolver conflictos con <span class="keyword">negociación</span> y <span class="keyword">escenarios</span> alternativos.</li>
+                    <li><b>Google</b>: postmortems sin culpa para mejorar requisitos y eliminar ambigüedades recurrentes.</li>
+                    <li><b>Pressman</b>: establecer <span class="keyword">criterios de aceptación</span> desde el análisis.</li>
+                </ul>
+            </div>
+
+        </section>
+
+        <!-- PÁGINA 13 · (4/6 & 5/6) PRIORIZACIÓN + VIABILIDAD -->
+        <section class="ecard" id="p13">
+            <span class="icon"><i class="fas fa-ranking-star"></i></span>
+            <h2>Ejemplo práctico completo (4/6) Priorización & (5/6) Viabilidad <span class="badge">13 / 15</span></h2>
+
+            <div class="concept"><b>Priorización (MoSCoW)</b></div>
+            <ul class="concept">
+                <li><b>Must have</b>:
+                    <ul>
+                        <li><span class="keyword">SSO</span> con SGA/LDAP; validación de <span class="keyword">semestre ≥ 4</span>.</li>
+                        <li><span class="keyword">Vacantes</span> (crear/editar/publicar) y <span class="keyword">postulaciones</span> con estados.</li>
+                        <li><span class="keyword">Selección</span> coordinadora+empresa (preselección/aceptación).</li>
+                        <li><span class="keyword">Seguimiento</span> del proyecto (plan, hitos, bitácora, evidencias) y <span class="keyword">calificación</span>.</li>
+                        <li><span class="keyword">Estadísticas</span> institucionales (colocación por programa/semestre, empresas, tasa de aprobación).</li>
+                    </ul>
+                </li>
+                <li><b>Should have</b>:
+                    <ul>
+                        <li><span class="keyword">Notificaciones</span> por cambios de estado.</li>
+                        <li>Plantillas de <span class="keyword">convenios</span> y exportación <span class="keyword">PDF/CSV</span>.</li>
+                        <li>Integración con <span class="keyword">calendario</span> de hitos.</li>
+                    </ul>
+                </li>
+                <li><b>Could have</b>: chat estudiante–docente, integración con LinkedIn/bolsas de empleo.</li>
+                <li><b>Won’t have (v1)</b>: gamificación/temas visuales avanzados.</li>
+            </ul>
+
+            <div class="concept"><b>Evaluación de viabilidad</b></div>
+            <ul class="concept">
+                <li><b>Técnica</b>: SSO, control de <span class="keyword">roles</span> (estudiante/empresa/docente/coordinadora), almacenamiento de evidencias, escalabilidad (&gt; 5k registros).</li>
+                <li><b>Económica</b>: costos de SMS/email y almacenamiento de documentos.</li>
+                <li><b>Temporal</b>: liberaciones <span class="highlight">incrementales</span> antes del inicio de semestre (vacantes→postulación→seguimiento→estadísticas).</li>
+                <li><b>Legal/Ética</b>: consentimiento, protección de datos, <span class="keyword">no discriminación</span>.</li>
+            </ul>
+
+            <img alt="Priorización y viabilidad para prácticas" src="https://images.unsplash.com/photo-1542744094-3a31f272c490?q=80&w=1600&auto=format&fit=crop"/>
+
+            <div class="literatura">
+                <i class="fas fa-book"></i> <b>Ampliación bibliográfica</b>:
+                <ul>
+                    <li><b>Farley & Humble</b>: validar viabilidad con <span class="keyword">spikes</span> y pruebas de aceptación en CI/CD.</li>
+                    <li><b>Ron Jeffries — The Nature of Software Development</b>: entregar <span class="highlight">valor temprano</span> y aprender del uso real.</li>
+                    <li><b>SWEBOK</b>: priorización informada por <span class="keyword">riesgos</span> y dependencia de requisitos.</li>
+                </ul>
+            </div>
+
+        </section>
+
+        <!-- PÁGINA 14 · (5/6) DEPENDENCIAS -->
+        <section class="ecard" id="p14">
+            <span class="icon"><i class="fas fa-diagram-predecessor"></i></span>
+            <h2>Ejemplo práctico completo (5/6) — Dependencias y relaciones <span class="badge">14 / 15</span></h2>
+
+            <div class="concept">
+                <b>Dependencias clave</b>:
+                <ul>
+                    <li><span class="keyword">Postulaciones</span> dependen de <span class="keyword">Vacantes</span> publicadas y de <span class="keyword">SSO/SGA</span> (elegibilidad ≥ 4.º semestre).</li>
+                    <li><span class="keyword">Selección</span> depende de <span class="keyword">Postulaciones</span> y de flujos de <span class="keyword">preselección/aceptación</span>.</li>
+                    <li><span class="keyword">Seguimiento</span> depende de <span class="keyword">Plan de práctica aprobado</span> y <span class="keyword">asignación de docente</span>.</li>
+                    <li><span class="keyword">Estadísticas</span> dependen del <span class="keyword">histórico</span> de postulaciones, selecciones, bitácoras y calificaciones.</li>
+                    <li><span class="keyword">Notificaciones</span> dependen de los cambios de estado en postulaciones/seguimiento.</li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <i class="fas fa-table"></i> <b>Matriz de trazabilidad (extracto)</b>:
+                <ul>
+                    <li>REQ‑POST‑01 → US‑001 (postular) → TEST‑Acep‑01 (criterios de aceptación) → <em>Módulo Postulaciones</em>.</li>
+                    <li>REQ‑SEG‑02 → US‑014 (bitácora semanal) → TEST‑Bit‑02 → <em>Módulo Seguimiento</em>.</li>
+                    <li>REQ‑EST‑03 → US‑030 (dashboard) → TEST‑Est‑01 → <em>Módulo Estadísticas</em>.</li>
+                </ul>
+            </div>
+
+            <img alt="Dependencias y trazabilidad" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1600&auto=format&fit=crop"/>
+
+            <div class="literatura">
+                <i class="fas fa-book"></i> <b>Ampliación bibliográfica</b>:
+                <ul>
+                    <li><b>Pressman</b>: <span class="keyword">trazabilidad bidireccional</span> requisito⇄diseño⇄código⇄pruebas.</li>
+                    <li><b>Google</b>: Design Docs/ADR para documentar dependencias.</li>
+                    <li><b>SWEBOK</b>: gestión de requisitos y su relación con configuración/QA.</li>
+                </ul>
+            </div>
+            <span class="icon"><i class="fas fa-flag-checkered"></i></span>
+            <h2>Ejemplo práctico completo (6/6) — Resultado <span class="badge">15 / 15</span></h2>
+
+            <div class="concept">
+                <b>Conjunto resultante de requisitos (medibles) para la universidad</b>:
+            </div>
+            <ul class="concept">
+                <li><b>Listar vacantes</b> con filtros por <span class="keyword">semestre (≥4)</span>, programa y ciudad; <b>tiempo de respuesta &lt; 2 s</b> para búsquedas comunes (<span class="keyword">rendimiento</span>).</li>
+                <li><b>Postular</b> en <b>≤ 3 pasos</b> y consultar <span class="keyword">estado</span> (en revisión, preseleccionado, aceptado, rechazado).</li>
+                <li><b>Selección</b> con <span class="keyword">doble validación</span> (coordinadora + empresa) y auditoría de decisiones.</li>
+                <li><b>Seguimiento</b> del proyecto (plan/hitos/bitácora/evidencias) con <span class="keyword">retroalimentación</span> del docente asesor.</li>
+                <li><b>Estadísticas</b> institucionales (colocación por programa y semestre, tiempo de cubrimiento, tasas de aprobación) con <b>exportación PDF/CSV</b>.</li>
+                <li><b>Seguridad</b>: autenticación multifactor, cifrado en tránsito/reposo; <span class="keyword">SLO 99.5%</span> para módulos de postulación/selección en ventana académica.</li>
+            </ul>
+        </section>
+    </div>
+
+        <footer class="footer">
+        <span>© 2025 Ingeniería de Requisitos — Parte 2 | Construida por Arle Morales Ortiz </span>
+        </footer>
+
+  </div>
+
+</body>
+</html>

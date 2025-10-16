@@ -1,15 +1,718 @@
-<!doctype html><html lang="es"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tema 6 — Próximamente</title>
-<link rel="stylesheet" href="css/styles.css">
-</head><body class="page-tema">
-<header class="site-header glass"><div class="brand"><a href="index.html" class="crumb">← Inicio</a><span>Tema 6</span></div></header>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>3.3 Especificación de Requisitos — Tutorial (2025)</title>
+
+    <!-- Iconos y tipografía -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap"
+          rel="stylesheet"/>
+
+    <style>
+        :root{
+            --primary:#0ea5e9; --secondary:#8b5cf6; --accent:#ec4899; --accent2:#f97316; --accent3:#22c55e;
+            --dark:#0f172a; --darker:#020617; --light:#f1f5f9; --gray:#94a3b8; --muted:#cbd5e1;
+        }
+        *{box-sizing:border-box}
+        html,body{margin:0; padding:0}
+        body{
+            background:var(--darker);
+            color:var(--light);
+            font-family:'Montserrat',sans-serif;
+            line-height:1.6;
+        }
+
+        /* Header */
+        .main-header{
+            position:sticky; top:0; z-index:50;
+            background:linear-gradient(90deg,var(--primary) 58%,var(--secondary) 100%);
+            color:#fff; padding:22px 0 12px; text-align:center;
+            box-shadow:0 4px 16px rgba(14,165,233,.18)
+        }
+        .main-header h1{font-size:2.15rem; margin:0 14px; font-weight:800; letter-spacing:1px}
+        .main-header p{margin:8px 0 0; color:#e2e8f0; font-size:1.02rem}
+
+        .container{max-width:1220px; margin:0 auto; padding:28px 18px}
+        .header{text-align:center; padding:16px 0 0}
+        .header h2{
+            font-size:1.85rem; color:var(--primary); font-weight:800; letter-spacing:1.2px;
+            text-shadow:0 0 10px rgba(14,165,233,.3)
+        }
+        .header p{color:var(--accent); margin-top:6px; font-size:1.05rem}
+
+        /* Grid */
+        .ecards-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(360px,1fr));
+            gap:22px; margin-top:18px
+        }
+
+        /* Ecard */
+        .ecard{
+            position:relative; overflow:hidden;
+            background:rgba(30,41,59,.78); border-left:5px solid var(--primary); border-radius:16px;
+            padding:22px 20px 20px; box-shadow:0 8px 24px rgba(14,165,233,.12);
+            animation:fadeIn .7s ease both; backdrop-filter:blur(4px)
+        }
+        .ecard:hover{transform:translateY(-4px); box-shadow:0 12px 32px rgba(14,165,233,.18)}
+        @keyframes fadeIn{from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:translateY(0)}}
+
+        .ecard h3{
+            margin:6px 0 10px; font-size:1.1rem; font-weight:800; color:var(--primary);
+            display:flex; align-items:center; gap:10px
+        }
+        .ecard h2{
+            margin:4px 0 8px; font-size:1.28rem; font-weight:800; color:var(--light)
+        }
+        .icon{font-size:1.25rem; color:var(--accent2); margin-right:6px}
+        .tag{background:rgba(14,165,233,.15); color:var(--primary); padding:2px 8px; border-radius:999px; font-size:.74rem; margin-left:8px}
+        .badge{background:var(--secondary); color:#fff; padding:3px 10px; border-radius:999px; font-size:.82rem; margin-left:8px}
+
+        /* Texto: justificar el contenido blanco y cuadrar párrafos */
+        .original{
+            background:rgba(2,6,23,.4);
+            border:1px dashed rgba(148,163,184,.35);
+            border-radius:12px;
+            padding:12px 14px;
+            margin:10px 0 8px
+        }
+        .original h4{margin:2px 0 8px; color:#e5e7eb; font-weight:800; letter-spacing:.2px}
+        .original p{
+            color:var(--light);
+            text-align:justify; text-justify:inter-word;
+            margin:8px 0;
+            line-height:1.62
+        }
+
+        .concept, .literatura, .example, .keywords{
+            text-align:justify; text-justify:inter-word;
+        }
+
+        .keywords{
+            background:rgba(34,197,94,.10);
+            border-left:4px solid var(--accent3);
+            border-radius:10px; padding:10px 12px; margin:10px 0
+        }
+        .keywords .keyword{
+            color:var(--accent); font-weight:700;
+            background:linear-gradient(120deg,rgba(236,72,153,.18),transparent);
+            padding:2px 6px; border-radius:6px; margin-right:6px
+        }
+
+        .literatura{
+            background:rgba(139,92,246,.12);
+            border-left:4px solid var(--secondary);
+            border-radius:10px; padding:12px 14px; margin:12px 0; color:#d6ccff
+        }
+        .example{
+            background:rgba(249,115,22,.12);
+            border-left:4px solid var(--accent2);
+            border-radius:10px; padding:12px 14px; margin:12px 0; color:#fbbf24
+        }
+        .footnote{font-size:.88rem; color:#a1a1aa; margin-top:6px}
+
+        .ecard img{
+            width:100%; border-radius:10px; margin:12px 0;
+            box-shadow:0 4px 16px rgba(0,0,0,.22)
+        }
+
+        /* Numeración como icono */
+        .num-icon{
+            position:absolute; top:14px; right:14px;
+            width:38px; height:38px; border-radius:50%;
+            background:radial-gradient(circle at 30% 30%, #ffffff 0%, #c7d2fe 35%, #8b5cf6 65%, #6d28d9 100%);
+            color:#0b1020; font-weight:900; display:flex; align-items:center; justify-content:center;
+            box-shadow:0 0 0 4px rgba(139,92,246,.22), 0 10px 18px rgba(0,0,0,.35);
+            animation:floatIcon 4s ease-in-out infinite
+        }
+        @keyframes floatIcon{0%{transform:translateY(0)} 50%{transform:translateY(-5px)} 100%{transform:translateY(0)}}
+
+        @media (max-width:720px){
+            .ecards-grid{grid-template-columns:1fr}
+            .main-header h1{font-size:1.45rem}
+        }
+    </style>
+</head>
+<body>
+
+<!-- CABECERA -->
+<header class="main-header">
+    <h1><i class="fas fa-file-signature"></i> 3.3 Especificación de Requisitos — Tutorial profesional</h1>
+    <p>Libros(Pressman, Sommerville, Farley/Humble, Google, SWEBOK, Ron Jeffries). Prácticas Empresariales — U. Alexander von Humboldt.</p>
+</header>
+
 <main class="container">
-  <section class="intro big">
-    <h1>Tema 6 — Próximamente</h1>
-    <p>Este tema se habilitará en la próxima iteración.</p>
-  </section>
+    <div class="header">
+        <h2>ve cada ecards</h2>
+
+    </div>
+
+    <section class="ecards-grid">
+
+        <!-- ============ PÁGINA 1 — ECARD 1A ============ -->
+        <article class="ecard" id="p1-a">
+            <div class="num-icon">1</div>
+            <h3><span class="icon"><i class="fas fa-layer-group"></i></span>3.3 Especificación de Requisitos</h3>
+
+            <div class="original">
+                <p>3.3 Especificación de Requisitos</p>
+                <p>La especificación de requisitos es la etapa del proceso de ingeniería de
+                    requisitos donde los requerimientos analizados se documentan
+                    formalmente en un Documento de Especificación de Requisitos del
+                    Software (SRS).</p>
+                <p>En esta etapa, se busca:</p>
+                <p>1. Formalizar los Requerimientos: Convertir los requerimientos analizados
+                    en especificaciones claras, precisas y sin ambigüedades.</p>
+            </div>
+
+            <div class="keywords">
+                <b>Palabras clave:</b>
+                <span class="keyword">SRS</span>
+                <span class="keyword">Especificación</span>
+                <span class="keyword">Claridad</span>
+                <span class="keyword">Precisión</span>
+                <span class="keyword">No ambigüedad</span>
+            </div>
+
+            <div class="literatura">
+                <i class="fas fa-book-open"></i> <b>Lo que dicen los autores</b>:
+                <ul>
+                    <li><b>Pressman</b>: un buen SRS debe ser <em>correcto, completo, consistente, verificable, trazable y modificable</em>.</li>
+                    <li><b>Sommerville</b>: la especificación debe separar <em>qué</em> hace el sistema de <em>cómo</em> lo hará; fomenta <b>criterios de aceptación</b> claros.</li>
+                    <li><b>SWEBOK (Rodríguez G.)</b>: ubica SRS dentro del área de <em>Software Requirements</em> y su relación con V&V y gestión de configuración.</li>
+                    <li><b>Software Engineering at Google</b>: traducir NFR a <b>SLI/SLO</b> medibles mejora la verificabilidad.</li>
+                    <li><b>Ron Jeffries</b> (The Nature of Software Development): especificar lo mínimo necesario para entregar <b>valor incremental</b>.</li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <i class="fas fa-briefcase"></i> <b>Ejemplo aplicado — Prácticas Empresariales</b>: el SRS del sistema de prácticas define módulos como <b>Vacantes</b>, <b>Postulaciones</b>, <b>Selección</b>, <b>Seguimiento (bitácora/hitos)</b> y <b>Estadísticas</b>, cada uno con criterios verificables.
+            </div>
+            <img src="https://media.licdn.com/dms/image/v2/D4E12AQGGnSdZH8mXPg/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1729179412878?e=2147483647&v=beta&t=azVM75q7WwzfO8xtDG8qZo2DkWbHNp4_etK5-DHoqvo" alt="Equipo definiendo SRS"/>
+        </article>
+
+        <!-- ============ PÁGINA 1 — ECARD 1B ============ -->
+        <article class="ecard" id="p1-b">
+            <div class="num-icon">2</div>
+            <h3><span class="icon"><i class="fas fa-list-check"></i></span>Continua etapas:</h3>
+
+            <div class="original">
+
+                <p>2. Establecer Criterios de Aceptación: Definir cómo se probará que cada
+                    requisito se ha cumplido, asegurando que el sistema sea verificable.</p>
+                <p>3. Documentar Reglas de Negocio: Incluir las reglas específicas que rigen
+                    las operaciones de la práctica empersarial, como políticas de cancelación
+                    de procesos de selección.</p>
+                <p>4. Facilitar la Comunicación: Proporcionar un documento que todos los
+                    involucrados puedan entender y usar como referencia durante el
+                    desarrollo.</p>
+            </div>
+
+            <div class="keywords">
+                <b>Palabras clave:</b>
+                <span class="keyword">Criterios de aceptación</span>
+                <span class="keyword">Reglas de negocio</span>
+                <span class="keyword">Comunicación</span>
+                <span class="keyword">Verificable</span>
+            </div>
+
+            <div class="literatura">
+                <i class="fas fa-people-arrows"></i> <b>Lo que dicen los autores</b>:
+                <ul>
+                    <li><b>Farley & Humble</b>: conecte criterios de aceptación a <b>pruebas automatizadas</b> (CI/CD) desde el inicio.</li>
+                    <li><b>Sommerville</b>: use <b>escenarios</b> y <b>Given–When–Then</b> para hacer los requisitos testables.</li>
+                    <li><b>Google</b>: documente decisiones en <b>Design Docs</b> y <b>ADR</b> para alinear comunicación técnica.</li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <i class="fas fa-user-check"></i> <b>Ejemplo aplicado — Prácticas</b>:
+                <ul>
+                    <li><b>Criterio</b>: “Listar vacantes con filtros por programa y semestre en &lt; 2 s (p95)”.</li>
+                    <li><b>Regla</b>: “Solo estudiantes con <b>semestre ≥ 4</b> pueden postularse”.</li>
+                    <li><b>Comunicación</b>: el SRS se publica en Confluence con flujo de comentarios y control de versiones.</li>
+                </ul>
+            </div>
+            <img src="https://media.licdn.com/dms/image/v2/D4D12AQHyjUgcQm7jZA/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1714657249247?e=2147483647&v=beta&t=Sw45k2sDHiiWjPSIkhdJLqKuDS0oAwWXhb3YxCcCAFw"/>
+            <img src="https://sloboda-studio.com/wp-content/uploads/2024/08/Frame-99-scaled.jpg.webp"/>
+        </article>
+
+        <!-- ============ PÁGINA 2 — ECARD 2A ============ -->
+        <article class="ecard" id="p2-a">
+            <div class="num-icon">3</div>
+            <h3><span class="icon"><i class="fas fa-globe-americas"></i></span>Contexto en 2025:</h3>
+            <h2>Entorno y consideraciones locales</h2>
+
+            <div class="original">
+
+                <p>En el departamento del Quindío, una región conocida por su enfoque en el
+                    turismo y la agricultura, las clínicas veterinarias atienden tanto a mascotas de residentes
+                    locales como a animales de fincas (por ejemplo, perros guardianes o ganado menor). El
+                    software debe adaptarse a las necesidades de una clientela diversa, cumplir con normativas
+                    colombianas de protección de datos (como la Ley 1581 de 2012), y considerar factores locales,
+                    como la conectividad limitada en áreas rurales, que podría requerir un modo offline.</p>
+            </div>
+
+            <div class="keywords">
+                <b>Palabras clave:</b>
+                <span class="keyword">Contexto</span>
+                <span class="keyword">Ley 1581 de 2012</span>
+                <span class="keyword">Modo offline</span>
+                <span class="keyword">Conectividad</span>
+            </div>
+
+            <div class="literatura">
+                <i class="fas fa-book"></i> <b>Lo que dicen los autores</b>:
+                <ul>
+                    <li><b>Pressman</b>: el contexto define restricciones y riesgos del SRS.</li>
+                    <li><b>SWEBOK</b>: las <b>fuentes de requisitos</b> incluyen regulaciones y entorno operativo.</li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <i class="fas fa-briefcase"></i> <b>Ejemplo aplicado — Prácticas</b>:
+                <ul>
+                    <li>“Modo offline” en visitas a empresas sin buena red: captura de <b>bitácoras</b> y <b>evidencias</b> para sincronizar luego.</li>
+                    <li>Política de <b>protección de datos</b> para CV y evaluaciones (consentimiento explícito).</li>
+                </ul>
+            </div>
+
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQILoDYJzCb1c0ZMJdeHqELBhrpTl753qsG050E4gJ8Cy9fqNwh2swJC4TnOSS-JYM_BiQ&usqp=CAU" alt="Contexto regional"/>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVRCvVrQdTbGpi9cVqRLMmTAgdvPCC5HBxgXRaE1_g4FNSFznJHh-DYGHI_SeA77Bm7N8&usqp=CAU" alt="Contexto regional"/>
+        </article>
+
+        <!-- ============ PÁGINA 2 — ECARD 2B ============ -->
+        <article class="ecard" id="p2-b">
+            <div class="num-icon">4</div>
+            <h3><span class="icon"><i class="fas fa-bullseye"></i></span>3.3.1. Estructura Ampliada de un SRS</h3>
+            <h2>Introducción: Propósito y Alcance</h2>
+
+            <div class="original">
+
+                <p>
+                    Un SRS bien estructurado para cualquier proyecto y en este caso para la clínica
+                    veterinaria en el Quindío incluye las siguientes secciones, adaptadas al contexto:
+                    Introducción: Define el propósito del sistema y su alcance</p>
+
+            </div>
+
+            <div class="keywords">
+                <b>Palabras clave:</b>
+                <span class="keyword">Propósito</span>
+                <span class="keyword">Alcance</span>
+                <span class="keyword">Secciones SRS</span>
+            </div>
+
+            <div class="literatura">
+                <i class="fas fa-sitemap"></i> <b>Lo que dicen los autores</b>:
+                <ul>
+                    <li><b>Sommerville</b>: la <b>visión</b> delimita el alcance y reduce cambios tardíos.</li>
+                    <li><b>Jeffries</b>: lanzar un alcance mínimo viable y evolucionar con feedback.</li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <i class="fas fa-graduation-cap"></i> <b>Ejemplo aplicado — Prácticas</b>:
+                <p><b>Propósito</b>: “Digitalizar la gestión de <b>5 prácticas</b> (desde semestre 4), conectando estudiantes, empresas, docente asesor y coordinación, con trazabilidad académica y reportes.”</p>
+                <p><b>Alcance</b>: vacantes/postulaciones, selección coordinadora+empresa, seguimiento de proyecto (hitos/bitácora), evaluación y estadísticas institucionales.</p>
+            </div>
+
+        </article>
+
+        <!-- ============ PÁGINA 3 — 3 ecards: Contexto / Objetivos / Supuestos ============ -->
+        <article class="ecard" id="p3-a">
+            <div class="num-icon">5</div>
+            <h3><span class="icon"><i class="fas fa-earth-americas"></i></span>Proporciona el contexto del sistema</h3>
+
+            <div class="original">
+
+                <p>Descripción General:
+                <h3><span class="icon"><i class="fas fa-earth-americas"></i></span>Contexto</h3>
+                    Qué es: Descripción del entorno, situación o marco en el que operará el software.<br>
+                    Cómo se hace:
+                    Explicar el problema o necesidad que justifica el software.
+                    Describir actores involucrados (usuarios, sistemas externos).
+                    Mencionar restricciones del entorno (tecnologías, regulaciones).<br>
+                    Ejemplo: "El sistema se integra con una plataforma de pago externa y atiende a usuarios sin conectividad estable".</p>
+            </div>
+
+            <div class="keywords">
+                <b>Palabras clave:</b>
+                <span class="keyword">Contexto</span>
+                <span class="keyword">Actores</span>
+                <span class="keyword">Restricciones</span>
+            </div>
+
+            <div class="literatura">
+                <i class="fas fa-book"></i> <b>Autores</b>: Pressman sugiere mapear <b>stakeholders</b>; SWEBOK enfatiza documentar <b>supuestos de entorno</b>.
+            </div>
+
+            <div class="example">
+                <i class="fas fa-building-user"></i> <b>Ejemplo — Prácticas</b>: Actores: <b>Estudiante</b>, <b>Empresa</b>, <b>Coordinadora</b>, <b>Docente Asesor</b>, <b>SGA/LDAP</b>. Restricción: validación de <b>semestre ≥ 4</b> y SSO.
+            </div>
+        </article>
+
+        <article class="ecard" id="p3-b">
+            <div class="num-icon">6</div>
+            <h3><span class="icon"><i class="fas fa-bullseye"></i></span>Objetivos</h3>
+            <h2>Metas claras que el software debe alcanzar</h2>
+
+            <div class="original">
+
+                <p>
+                    Qué es: Metas claras que el software debe alcanzar. <br>
+                    Cómo se hace:
+                    Definir objetivos generales (ej: automatizar procesos) y específicos (ej: reducir tiempos
+                    de respuesta en un 30%).
+                    Vincularlos a necesidades del negocio o usuario.
+                    Usar verbos medibles: "Garantizar", "Optimizar", "Facilitar"</p>
+            </div>
+
+            <div class="keywords">
+                <b>Palabras clave:</b>
+                <span class="keyword">Objetivos</span>
+                <span class="keyword">Medibles</span>
+                <span class="keyword">30%</span>
+            </div>
+
+            <div class="literatura">
+                <i class="fas fa-lightbulb"></i> <b>Autores</b>:
+                <ul>
+                    <li><b>Google</b>: traduzca metas a <b>Métricas (SLI)</b> y <b>Objetivos (SLO)</b> medibles.</li>
+                    <li><b>Jeffries</b>: optimice por <b>valor inmediato</b> al usuario.</li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <i class="fas fa-chart-line"></i> <b>Ejemplo — Prácticas</b>: “Reducir en <b>30%</b> el tiempo desde postulación a aceptación”; “Aumentar en <b>25%</b> la tasa de colocación”.
+            </div>
+            <img src="https://codideep.com/img/blogpost/imagenportada/202003020000001.png" alt="Contexto regional"/>
+        </article>
+
+        <article class="ecard" id="p3-c">
+            <div class="num-icon">7</div>
+            <h3><span class="icon"><i class="fas fa-handshake-angle"></i></span>Supuestos</h3>
+
+
+            <div class="original">
+
+                <p>
+                    Qué es: Premisas aceptadas como verdaderas durante el desarrollo, pero que podrían cambiar. <br>
+                    Cómo se hace:
+                    Listar condiciones que se asumen ciertas para avanzar (ej: "Se asume que el cliente proveerá datos en formato X antes del
+                    lanzamiento").
+                    Incluir riesgos si los supuestos fallan.
+                    Evitar basar requisitos críticos en supuestos no validados.</p>
+            </div>
+
+            <div class="keywords">
+                <b>Palabras clave:</b>
+                <span class="keyword">Supuestos</span>
+                <span class="keyword">Riesgos</span>
+                <span class="keyword">Validación</span>
+            </div>
+
+            <div class="literatura">
+                <i class="fas fa-scale-balanced"></i> <b>Autores</b>: SWEBOK y Pressman aconsejan rastrear supuestos y su impacto en <b>riesgos</b>.
+            </div>
+
+            <div class="example">
+                <i class="fas fa-triangle-exclamation"></i> <b>Ejemplo — Prácticas</b>: “Se asume integración SGA disponible”; <em>Riesgo</em>: si falla, bloqueo en elegibilidad. Mitigar con caché temporal de semestre.
+            </div>
+        </article>
+
+        <!-- ============ PÁGINA 4 — 2 ecards RF ============ -->
+        <article class="ecard" id="p4-a">
+            <div class="num-icon">8</div>
+            <h3><span class="icon"><i class="fas fa-list-ol"></i></span>SRequisitos Funcionales (parte 1)</h3>
+
+
+            <div class="original">
+
+                <p>Son descripciones explícitas del comportamiento que debe tener una solución de software y la información que debe manejar.</p>
+
+            </div>
+
+            <div class="keywords"><b>Palabras clave:</b>
+                <span class="keyword">Agendar</span><span class="keyword">Recordatorios</span><span class="keyword">Historial</span>
+            </div>
+
+            <div class="literatura">
+                <i class="fas fa-book"></i> <b>Autores</b>: Sommerville sugiere especificar RF con <b>eventos/actores</b>; Pressman recomienda matriz RF↔casos de uso.
+            </div>
+
+            <div class="example">
+                <i class="fas fa-clipboard-check"></i> <b>Ejemplo — Prácticas</b>:
+                <ul>
+                    <li><b>RF‑POST‑01</b>: listar y postular a vacantes (filtros por <b>semestre ≥4</b>, ciudad, empresa).</li>
+                    <li><b>RF‑NOTIF‑02</b>: recordatorios de <b>hitos</b> y entregables al estudiante y docente.</li>
+                    <li><b>RF‑HIST‑03</b>: historial de prácticas 1..5 (evaluaciones, evidencias, tutorías).</li>
+                </ul>
+            </div>
+
+        </article>
+
+        <article class="ecard" id="p4-b">
+            <div class="num-icon">9</div>
+            <h3><span class="icon"><i class="fas fa-list-ol"></i></span>Requisitos Funcionales (parte 2)</h3>
+
+
+            <div class="original">
+
+                <p>Describe lo que el sistema debe hacer, como una declaración de comportamiento observable ante una entrada o evento.</p>
+                <p>Requisitos Funcionales:Detallan las funcionalidades específicas del sistema.</p>
+            </div>
+
+            <div class="keywords"><b>Palabras clave:</b>
+                <span class="keyword">Facturas</span><span class="keyword">Cancelar</span><span class="keyword">Reprogramar</span>
+            </div>
+
+            <div class="literatura">
+                <i class="fas fa-code-branch"></i> <b>Autores</b>: Farley/Humble: ligar RF a pruebas de aceptación en el pipeline.
+            </div>
+
+            <div class="example">
+                <i class="fas fa-file-invoice-dollar"></i> <b>Ejemplo — Prácticas</b>:
+                <ul>
+                    <li><b>RF‑DOC‑04</b>: generar constancias, convenios y reportes PDF/CSV.</li>
+                    <li><b>RF‑AGEN‑05</b>: reprogramar hitos y visitas; notificar a empresa, docente y estudiante.</li>
+                </ul>
+            </div>
+
+        </article>
+
+        <!-- ============ PÁGINA 5 — 2 ecards RNF ============ -->
+        <article class="ecard" id="p5-a">
+            <div class="num-icon">10</div>
+            <h3><span class="icon"><i class="fas fa-shield-halved"></i></span>Requisitos No Funcionales (1)</h3>
+
+
+            <div class="">
+                <p>Requisitos No Funcionales:Especifican atributos de calidad.</p>
+            </div>
+
+            <div class="keywords">
+                <p>Palabras clave:</p>
+                <span class="keyword">Seguridad</span><span class="keyword">MFA</span><span class="keyword">AES‑256</span>
+                <span class="keyword">Usabilidad</span><span class="keyword">WCAG 2.1</span>
+            </div>
+
+            <div class="literatura">
+                <i class="fas fa-book-open"></i> <b>Autores</b>:
+                <ul>
+                    <li><b>Google</b>: traduzca NFR a <b>SLI/SLO</b> y <b>controles</b> (p.ej., latencia p95, MFA obligatorio).</li>
+                    <li><b>Sommerville</b>: NFR deben ser <b>medibles</b> (clics, tiempos, estándares).</li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <i class="fas fa-user-lock"></i> <b>Ejemplo — Prácticas</b>: MFA para empresas y coordinación; formulario accesible (WCAG AA) para <b>postular</b> en ≤ 3 pasos.
+            </div>
+
+        </article>
+
+        <article class="ecard" id="p5-b">
+            <div class="num-icon">11</div>
+            <h3><span class="icon"><i class="fas fa-gauge-high"></i></span>Requisitos No Funcionales (2)</h3>
+
+
+            <div class="original">
+
+                <p>Un atributo de calidad es una propiedad medible de un sistema, que indica qué tan bien el sistema satisface las necesidades de las partes interesadas.</p>
+
+            </div>
+
+            <div class="keywords"><b>Palabras clave:</b>
+                <span class="keyword">Rendimiento p95</span><span class="keyword">Offline</span><span class="keyword">Sincronización</span>
+            </div>
+
+            <div class="literatura">
+                <i class="fas fa-rocket"></i> <b>Autores</b>: Google SRE: latencias por percentil; Jeffries: entregar primero lo esencial (listar vacantes rápido).
+            </div>
+
+            <div class="example">
+                <i class="fas fa-mobile-screen"></i> <b>Ejemplo — Prácticas</b>: listados de <b>vacantes</b> responden &lt; 2 s; bitácoras capturables sin red con sincronización diferida.
+            </div>
+
+        </article>
+
+        <!-- ============ PÁGINA 6 — 2 ecards: Restricciones + CA ============ -->
+        <article class="ecard" id="p6-a">
+            <div class="num-icon">12</div>
+            <h3><span class="icon"><i class="fas fa-ban"></i></span>Restricciones</h3>
+
+
+            <div class="original">
+
+                <p>Las restricciones en una especificación de requisitos de software (SRS) son limitaciones o condiciones que delimitan el diseño, desarrollo o operación del sistema, a menudo vinculadas a aspectos no funcionales.</p>
+            </div>
+
+            <div class="keywords"><b>Palabras clave:</b>
+                <span class="keyword">Android 10+</span><span class="keyword">iOS 15+</span><span class="keyword">SMS</span>
+            </div>
+
+            <div class="literatura"><i class="fas fa-book"></i> <b>Autores</b>: Pressman — documente restricciones explícitas en el SRS.</div>
+
+            <div class="example">
+                <i class="fas fa-building"></i> <b>Ejemplo — Prácticas</b>: SSO institucional; mensajería transaccional para <b>cambios de estado</b> de postulaciones.
+            </div>
+
+        </article>
+
+        <article class="ecard" id="p6-b">
+            <div class="num-icon">13</div>
+            <h3><span class="icon"><i class="fas fa-clipboard-list"></i></span>Criterios de Aceptación</h3>
+            <h2>Cómo verificaremos los requisitos</h2>
+
+            <div class="original">
+
+                <p>Criterios de Aceptación: Definen cómo se verificará que cada requisito se ha cumplido
+                    </p>
+            </div>
+
+            <div class="keywords"><b>Palabras clave:</b>
+                <span class="keyword">Aceptación</span><span class="keyword">Pruebas</span><span class="keyword">p95</span><span class="keyword">3 clics</span>
+            </div>
+
+            <div class="literatura">
+                <i class="fas fa-vial"></i> <b>Autores</b>: Farley/Humble — automatizar criterios en CI/CD; Sommerville — criterios como contratos verificables.
+            </div>
+
+            <div class="example">
+                <i class="fas fa-check-double"></i> <b>Ejemplo — Prácticas</b>: “El estudiante completa una <b>postulación</b> en ≤ 3 pasos y recibe confirmación inmediata; prueba: 500 postulaciones simuladas, p95 &lt; 2 s”.
+            </div>
+
+        </article>
+
+        <!-- ============ PÁGINA 7 — 2 ecards Reglas de Negocio ============ -->
+        <article class="ecard" id="p7-a">
+            <div class="num-icon">14</div>
+            <h3><span class="icon"><i class="fas fa-scale-balanced"></i></span>Reglas de Negocio (1)</h3>
+
+            <div class="original">
+
+                <p>Reglas de Negocio: Reglas específicas que rigen las operaciones del negocio.
+                    Una regla de negocio es una sentencia muy genérica sobre la forma en que la organización realiza sus negocios, reflejando las políticas de negocio, que se transforma en un requisito de software implementable en el sistema.</p>
+            </div>
+
+            <div class="keywords"><b>Palabras clave:</b>
+                <span class="keyword">Cancelación</span><span class="keyword">Descuentos</span><span class="keyword">Horarios</span>
+            </div>
+
+            <div class="literatura"><i class="fas fa-book"></i> <b>Autores</b>: Pressman — RN impactan validaciones y flujos; SWEBOK — RN como restricciones del dominio.</div>
+
+            <div class="example">
+                <i class="fas fa-briefcase"></i> <b>Ejemplo — Prácticas</b> (análogas):
+                <ul>
+                    <li><b>RN‑ELEG‑01</b>: estudiante solo puede tener <b>una práctica activa</b>.</li>
+                    <li><b>RN‑PLAZO‑02</b>: reportes semanales dentro de 48 h; bloqueo si se incumple.</li>
+                    <li><b>RN‑HOR‑03</b>: máximo 8 h/día y 48 h/semana.</li>
+                </ul>
+            </div>
+
+        </article>
+
+
+
+        <!-- ============ PÁGINA 8 — 2 ecards: Herramientas 2025 + recordatorios de conceptos ============ -->
+        <article class="ecard" id="p8-a">
+            <div class="num-icon">15</div>
+            <h3><span class="icon"><i class="fas fa-cloud"></i></span>En 2025: Herramientas colaborativas + IA</h3>
+
+
+            <div class="original">
+
+                <p>En 2025: La especificación se realiza en herramientas colaborativas como
+                    Confluence o Notion, que permiten a los stakeholders revisar y comentar el SRS
+                    en tiempo real. Además, la IA (por ejemplo, IBM Watson) puede generar
+                    borradores iniciales del SRS a partir de los requerimientos analizados, sugiriendo
+                    criterios de aceptación y reglas de negocio basadas en normativas locales y
+                    patrones de la industria veterinaria en Colombia.</p>
+            </div>
+
+
+            <div class="literatura">
+                <i class="fas fa-robot"></i> <b>Autores</b>: Farley/Humble — doc viva conectada al pipeline; Pressman — repositorio único de requisitos.
+            </div>
+
+            <div class="example">
+                <i class="fas fa-wand-magic-sparkles"></i> <b>Ejemplo — Prácticas</b>: plantilla SRS en Confluence con secciones para <b>vacantes</b>, <b>postulación</b>, <b>seguimiento</b> y <b>estadísticas</b>; la IA propone criterios iniciales.
+            </div>
+
+        </article>
+
+        <article class="ecard" id="p8-b">
+            <div class="num-icon">16</div>
+            <h3><span class="icon"><i class="fas fa-check-to-slot"></i></span>Criterios de aceptación y Reglas de negocio</h3>
+
+
+
+            <div class="example">
+                <i class="fas fa-briefcase"></i> <b>Ejemplo — Prácticas</b>:
+                <ul>
+                    <li>Requisito (Funcional): El sistema debe permitir que un estudiante registrado en la universidad
+                        se inscriba en una práctica empresarial específica, seleccionando la empresa oferente,
+                        la duración (mínimo 3 meses) y adjuntando su CV en formato PDF, generando automáticamente un número de folio único
+                        para la solicitud. </li>
+                    <li>Criterio de Aceptación: La inscripción se considera aceptada si, al confirmar el formulario,
+                        el sistema envía un correo electrónico al estudiante con el folio único (ej. "PRA-2025-001")
+                        y el CV adjunto se valida como PDF menor a 2 MB sin errores de formato, todo dentro de 30 segundos de procesamiento. </li>
+                   <li> Regla de Negocio: Un estudiante solo puede inscribirse en prácticas empresariales si ha completado la materia nucleo</li>
+                   <li> Restricción: El sistema debe operar(lunes a viernes, 8:00-18:00). </li>
+                </ul>
+            </div>
+        </article>
+
+
+
+        <!-- ============ PÁGINA 11 — 2 ecards: Transcripción del cuadro (texto manual exacto) ============ -->
+        <article class="ecard" id="p11-a">
+            <div class="num-icon">17</div>
+            <h3><span class="icon"><i class="fas fa-table"></i></span>Ejemplo</h3>
+            <h2>Requisito • Reglas de Negocio • Criterios de Aceptación</h2>
+
+            <div class="original">
+
+                <p><b>Requisito:</b> El sistema debe permitir que una empresa registre ofertas de práctica que tiene disponibles.</p>
+                <p><b>Reglas de Negocio:</b> La oferta debe especificar titulación, descripción, habilidades requeridas, número de vacantes, compensación. Solo empresas vinculadas a la Universidad pueden publicar ofertas en el sistema.</p>
+                <p><b>Criterios de Aceptación:</b> El formulario de registro captura toda la información requerida. La oferta queda pendiente hasta ser aprobada por la universidad. Se muestra un mensaje de error si la empresa no está vinculada.</p>
+
+                <p><b>Requisito:</b> El sistema debe asignar estudiantes a ofertas de práctica publicadas.</p>
+                <p><b>Reglas de Negocio:</b> Los estudiantes sólo pueden inscribirse a prácticas de su programa académico. Un estudiante sólo puede inscribirse a una práctica a la vez.</p>
+                <p><b>Criterios de Aceptación:</b> El estudiante puede buscar y aplicar a prácticas disponibles de su carrera. El sistema no permite inscribirse a múltiples prácticas simultáneamente.</p>
+            </div>
+
+
+        </article>
+
+        <article class="ecard" id="p11-b">
+            <div class="num-icon">18</div>
+            <h3><span class="icon"><i class="fas fa-table-list"></i></span>Ejemplo 2</h3>
+            <h2>Requisito • Reglas de Negocio • Criterios de Aceptación</h2>
+
+            <div class="original">
+
+                <p><b>Requisito:</b> El sistema debe permitir el envío y aprobación de reportes de avance en el proceso de práctica.</p>
+                <p><b>Reglas de Negocio:</b> El estudiante envía reportes semanales a su tutor de práctica académico. El tutor académico aprueba o rechaza el reporte en máximo 2 días.</p>
+                <p><b>Criterios de Aceptación:</b> La plataforma permite al estudiante subir un reporte en PDF. El Tutor académico puede aprobar o rechazar el reporte.</p>
+
+                <p><b>Requisito:</b> El sistema debe calcular las horas de práctica realizadas por cada estudiante.</p>
+                <p><b>Reglas de Negocio:</b> Se contabilizan horas a partir de la fecha de inicio de la práctica. El Tutor empresarial aprueba horas semanales por estudiante. No se pueden contabilizar más de 8 horas diarias.</p>
+                <p><b>Criterios de Aceptación:</b> El sistema muestra un total de horas por estudiante. No permite registro de más de 8 horas en un día.</p>
+            </div>
+
+        </article>
+
+    </section>
 </main>
-<footer class="site-footer"><p>© 2025</p></footer>
-<script type="module" src="js/supabase.js"></script>
-</body></html>
+
+<footer style="border-top:2px solid var(--primary); background:var(--dark); color:var(--light); text-align:center; padding:18px 10px; margin-top:28px">
+    <p style="margin:6px 0">© 2025 — Especificación de Requisitos | Arle Morales Ortiz</p>
+
+</footer>
+
+</body>
+</html>

@@ -1,15 +1,337 @@
-<!doctype html><html lang="es"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tema 7 — Próximamente</title>
-<link rel="stylesheet" href="css/styles.css">
-</head><body class="page-tema">
-<header class="site-header glass"><div class="brand"><a href="index.html" class="crumb">← Inicio</a><span>Tema 7</span></div></header>
-<main class="container">
-  <section class="intro big">
-    <h1>Tema 7 — Próximamente</h1>
-    <p>Este tema se habilitará en la próxima iteración.</p>
-  </section>
-</main>
-<footer class="site-footer"><p>© 2025</p></footer>
-<script type="module" src="js/supabase.js"></script>
-</body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>3.4 Validación de Requisitos de Software — Tutorial 2025</title>
+
+    <!-- Iconos y tipografía -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root{
+            --primary:#0ea5e9; --secondary:#8b5cf6; --accent:#ec4899; --accent2:#f97316; --accent3:#22c55e;
+            --dark:#0f172a; --darker:#020617; --light:#f1f5f9; --gray:#94a3b8;
+        }
+        *{box-sizing:border-box}
+        body{background:var(--darker); color:var(--light); font-family:'Montserrat',sans-serif; margin:0}
+        .main-header{
+            position:sticky; top:0; z-index:50;
+            background:linear-gradient(90deg,var(--primary) 60%,var(--secondary) 100%); color:#fff;
+            padding:24px 0 12px; text-align:center; box-shadow:0 4px 16px rgba(14,165,233,.12)
+        }
+        .main-header h1{font-size:2.2rem; font-weight:800; margin:0; letter-spacing:1.5px}
+        .main-header p{font-size:1.02rem; margin:8px 0 0; color:#e2e8f0}
+        .container{max-width:1200px; margin:0 auto; padding:28px 20px}
+        .header{text-align:center; padding:24px 0 6px}
+        .header h2{font-size:1.9rem; color:var(--primary); font-weight:800; letter-spacing:1.5px; text-shadow:0 0 10px rgba(14,165,233,.28)}
+        .header p{color:var(--accent); font-size:1.02rem; margin-top:8px}
+
+        .ecards-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(360px,1fr)); gap:22px; margin-top:18px}
+        .ecard{
+            background:rgba(30,41,59,.78); border-radius:16px; box-shadow:0 8px 24px rgba(14,165,233,.12);
+            padding:20px 20px 22px; border-left:5px solid var(--primary); position:relative; overflow:hidden;
+            animation:fadeIn .9s ease; backdrop-filter:blur(4px)
+        }
+        .ecard:hover{transform:translateY(-5px) scale(1.01); box-shadow:0 12px 32px rgba(14,165,233,.18)}
+        .ecard .icon{font-size:2.05rem; color:var(--accent2); margin-bottom:4px; display:block}
+        .ecard h2{font-size:1.18rem; color:var(--primary); margin:8px 0 10px; font-weight:800; display:flex; align-items:center; gap:10px}
+        .badge{background:var(--secondary); color:#fff; padding:3px 10px; border-radius:999px; font-size:.8rem; margin-left:6px}
+        .tag{background:rgba(14,165,233,.15); color:var(--primary); padding:2px 8px; border-radius:999px; font-size:.72rem; margin-left:8px}
+        .concept{margin-bottom:10px; font-size:1.02rem; color:#e5e7eb; line-height:1.6; text-align:justify}
+        .ecard p{font-size:1.02rem; color:#e5e7eb; line-height:1.65; text-align:justify; margin:8px 0}
+        .ecard ul{margin:8px 0 0 16px}
+        .ecard li{margin-bottom:8px; text-align:justify}
+        .highlight{color:var(--accent3); font-weight:800; background:linear-gradient(120deg,rgba(34,197,94,.14),transparent); padding:2px 6px; border-radius:4px}
+        .keyword{color:var(--accent); font-weight:700; background:linear-gradient(120deg,rgba(236,72,153,.18),transparent); padding:2px 6px; border-radius:4px}
+        .example{background:rgba(249,115,22,.12); border-left:4px solid var(--accent2); padding:10px 12px; border-radius:10px; margin-top:10px; color:#f59e0b; font-size:.98rem}
+        .literatura{background:rgba(139,92,246,.12); border-left:4px solid var(--secondary); padding:10px 12px; border-radius:10px; margin-top:10px; color:#c4b5fd; font-size:.98rem}
+        .footnote{font-size:.9rem; color:#a1a1aa; margin-top:6px; text-align:justify}
+        .ecard img{width:100%; border-radius:10px; margin:12px 0; box-shadow:0 4px 16px rgba(0,0,0,.18)}
+        @keyframes fadeIn{from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:translateY(0)}}
+        @keyframes floatIcon{0%{transform:translateY(0)} 50%{transform:translateY(-5px)} 100%{transform:translateY(0)}}
+        .ecard .icon i{animation:floatIcon 3.6s ease-in-out infinite}
+        @media (max-width:700px){.ecards-grid{grid-template-columns:1fr} .main-header h1{font-size:1.5rem}}
+
+        /* Numeración circular elegante */
+        .num{
+            --size:34px;
+            width:var(--size); height:var(--size); min-width:var(--size);
+            background:linear-gradient(135deg, var(--primary), var(--secondary));
+            color:#fff; border-radius:50%; display:inline-flex; align-items:center; justify-content:center;
+            font-weight:800; box-shadow:0 6px 14px rgba(0,0,0,.25); margin-right:8px
+        }
+    </style>
+</head>
+<body>
+<div class="main-header">
+    <h1><i class="fas fa-clipboard-check"></i> 3.4 Validación de Requisitos de Software</h1>
+    <p>Definición, objetivos, técnicas, tendencias 2025 y ejercicio aplicado — Sistema de Prácticas Empresariales (U. Alexander von Humboldt)</p>
+</div>
+
+<div class="container">
+    <div class="header">
+        <h2>Sesiones del Tutorial</h2>
+        <p>Basado en Sommerville, Pressman, Farley/Humble, SWEBOK & ISO 29148 + tendencias modernas.</p>
+    </div>
+
+    <div class="ecards-grid">
+
+        <!-- 3.4.1 · Definición (1/2) -->
+        <section class="ecard" id="v1">
+            <span class="icon"><i class="fas fa-circle-info"></i></span>
+            <h2><span class="num">1</span> 3.4.1 ¿Qué es la validación de requisitos? (1/2) <span class="badge">Definición</span></h2>
+            <p class="concept">
+                La <span class="highlight">validación de requisitos</span> es el proceso de comprobar que los requisitos
+                <b>representan realmente las necesidades del cliente y de los usuarios</b>, y que son
+                <span class="keyword">completos</span>, <span class="keyword">consistentes</span>, <span class="keyword">realistas</span> y <span class="keyword">verificables</span>.
+                Se realiza de forma iterativa y suele solaparse con la elicitación y el análisis.
+            </p>
+            <p class="concept">
+                Diferencia clave: <b>verificación</b> pregunta “¿estamos construyendo el producto <em>correctamente</em>?”,
+                mientras que <b>validación</b> pregunta “¿estamos construyendo el <em>producto adecuado</em>?”.
+            </p>
+
+            <div class="literatura">
+                <i class="fas fa-book-open"></i> <b>Autores</b>:
+                <ul>
+                    <li><b>Sommerville</b>: validar es comprobar que los requisitos definen el sistema que el cliente realmente quiere; técnicas: revisiones, prototipos, casos de prueba. </li>
+                    <li><b>SWEBOK & ISO 29148</b>: describen actividades, roles y características de calidad para validar requisitos (consistencia, completitud, viabilidad, verificabilidad).</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 3.4.1 · Definición (2/2) con enfoque práctico -->
+        <section class="ecard" id="v2">
+            <span class="icon"><i class="fas fa-diagram-project"></i></span>
+            <h2><span class="num">2</span> 3.4.1 ¿Qué es la validación? (2/2) <span class="badge">Aplicación al dominio</span></h2>
+            <p class="concept">
+                En el <b>Sistema de Gestión de Prácticas</b>, validar significa asegurar que requisitos como
+                “<em>Listar vacantes por semestre (≥ 4) con filtros</em>” y “<em>Doble selección coordinadora+empresa</em>”
+                reflejan las <b>reglas académicas</b> y el <b>flujo real</b> de la universidad y las empresas.
+            </p>
+            <div class="example">
+                <i class="fas fa-lightbulb"></i> <b>Ejemplo</b>:
+                un prototipo navegable con <b>filtros por semestre</b>, <b>estado de postulación</b> y
+                <b>bitácora de seguimiento</b> se valida en sesión “Three Amigos” (coordinadora, docente, desarrollo)
+                verificando que los flujos coinciden con el proceso institucional.
+            </div>
+            <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=1600&auto=format&fit=crop" alt="Prototipos y revisión con stakeholders"/>
+        </section>
+
+        <!-- 3.4.2 · Objetivos -->
+        <section class="ecard" id="v3">
+            <span class="icon"><i class="fas fa-bullseye"></i></span>
+            <h2><span class="num">3</span> 3.4.2 Objetivos de la validación</h2>
+            <ul class="concept">
+                <li>Confirmar <span class="keyword">validez</span> (alineación con políticas académicas y necesidades de empresas/estudiantes).</li>
+                <li>Detectar <span class="keyword">ambigüedades, contradicciones y omisiones</span> antes de comprometer recursos.</li>
+                <li>Comprobar <span class="keyword">viabilidad</span> y <span class="keyword">verificabilidad</span> (criterios de aceptación medibles).</li>
+                <li>Establecer <span class="keyword">trazabilidad</span> requisito ⇄ diseño ⇄ pruebas ⇄ despliegue.</li>
+                <li>Generar <span class="keyword">acuerdos</span> y evidencias (actas, issues, decisiones) para gobernanza.</li>
+            </ul>
+            <div class="literatura">
+                <b>Autores</b>:
+                <ul>
+                    <li><b>Pressman</b>: requisitos deben ser correctos, completos, consistentes, verificables y trazables; revisiones técnicas formales.</li>
+                    <li><b>Sommerville</b>: criterios de aceptación, consistencia, completitud y realismo.</li>
+                    <li><b>SWEBOK/ISO 29148</b>: integra validación con gestión de configuración y V&V.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 3.4.3 · Técnicas (divididas en tarjetitas) -->
+        <section class="ecard" id="t1">
+            <span class="icon"><i class="fas fa-users-gear"></i></span>
+            <h2><span class="num">4</span> 3.4.3 Técnicas — A) Revisiones & Inspecciones</h2>
+            <p class="concept">
+                Revisión sistemática del documento de requisitos por stakeholders técnicos y de negocio
+                (walkthroughs, inspecciones formales). Detecta <span class="keyword">defectos</span>, <span class="keyword">ambigüedades</span> y
+                <span class="keyword">inconsistencias</span> tempranas.
+            </p>
+            <div class="example">
+                <b>Ejemplo (prácticas)</b>: checklist de terminología (postulación, preselección, aceptación),
+                estados válidos, y restricciones (≥ 4.º semestre). Resultado: acta con hallazgos y acciones.
+            </div>
+            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1600&auto=format&fit=crop" alt="Inspecciones y revisiones"/>
+            <div class="literatura">
+                <b>Autores</b>:
+                <ul>
+                    <li><b>Sommerville</b>: revisiones como técnica primaria de validación.</li>
+                    <li><b>SWEBOK/ISO 29148</b>: definen roles, artefactos y salidas de la revisión.</li>
+                </ul>
+            </div>
+
+        </section>
+
+        <section class="ecard" id="t2">
+            <span class="icon"><i class="fas fa-shapes"></i></span>
+            <h2><span class="num">5</span> 3.4.3 Técnicas — B) Prototipos & Modelado</h2>
+            <p class="concept">
+                Prototipos de baja/alta fidelidad (UI navegable) y modelos (UML/BPMN/DFD) para validar
+                <span class="keyword">flujos</span>, <span class="keyword">reglas</span> y <span class="keyword">terminología</span> con usuarios.
+            </p>
+            <div class="example">
+                <b>Ejemplo (prácticas)</b>: prototipo con <b>filtros por semestre</b>, tablero de <b>postulaciones</b>
+                y <b>doble validación</b> (coordinadora+empresa); sesiones de feedback con estudiantes y docentes.
+            </div>
+            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1600&auto=format&fit=crop" alt="Prototipado y modelado"/>
+            <div class="literatura">
+                <b>Autores</b>: <b>Sommerville</b> y <b>Pressman</b> recomiendan prototipos para reducir malentendidos.
+            </div>
+            <img src="https://i.ytimg.com/vi/AC_xUTvJ43Q/maxresdefault.jpg" alt="Inspecciones y revisiones"/>
+
+        </section>
+
+        <section class="ecard" id="t3">
+            <span class="icon"><i class="fas fa-vial"></i></span>
+            <h2><span class="num">6</span> 3.4.3 Técnicas — C) Casos de prueba & Criterios de aceptación</h2>
+            <p class="concept">
+                Derivar <span class="keyword">criterios de aceptación</span> y <span class="keyword">casos de prueba</span> desde los requisitos
+                (Given–When–Then). Pueden automatizarse para convertir la especificación en
+                <span class="highlight">especificación ejecutable</span> (ATDD/BDD).
+            </p>
+            <div class="example">
+                <b>Ejemplo (prácticas)</b>: “Dado un estudiante de <b>semestre 4</b>, cuando aplica a una vacante
+                con filtros, entonces el sistema registra la <b>postulación</b> y notifica a la
+                <b>empresa</b> y a la <b>coordinadora</b>”.
+            </div>
+            <div class="literatura">
+                <b>Autores</b>: <b>Farley & Humble</b> (Continuous Delivery) — Aceptación automatizada, BDD/ATDD y pipeline como
+                validador continuo de requisitos.
+            </div>
+            <div class="example">
+                <p>BDD es una extensión de TDD (Test-Driven Development) que enfatiza la descripción del comportamiento del software en lenguaje natural, utilizando el formato Given-When-Then (Dado-Cuando-Entonces). Se centra en el "por qué" y "qué" del comportamiento desde la perspectiva del usuario final, no solo en el "cómo" técnico.</p>
+            </div>
+        </section>
+
+        <section class="ecard" id="t4">
+            <span class="icon"><i class="fas fa-scale-balanced"></i></span>
+            <h2><span class="num">7</span> 3.4.3 Técnicas — D) Checklists & Calidad (ISO 29148)</h2>
+            <p class="concept">
+                Listas de chequeo de <span class="keyword">calidad</span>: sin ambigüedad, consistentes, completos, factibles,
+                necesarios, trazables y verificables. Aseguran uniformidad y gobernanza.
+            </p>
+            <div class="example">
+                <b>Ejemplo</b>: checklist de términos, unidades, reglas (≥ 4.º semestre), errores comunes
+                (“rápido” → <b>&lt;2 s</b>, “fácil” → pasos medibles).
+            </div>
+        </section>
+
+        <section class="ecard" id="t5">
+            <span class="icon"><i class="fas fa-diagram-predecessor"></i></span>
+            <h2><span class="num">8</span> 3.4.3 Técnicas — E) Trazabilidad & Matrices</h2>
+            <p class="concept">
+                Relacionar requisitos con historias, diseño, pruebas y despliegue permite
+                validar <span class="keyword">impactos</span> y <span class="keyword">cobertura</span>. Facilita auditorías y cambios.
+            </p>
+            <div class="example">
+                <b>Ejemplo</b>: REQ-POST-01 → US-001 (postular) → TEST-Acep-01 → módulo Postulaciones → despliegue v1.1.
+            </div>
+        </section>
+
+        <section class="ecard" id="t6">
+            <span class="icon"><i class="fas fa-bezier-curve"></i></span>
+            <h2><span class="num">9</span> 3.4.3 Técnicas — F) Métodos formales & Reglas</h2>
+            <p class="concept">
+                Para dominios críticos, se emplean especificaciones formales, invariantes y
+                análisis estático para <span class="keyword">eliminar ambigüedad</span> y verificar propiedades.
+            </p>
+            <div class="example">
+                <b>Ejemplo</b>: Invariante “solo estudiantes <b>≥ 4.º</b> pueden postular” modelado como regla de autorización
+                y verificado en pruebas de seguridad/contratos.
+            </div>
+        </section>
+
+        <!-- 3.4.4 · Tendencias 2025 -->
+        <section class="ecard" id="trends1">
+            <span class="icon"><i class="fas fa-robot"></i></span>
+            <h2><span class="num">10</span> 3.4.4 Tendencias 2025 (1/2) — IA en validación</h2>
+            <p class="concept">
+                <span class="highlight">IA/LLMs</span> para detectar <b>ambigüedades</b>, generar criterios de aceptación,
+                sugerir casos de prueba y verificar consistencia entre requisitos y diseño.
+            </p>
+            <ul class="concept">
+                <li><b>Detección de ambigüedad</b> (términos vagos: “rápido”, “fácil”, “seguro”).</li>
+                <li><b>Trazabilidad asistida</b> (vincular requisitos ⇄ historias ⇄ pruebas).</li>
+                <li><b>Revisión semántica</b> (conflictos entre reglas, duplicados, huecos).</li>
+            </ul>
+            <div class="example">
+                <b>Ejemplo</b>: análisis automático marca “<em>rápido</em>” y sugiere “<b>&lt;2 s</b> en listados de vacantes con filtros comunes>”.
+            </div>
+        </section>
+
+        <section class="ecard" id="trends2">
+            <span class="icon"><i class="fas fa-flask"></i></span>
+            <h2><span class="num">11</span> 3.4.4 Tendencias 2025 (2/2) — Especificación ejecutable & SLOs</h2>
+            <p class="concept">
+                Consolidación de BDD/ATDD como <span class="highlight">especificación ejecutable</span>, integración de
+                <span class="keyword">SLOs</span> (rendimiento, disponibilidad) y pruebas no funcionales en el pipeline.
+            </p>
+            <div class="example">
+                <b>Los SLOs (Service Level Objectives, o Objetivos de Nivel de Servicio en español) son métricas específicas y medibles que definen el nivel de rendimiento y disponibilidad esperado de un servicio o sistema en un entorno de software, especialmente en prácticas de SRE (Site Reliability Engineering) y DevOps. Se usan para alinear los objetivos de negocio con la ingeniería, asegurando que el software cumpla con estándares de calidad sin comprometer la velocidad de desarrollo.</b>
+            </div>
+        </section>
+
+        <!-- 3.4.5 · Ejercicio completo -->
+        <section class="ecard" id="ex1">
+            <span class="icon"><i class="fas fa-hammer"></i></span>
+            <h2><span class="num">12</span> 3.4.5 Ejercicio — Ingeniería de requisitos (1/3)</h2>
+            <p class="concept"><b>Elicitación</b> (entrevistas + talleres):</p>
+            <ul class="concept">
+                <li>“Como <b>estudiante</b> (≥4.º), quiero filtrar <span class="keyword">vacantes</span> por semestre/ciudad.</li>
+                <li>“Como <b>coordinadora</b>, quiero ver <span class="keyword">embudo</span> postulado→preseleccionado→aceptado.</li>
+                <li>“Como <b>docente asesor</b>, quiero revisar <span class="keyword">bitácora</span> e hitos semanales.</li>
+                <li>“Como <b>empresa</b>, quiero <span class="keyword">preseleccionar/aceptar</span> candidatos y dejar observaciones.</li>
+            </ul>
+            <div class="example">Artefacto: acta de elicitación + diccionario de términos (postulación, preselección, aceptación, práctica 1..5).</div>
+        </section>
+
+        <section class="ecard" id="ex2">
+            <span class="icon"><i class="fas fa-layer-group"></i></span>
+            <h2><span class="num">13</span> 3.4.5 Ejercicio — Ingeniería de requisitos (2/3)</h2>
+            <p class="concept"><b>Análisis</b> (clasificación + conflictos):</p>
+            <ul class="concept">
+                <li><b>Funcionales</b>: crear/gestionar vacantes; postular y ver estado; preselección/aceptación; seguimiento (plan, hitos, bitácora); estadísticas.</li>
+                <li><b>No funcionales</b>: <span class="keyword">usabilidad</span> (≤3 clics para postular), <span class="keyword">rendimiento</span> (&lt;2 s), <span class="keyword">seguridad</span> (MFA, cifrado), <span class="keyword">disponibilidad</span> (SLO 99.5%).</li>
+                <li><b>Restricciones</b>: SSO con SGA/LDAP; elegibilidad <b>≥ 4.º semestre</b>.</li>
+                <li><b>Conflictos</b>: rapidez vs validación académica; transparencia vs privacidad.</li>
+            </ul>
+            <div class="example">Modelo: casos de uso + BPMN de postulación y selección; matriz de trazabilidad inicial.</div>
+        </section>
+
+        <section class="ecard" id="ex3">
+            <span class="icon"><i class="fas fa-file-signature"></i></span>
+            <h2><span class="num">14</span> 3.4.5 Ejercicio — Ingeniería de requisitos (3/3)</h2>
+            <p class="concept"><b>Especificación</b> (historias + criterios de aceptación) y <b>Validación</b>:</p>
+            <ul class="concept">
+                <li><b>Historia</b>: “Como estudiante (≥4.º) quiero postular a una vacante filtrando por semestre para agilizar el proceso”.</li>
+                <li><b>CA (Gherkin)</b>: Dado estudiante válido, Cuando aplica a vacante, Entonces estado = “enviado” y se notifica a empresa+coordinadora.</li>
+                <li><b>Validación</b>: revisión con checklist ISO 29148, prototipo navegable, casos de prueba automatizados (BDD), pruebas de rendimiento (SLO).</li>
+            </ul>
+            <div class="example">Salida: acta de validación con hallazgos, acciones y decisión de avance a diseño/desarrollo.</div>
+
+        </section>
+        <section class="ecard" id="ex3">
+            <span class="icon"><i class="fas fa-file-signature"></i></span>
+            <h2><span class="num">15</span> 3.4.6 Herramientas </h2>
+            <p class="concept"><b>Herramientas </b>En 2025, la validación automática de requisitos de software se ha transformado gracias              a la integración de IA,
+                aprendizaje automático y automatización en herramientas de gestión de requisitos (Requirements Management). Estas herramientas no solo detectan inconsistencias,
+                ambigüedades y faltas de trazabilidad, sino que también generan sugerencias, enlazan con pruebas
+                y aseguran cumplimiento normativo (ej. ISO 26262, DO-178C). Basado en revisiones actualizadas,
+                aquí te presento las 10 mejores herramientas destacadas por su capacidad de automatización en
+                validación. Me enfocaré en características clave como chequeos automáticos, trazabilidad y soporte</p>
+
+
+
+
+        </section>
+    </div>
+
+    <footer class="footer" style="background:var(--dark); color:var(--light); text-align:center; padding:16px 0; margin-top:26px; font-size:.98rem; border-top:2px solid var(--primary)">
+        <span>© 2025 — Validación de Requisitos | Construida por Arle Morales Ortiz</span>
+    </footer>
+</div>
+</body>
+</html>

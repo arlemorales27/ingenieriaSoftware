@@ -1,15 +1,290 @@
-<!doctype html><html lang="es"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tema 8 — Próximamente</title>
-<link rel="stylesheet" href="css/styles.css">
-</head><body class="page-tema">
-<header class="site-header glass"><div class="brand"><a href="index.html" class="crumb">← Inicio</a><span>Tema 8</span></div></header>
-<main class="container">
-  <section class="intro big">
-    <h1>Tema 8 — Próximamente</h1>
-    <p>Este tema se habilitará en la próxima iteración.</p>
-  </section>
-</main>
-<footer class="site-footer"><p>© 2025</p></footer>
-<script type="module" src="js/supabase.js"></script>
-</body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>3.5 Gestión de Requisitos — Tutorial 2025</title>
+
+    <!-- Iconos y tipografía -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root{
+            --primary:#0ea5e9; --secondary:#8b5cf6; --accent:#ec4899; --accent2:#f97316; --accent3:#22c55e;
+            --dark:#0f172a; --darker:#020617; --light:#f1f5f9; --gray:#94a3b8;
+        }
+        *{box-sizing:border-box}
+        body{background:var(--darker); color:var(--light); font-family:'Montserrat',sans-serif; margin:0}
+        .main-header{
+            position:sticky; top:0; z-index:50;
+            background:linear-gradient(90deg,var(--primary) 60%,var(--secondary) 100%); color:#fff;
+            padding:24px 0 12px; text-align:center; box-shadow:0 4px 16px rgba(14,165,233,.12)
+        }
+        .main-header h1{font-size:2.2rem; font-weight:800; margin:0; letter-spacing:1.5px}
+        .main-header p{font-size:1.02rem; margin:8px 0 0; color:#e2e8f0}
+
+        .container{max-width:1200px; margin:0 auto; padding:28px 20px}
+        .header{text-align:center; padding:24px 0 6px}
+        .header h2{font-size:1.9rem; color:var(--primary); font-weight:800; letter-spacing:1.5px; text-shadow:0 0 10px rgba(14,165,233,.28)}
+        .header p{color:var(--accent); font-size:1.02rem; margin-top:8px}
+
+        .ecards-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(360px,1fr)); gap:22px; margin-top:18px}
+        .ecard{
+            background:rgba(30,41,59,.78); border-radius:16px; box-shadow:0 8px 24px rgba(14,165,233,.12);
+            padding:20px 20px 22px; border-left:5px solid var(--primary); position:relative; overflow:hidden;
+            animation:fadeIn .9s ease; backdrop-filter:blur(4px)
+        }
+        .ecard:hover{transform:translateY(-5px) scale(1.01); box-shadow:0 12px 32px rgba(14,165,233,.18)}
+        .ecard .icon{font-size:2.05rem; color:var(--accent2); margin-bottom:4px; display:block}
+        .ecard h2{font-size:1.18rem; color:var(--primary); margin:8px 0 10px; font-weight:800; display:flex; align-items:center; gap:10px}
+        .badge{background:var(--secondary); color:#fff; padding:3px 10px; border-radius:999px; font-size:.8rem; margin-left:6px}
+        .tag{background:rgba(14,165,233,.15); color:var(--primary); padding:2px 8px; border-radius:999px; font-size:.72rem; margin-left:8px}
+
+        .concept{margin-bottom:10px; font-size:1.02rem; color:#e5e7eb; line-height:1.65; text-align:justify}
+        .ecard p{font-size:1.02rem; color:#e5e7eb; line-height:1.65; text-align:justify; margin:8px 0}
+        .ecard ul{margin:8px 0 0 16px}
+        .ecard li{margin-bottom:8px; text-align:justify}
+
+        .highlight{color:var(--accent3); font-weight:800; background:linear-gradient(120deg,rgba(34,197,94,.14),transparent); padding:2px 6px; border-radius:4px}
+        .keyword{color:var(--accent); font-weight:700; background:linear-gradient(120deg,rgba(236,72,153,.18),transparent); padding:2px 6px; border-radius:4px}
+
+        .example{background:rgba(249,115,22,.12); border-left:4px solid var(--accent2); padding:10px 12px; border-radius:10px; margin-top:10px; color:#f59e0b; font-size:.98rem}
+        .literatura{background:rgba(139,92,246,.12); border-left:4px solid var(--secondary); padding:10px 12px; border-radius:10px; margin-top:10px; color:#c4b5fd; font-size:.98rem}
+        .footnote{font-size:.9rem; color:#a1a1aa; margin-top:6px; text-align:justify}
+        .ecard img{width:100%; border-radius:10px; margin:12px 0; box-shadow:0 4px 16px rgba(0,0,0,.18)}
+
+        @keyframes fadeIn{from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:translateY(0)}}
+        @keyframes floatIcon{0%{transform:translateY(0)} 50%{transform:translateY(-5px)} 100%{transform:translateY(0)}}
+        .ecard .icon i{animation:floatIcon 3.6s ease-in-out infinite}
+        @media (max-width:700px){.ecards-grid{grid-template-columns:1fr} .main-header h1{font-size:1.5rem}}
+
+        /* Numeración circular elegante */
+        .num{
+            --size:34px;
+            width:var(--size); height:var(--size); min-width:var(--size);
+            background:linear-gradient(135deg, var(--primary), var(--secondary));
+            color:#fff; border-radius:50%; display:inline-flex; align-items:center; justify-content:center;
+            font-weight:800; box-shadow:0 6px 14px rgba(0,0,0,.25); margin-right:8px
+        }
+    </style>
+</head>
+<body>
+<div class="main-header">
+    <h1><i class="fas fa-diagram-project"></i> 3.5 Gestión de Requisitos de Software</h1>
+    <p>Conceptos claros, ejemplos sencillos (Prácticas Empresariales U. Alexander von Humboldt), actividades y tendencias 2025</p>
+</div>
+
+<div class="container">
+    <div class="header">
+        <h2>Sesiones del Tutorial</h2>
+        <p>Basado en Sommerville, Pressman, Farley/Humble, SWEBOK & ISO 29148, y prácticas modernas.</p>
+    </div>
+
+    <div class="ecards-grid">
+
+        <!-- 3.5.1 ¿Qué es? -->
+        <section class="ecard" id="g1">
+            <span class="icon"><i class="fas fa-circle-info"></i></span>
+            <h2><span class="num">1</span> 3.5.1 ¿Qué es la gestión de requisitos? <span class="badge">definición</span></h2>
+            <p class="concept">
+                La <span class="highlight">gestión de requisitos</span> es el conjunto de prácticas para <b>documentar, organizar, priorizar, controlar cambios, trazar, versionar y mantener</b> los requisitos a lo largo del ciclo de vida del producto.
+                Incluye políticas, procesos y herramientas que garantizan que los requisitos sigan siendo <span class="keyword">vigentes</span>, <span class="keyword">consistentes</span> y <span class="keyword">alineados</span> con los objetivos del negocio.
+            </p>
+            <div class="literatura">
+                <i class="fas fa-book-open"></i> <b>Autores</b>:
+                <ul>
+                    <li><b>Sommerville</b>: gestión = control de cambios, trazabilidad y planificación por versiones/releases.</li>
+                    <li><b>Pressman</b>: requisitos deben ser <em>trazables</em> y <em>modificables</em>; recomienda políticas de baseline y revisiones formales.</li>
+                    <li><b>SWEBOK/ISO 29148</b>: define procesos de gestión, estados de requisitos y atributos (prioridad, fuente, riesgo, versión).</li>
+                    <li><b>Farley & Humble</b>: conectar requisitos con <b>criterios de aceptación automatizados</b> y el <b>pipeline</b> para gobernanza continua.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 3.5.2 ¿Para qué se hace? -->
+        <section class="ecard" id="g2">
+            <span class="icon"><i class="fas fa-bullseye"></i></span>
+            <h2><span class="num">2</span> 3.5.2 ¿Para qué se hace la gestión de requisitos?</h2>
+            <ul class="concept">
+                <li>Asegurar <b>alineación</b> con metas académicas y necesidades de usuarios.</li>
+                <li>Evitar <b>deriva</b> de alcance (scope creep) controlando cambios.</li>
+                <li>Facilitar <b>planificación</b> por iteraciones y releases.</li>
+                <li>Conectar requisitos con <b>pruebas</b>, <b>métricas</b> y <b>operación</b> (SLO/SLA).</li>
+                <li>Generar <b>evidencias</b> (auditoría, cumplimiento, calidad).</li>
+            </ul>
+            <div class="example">
+                <i class="fas fa-briefcase"></i> <b>Ejemplo sencillo</b>: si la coordinadora agrega “<em>exportar estadísticas por programa</em>”, el cambio entra al backlog, se prioriza, se versiona (v1.2) y se valida con pruebas y métricas.
+            </div>
+            <img src="https://media.licdn.com/dms/image/v2/D4E12AQGGnSdZH8mXPg/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1729179412878?e=2147483647&v=beta&t=azVM75q7WwzfO8xtDG8qZo2DkWbHNp4_etK5-DHoqvo" alt="Equipo definiendo SRS"/>
+        </section>
+
+        <!-- 3.5.3 Importancia -->
+        <section class="ecard" id="g3">
+            <span class="icon"><i class="fas fa-star"></i></span>
+            <h2><span class="num">3</span> 3.5.3 Importancia</h2>
+            <p class="concept">
+                Una buena gestión reduce retrabajo, conflictos y riesgos. Permite <b>visibilidad</b> (qué hay, qué cambia, por qué), <b>previsibilidad</b> (cuándo sale y con qué calidad) y <b>trazabilidad</b> (de dónde viene cada requisito y cómo se prueba).
+            </p>
+
+            <span class="icon"><i class="fas fa-robot"></i></span>
+            <h2> Tendencias 2025 en gestión de requisitos</h2>
+            <ul class="concept">
+                <li><b>IA/LLMs</b> para detectar ambigüedades, duplicados y huecos; sugerir CA y casos de prueba.</li>
+                <li><b>Especificación ejecutable</b> (BDD/ATDD) integrada al <b>pipeline</b> de CI/CD.</li>
+                <li><b>Métricas operativas</b> (SLI/SLO) ligadas a requisitos no funcionales (rendimiento, disponibilidad).</li>
+                <li><b>Git-Ops de requisitos</b>: SRS versionado, revisiones por PR y baselines por release.</li>
+                <li><b>Tableros de trazabilidad</b> en tiempo real (Jira/Azure DevOps/Notion) con vistas por rol.</li>
+            </ul>
+
+        </section>
+
+        <!-- 3.5.4 Objetivos enumerados -->
+        <section class="ecard" id="g4">
+            <span class="icon"><i class="fas fa-list-ol"></i></span>
+            <h2><span class="num">4</span> 3.5.4 Objetivos de la gestión de requisitos</h2>
+            <ul class="concept">
+                <li><b>O1:</b> Mantener requisitos <span class="keyword">claros</span>, <span class="keyword">coherentes</span> y <span class="keyword">actualizados</span>.</li>
+                <li><b>O2:</b> Establecer <b>trazabilidad bidireccional</b> (requisito ⇄ historias ⇄ pruebas ⇄ despliegue).</li>
+                <li><b>O3:</b> Gobernar <b>cambios</b> con criterios, riesgos y justificaciones.</li>
+                <li><b>O4:</b> Priorizar por <b>valor</b>, <b>urgencia</b>, <b>riesgo</b> y <b>esfuerzo</b>.</li>
+                <li><b>O5:</b> Versionar el <b>SRS</b> y establecer <b>baselines</b> por release.</li>
+                <li><b>O6:</b> Gestionar <b>dependencias</b> y <b>consistencia</b> entre requisitos.</li>
+            </ul>
+        </section>
+
+        <!-- 3.5.5 Actividades clave -->
+        <section class="ecard" id="g5">
+            <span class="icon"><i class="fas fa-gears"></i></span>
+            <h2><span class="num">5</span> 3.5.5 Actividades clave</h2>
+            <ul class="concept">
+                <li>Definir <b>atributos</b> por requisito (fuente, prioridad, riesgo, estado, versión).</li>
+                <li>Crear y mantener la <b>matriz de trazabilidad</b>.</li>
+                <li>Operar el <b>proceso de control de cambios</b> (solicitud → análisis → decisión → implementación → verificación).</li>
+                <li>Aplicar <b>priorización dinámica</b> (MoSCoW/WSJF/RICE).</li>
+                <li><b>Versionar</b> SRS y establecer <b>baselines</b>.</li>
+                <li>Analizar <b>dependencias</b> y <b>consistencia</b> (impactos cruzados).</li>
+            </ul>
+        </section>
+
+        <!-- 3.5.5.a Trazabilidad -->
+        <section class="ecard" id="g5a">
+            <span class="icon"><i class="fas fa-diagram-predecessor"></i></span>
+            <h2><span class="num">6</span> 3.5.5(a) ¿Cómo se hace la trazabilidad?</h2>
+            <p class="concept">
+                Use una <b>matriz</b> que conecte Requisito → Historia → Criterio de Aceptación/Prueba → Diseño/Componente → Despliegue/Release.
+                Manténgala viva en tu herramienta (Jira/Azure DevOps/Notion).
+            </p>
+            <div class="example">
+                <b>Ejemplo simple (Prácticas)</b>:
+                <ul>
+                    <li><b>REQ-VAC-01</b> (publicar vacantes) → <b>US-001</b> → <b>TEST-POST-01</b> → Componente <em>Vacantes</em> → Release <b>v1.0</b>.</li>
+                    <li><b>REQ-ELIG-02</b> (elegibilidad ≥ 4.º) → <b>US-005</b> → <b>TEST-AUTH-02</b> → Servicio <em>SSO/SGA</em> → <b>v1.0</b>.</li>
+                </ul>
+            </div>
+            <div class="literatura"><i class="fas fa-book"></i> Pressman & SWEBOK: trazabilidad <b>bidireccional</b> y cobertura de pruebas.</div>
+        </section>
+
+        <!-- 3.5.5.b Control de cambios -->
+        <section class="ecard" id="g5b">
+            <span class="icon"><i class="fas fa-person-circle-question"></i></span>
+            <h2><span class="num">7</span> 3.5.5(b) ¿Cómo se hace el control de cambios?</h2>
+            <p class="concept">
+                Establece un flujo <b>ligero y claro</b>: <b>RFC</b> (solicitud) → <b>análisis</b> (impacto, costo/beneficio, riesgos) → <b>decisión</b> (aprobado, pospuesto, rechazado) → <b>implementación</b> → <b>validación</b> → <b>cierre</b>.
+            </p>
+            <div class="example">
+                <b>Ejemplo</b>: “exportar estadísticas por programa” → RFC-023 → impacto en consultas y cache → aprobado para <b>v1.2</b> con CA de rendimiento “<b>&lt; 3 s</b>”.
+            </div>
+            <div class="literatura"><i class="fas fa-book"></i> Sommerville/ISO 29148: registro y auditabilidad de cambios; Farley/Humble: pruebas de aceptación en pipeline para verificar cambios.</div>
+        </section>
+
+        <!-- 3.5.5.c Priorización dinámica -->
+        <section class="ecard" id="g5c">
+            <span class="icon"><i class="fas fa-ranking-star"></i></span>
+            <h2><span class="num">8</span> 3.5.5(c) ¿Cómo se hace la priorización dinámica?</h2>
+            <ul class="concept">
+                <li><b>MoSCoW</b>: Must/Should/Could/Won’t.</li>
+                <li><b>WSJF</b> (Scaled Agile): (Coste de retraso / Tamaño).</li>
+                <li><b>RICE</b>: Reach × Impact × Confidence / Effort.</li>
+            </ul>
+            <div class="example">
+                <b>Ejemplo</b> (fácil): “Filtro por semestre” = <b>Must</b>; “chat estudiante-docente” = <b>Could</b>.
+                RICE rápido: Filtro (R=1000, I=3, C=0.8, E=3) → 800; Chat (R=600, I=2, C=0.7, E=6) → 140 ⇒ primero el filtro.
+            </div>
+        </section>
+
+        <!-- 3.5.5.d Versionado del SRS -->
+        <section class="ecard" id="g5d">
+            <span class="icon"><i class="fas fa-code-commit"></i></span>
+            <h2><span class="num">9</span> 3.5.5(d) ¿Cómo se versiona el SRS?</h2>
+            <p class="concept">
+                Mantén el SRS en repositorio (Git/Docs con historial). Usa <b>versionado semántico</b> (<b>v1.1.0</b> = nueva funcionalidad compatible; <b>v2.0.0</b> = cambios incompatibles). Define <b>baselines</b> por release.
+            </p>
+            <div class="example">
+                <b>Ejemplo</b>: SRS <b>v1.0</b> (vacantes/postulación); SRS <b>v1.1</b> (+ seguimiento); SRS <b>v2.0</b> (nuevo flujo de selección).
+            </div>
+        </section>
+
+        <!-- 3.5.5.e Gestión de dependencias y consistencia -->
+        <section class="ecard" id="g5e">
+            <span class="icon"><i class="fas fa-diagram-next"></i></span>
+            <h2><span class="num">10</span> 3.5.5 ¿Cómo se gestiona dependencias y consistencia?</h2>
+            <p class="concept">
+                Relaciona requisitos dependientes (p.ej., <b>Postulación</b> depende de <b>Vacantes</b> y <b>Elegibilidad</b>).
+                Usa <b>matrices</b> y <b>diagramas</b> (UML/BPMN) para visualizar impactos. Ejecuta <b>revisiones</b> cuando cambie uno para verificar la consistencia del resto.
+            </p>
+            <div class="example">
+                <b>Ejemplo</b>: si cambia “criterio de elegibilidad” (≥4.º→≥5.º), impacta: filtros, validaciones, CA, pruebas y reportes de estadísticas.
+            </div>
+            <div class="literatura">
+                <i class="fas fa-book"></i> <b>Autores</b>: Pressman/Sommerville enfatizan la relación con calidad y costo total; SWEBOK/ISO consolidan atributos y estados; Farley/Humble vinculan con CD y evidencia de aceptación.
+            </div>
+            <img src="https://i.ytimg.com/vi/AC_xUTvJ43Q/maxresdefault.jpg" alt="Equipo definiendo SRS"/>
+        </section>
+
+        <!-- 3.5.6 Ejemplo práctico de todo el proceso -->
+        <section class="ecard" id="g6a">
+            <span class="icon"><i class="fas fa-hammer"></i></span>
+            <h2><span class="num">11</span> 3.5.6 Ejemplo práctico (1/2) — de punta a punta</h2>
+            <p class="concept"><b>Contexto</b>: Sistema de Prácticas — estudiantes (≥4.º) se postulan a vacantes; coordinadora y empresa realizan doble selección; docente asesora seguimiento/hitos.</p>
+            <p class="concept"><b>Requisitos seleccionados</b> (simplicidad):</p>
+            <ul class="concept">
+                <li><b>REQ-VAC-01</b>: publicar y listar vacantes con filtros por <b>semestre</b> y <b>programa</b>.</li>
+                <li><b>REQ-POST-02</b>: postulación en ≤ <b>3 pasos</b> y notificaciones a empresa+coordinación.</li>
+                <li><b>REQ-SEL-03</b>: doble validación (preselección coordinadora + aceptación empresa).</li>
+                <li><b>REQ-SEG-04</b>: seguimiento con <b>hitos</b> y <b>bitácora</b> semanal.</li>
+            </ul>
+            <div class="example">
+                <b>Elicitación</b>: entrevistas y taller “Three Amigos” definen flujos y términos.
+                <b>Análisis</b>: clasificación F/NF/Restricciones; conflictos (rapidez vs validación académica).
+                <b>Especificación</b>: historias + CA (Gherkin); NFR medibles (p95 &lt;2 s, MFA, SLO 99.5%).
+                <b>Validación</b>: revisión checklist ISO 29148, prototipo navegable, pruebas de aceptación automatizadas.
+            </div>
+        </section>
+
+        <section class="ecard" id="g6b">
+            <span class="icon"><i class="fas fa-list-check"></i></span>
+            <h2><span class="num">12</span> 3.5.6 Ejemplo práctico (2/2) — gestión aplicada</h2>
+            <ul class="concept">
+                <li><b>Trazabilidad</b>: REQ-VAC-01→US-001→TEST-VAC-01→Componente Vacantes→Release v1.0.</li>
+                <li><b>Control de cambios</b>: RFC-023 “exportar estadísticas por programa” → impacto evaluado → aprobado v1.2.</li>
+                <li><b>Priorización dinámica</b>: RICE/WSJF favorece primero filtros y doble selección; chat queda <em>Could</em>.</li>
+                <li><b>Versionado SRS</b>: v1.0 (vacantes/postulación), v1.1 (seguimiento), v1.2 (estadísticas por programa).</li>
+                <li><b>Dependencias/consistencia</b>: cambio en “elegibilidad” actualiza filtros, reglas y pruebas asociadas.</li>
+            </ul>
+            <div class="literatura">
+                <i class="fas fa-book-open"></i> <b>Autores</b>:
+                Sommerville y Pressman fundamentan control de cambios y revisión; SWEBOK/ISO 29148 definen atributos/estados; Farley/Humble: aceptación automatizada y pipeline como guardián de calidad.
+            </div>
+        </section>
+
+
+
+    </div>
+
+    <footer class="footer" style="background:var(--dark); color:var(--light); text-align:center; padding:16px 0; margin-top:26px; font-size:.98rem; border-top:2px solid var(--primary)">
+        <span>© 2025 — Gestión de Requisitos | Construida por Arle Morales Ortiz</span>
+    </footer>
+</div>
+</body>
+</html>

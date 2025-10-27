@@ -1,206 +1,556 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tutorial Interactivo — Ingeniería de Software (2025)</title>
-  <meta name="description" content="Tutorial avanzado, interactivo y responsivo de Ingeniería de Software.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css" />
-  <script defer type="module" src="js/app.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tutorial Interactivo — Ingeniería de Software (2025)</title>
+    <meta name="description" content="Tutorial avanzado, interactivo y responsivo de Ingeniería de Software.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* `css/styles.css` (integrado)
+           Paleta y variables:
+           - --bg, --card, --accent, --muted, --glass
+        */
+        :root{
+            --bg:#0f1724;
+            --surface:#0b1220;
+            --card:#0f1a2b;
+            --accent:#6ee7b7; /* verde agua */
+            --accent-2:#7dd3fc; /* azul claro */
+            --muted:#94a3b8;
+            --glass: rgba(255,255,255,0.04);
+            --glass-2: rgba(255,255,255,0.02);
+            --glass-3: rgba(255,255,255,0.06);
+            --radius:12px;
+            --glass-border: rgba(255,255,255,0.06);
+            --shadow: 0 8px 30px rgba(2,6,23,0.6);
+            color-scheme: dark;
+            font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+
+        /* Reset */
+        *{box-sizing:border-box;margin:0;padding:0}
+        html,body{height:100%}
+        body{
+            background: radial-gradient(1200px 600px at 10% 10%, rgba(125,211,252,0.06), transparent 8%),
+            radial-gradient(900px 400px at 90% 85%, rgba(110,231,183,0.04), transparent 8%),
+            linear-gradient(180deg, var(--bg), #071126 80%);
+            color:#e6eef8;
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+            padding:28px;
+        }
+
+        .container{
+            max-width:1200px;
+            margin:0 auto;
+        }
+
+        /* Header */
+        .site-header{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:16px;
+            padding:12px 18px;
+            border-radius:14px;
+            background:linear-gradient(180deg,var(--glass),transparent);
+            border:1px solid var(--glass-border);
+            box-shadow:var(--shadow);
+            margin-bottom:22px;
+        }
+        .brand{display:flex;align-items:center;gap:12px;font-weight:600}
+        .brand svg{filter:drop-shadow(0 4px 18px rgba(125,211,252,0.08))}
+        .main-nav a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px}
+        .main-nav a.active{color:var(--accent);background:linear-gradient(90deg, rgba(125,211,252,0.06), transparent)}
+        .glass{backdrop-filter: blur(6px);-webkit-backdrop-filter: blur(6px);}
+
+        /* Hero */
+        .hero{
+            display:grid;
+            grid-template-columns: 1fr 480px;
+            gap:20px;
+            align-items:center;
+            margin-bottom:28px;
+        }
+        .hero-copy h1{font-size:clamp(1.6rem,3.6vw,2.4rem);margin-bottom:8px}
+        .hero-copy p{color:var(--muted);margin-bottom:14px;line-height:1.45}
+        .btn{
+            display:inline-flex;
+            gap:10px;
+            align-items:center;
+            padding:10px 16px;
+            border-radius:12px;
+            background:linear-gradient(90deg,var(--accent),var(--accent-2));
+            color:#042027;font-weight:700;text-decoration:none;
+            box-shadow:0 8px 20px rgba(15,36,44,0.28);
+            transition:transform .18s ease;
+        }
+        .btn:active{transform:translateY(1px)}
+        #heroCanvas{width:100%;height:220px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid var(--glass-border)}
+        .hero-card{padding:18px;background:linear-gradient(180deg,var(--glass-3),transparent);border-radius:12px;border:1px solid var(--glass-border);box-shadow:var(--shadow)}
+
+        /* Topics grid */
+        .topics-grid{margin-top:6px;margin-bottom:22px}
+        .topics-grid .grid{
+            display:grid;
+            grid-template-columns: repeat(4,1fr);
+            gap:12px;
+        }
+        @container (max-width:900px){
+            .hero{grid-template-columns:1fr}
+            .topics-grid .grid{grid-template-columns:repeat(2,1fr)}
+        }
+        .card.topic{
+            display:block;
+            text-decoration:none;
+            color:inherit;
+            padding:12px;
+            border-radius:12px;
+            background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+            border:1px solid var(--glass-border);
+            transition: transform .22s cubic-bezier(.2,.9,.3,1), box-shadow .22s;
+            overflow:hidden;
+        }
+        .card.topic:hover{
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 18px 40px rgba(2,6,23,0.6);
+        }
+        .card-body{display:flex;gap:12px;align-items:center}
+        .icon-circle{
+            min-width:56px;height:56px;border-radius:12px;
+            display:inline-grid;place-items:center;
+            background:linear-gradient(135deg, rgba(125,211,252,0.08), rgba(110,231,183,0.06));
+            border:1px solid rgba(255,255,255,0.03);
+            font-weight:700;color:var(--accent-2)
+        }
+        .card-body h3{font-size:1rem;margin-bottom:4px}
+        .card-body p{font-size:.85rem;color:var(--muted)}
+
+        progress{width:100%;height:8px;margin-top:8px;border-radius:8px;overflow:hidden}
+        progress::-webkit-progress-bar{background:rgba(255,255,255,0.03)}
+        progress::-webkit-progress-value{background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+
+        /* How it works */
+        .how-it-works{margin:22px 0;padding:16px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.015), transparent);border:1px solid var(--glass-border)}
+        .how-it-works ol{display:grid;gap:12px;padding-left:18px}
+        .how-it-works li{background:var(--surface);padding:12px;border-radius:10px;border:1px solid var(--glass-border);list-style:decimal;counter-increment:step}
+
+        /* Roles and ecards */
+        .cards-wide{display:grid;grid-template-columns:1fr 380px;gap:12px;margin-bottom:22px}
+        .role-card{padding:16px;border-radius:12px;background:linear-gradient(180deg,var(--card),transparent);border:1px solid var(--glass-border)}
+        .role-list{display:flex;flex-direction:column;gap:10px}
+        .role-item{display:flex;gap:12px;align-items:center;padding:10px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.01), transparent);border:1px solid rgba(255,255,255,0.02)}
+        .role-item svg{width:28px;height:28px;flex-shrink:0}
+
+        /* Palette */
+        .palette{display:flex;gap:8px;margin-top:10px}
+        .chip{flex:1;padding:8px;border-radius:8px;color:#021; font-weight:700;text-align:center}
+        .chip.small{font-size:.85rem;padding:6px}
+
+        /* Footer */
+        .site-footer{margin-top:24px;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border:1px solid var(--glass-border);text-align:center;color:var(--muted);font-size:.9rem}
+
+        /* Subtle entrance */
+        .fade-in{animation:fadeIn .6s ease both}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+    </style>
 </head>
 <body>
-<header class="site-header glass">
-  <div class="brand">
-    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z" stroke="currentColor" stroke-width="1.5"/>
-    </svg>
-    <span>Tutorial Interactivo — Ing. de Software</span>
-  </div>
-  <nav class="main-nav">
-    <a href="#" class="active">Inicio</a>
-  </nav>
-
+<header class="site-header glass fade-in" role="banner">
+    <div class="brand" aria-hidden="false">
+        <!-- logotipo svg -->
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#7dd3fc"/><stop offset="1" stop-color="#6ee7b7"/></linearGradient></defs>
+            <rect x="2" y="2" width="20" height="20" rx="5" fill="url(#g)"/>
+            <path d="M7 12h10M12 7v10" stroke="#011827" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span>Tutorial Interactivo — Ing. de Software</span>
+    </div>
+    <nav class="main-nav" role="navigation" aria-label="Principal">
+        <a href="#" class="active">Inicio</a>
+        <a href="#temas">Temas</a>
+        <a href="#roles">Roles</a>
+    </nav>
 </header>
 
-<main class="container">
-  <section class="hero">
-    <canvas id="heroCanvas" width="1400" height="500" aria-hidden="true"></canvas>
-    <div class="hero-copy">
-      <h1>La clase más interactiva de 2025</h1>
-      <p>Aprende Ingeniería de Software con un enfoque práctico, guiado y gamificado. Tu avance se guarda en la nube y puedes continuar exactamente donde te quedaste.</p>
-      <a href="#temas" class="btn cta">Explorar 16 Temas</a>
-    </div>
-  </section>
+<main class="container" role="main">
+    <section class="hero fade-in" aria-labelledby="hero-title">
+        <div>
+            <h1 id="hero-title">La clase más interactiva de 2025</h1>
+            <p>Aprende Ingeniería de Software con enfoque práctico, guiado y gamificado. Avanza por módulos, guarda progreso y accede a ejemplos reales (Pressman, Google, Farley y otros).</p>
+            <div style="display:flex;gap:12px;align-items:center;margin-top:12px">
+                <a href="#temas" class="btn cta">Explorar 16 Temas</a>
+                <a class="btn" href="#roles" style="background:transparent;border:1px solid var(--glass-border;color:var(--accent)">Ver roles</a>
+            </div>
+            <div style="margin-top:12px" class="hero-card">
+                <strong>Tecnologías destacadas (2025):</strong>
+                <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+                    <span class="chip small" style="background:linear-gradient(90deg,#06202a,#0b1f2e)">Nube (K8s, serverless)</span>
+                    <span class="chip small" style="background:linear-gradient(90deg,#0b1228,#032033)">Contenedores &amp; Orquestación</span>
+                    <span class="chip small" style="background:linear-gradient(90deg,#052023,#07303b)">APIs &amp; Estándares</span>
+                </div>
+            </div>
+        </div>
 
-  <section id="temas" class="topics-grid">
-    <h2>Plan de la asignatura</h2>
-    <p>Elige un tema. El sistema registra tu progreso automáticamente.</p>
-    <div class="grid">
-      <!-- 16 tarjetas de temas -->
-      
-    <a class="card topic" href="tema1.html">
-      <div class="card-body">
-        <div class="icon-circle">1</div>
-        <h3>Ingeniería de software</h3>
-        <p>Introducción</p>
-        <progress max="100" value="0" id="progress-t1"></progress>
-      </div>
-    </a>
+        <div>
+            <canvas id="heroCanvas" width="640" height="320" aria-hidden="true"></canvas>
+        </div>
+    </section>
 
-    <a class="card topic" href="tema2.html">
-      <div class="card-body">
-        <div class="icon-circle">2</div>
-        <h3>IS como disciplina</h3>
-        <p>Disciplina</p>
-        <progress max="100" value="0" id="progress-t2"></progress>
-      </div>
-    </a>
+    <section id="temas" class="topics-grid fade-in" aria-labelledby="plan-title">
+        <h2 id="plan-title">Plan de la asignatura — 16 temas</h2>
+        <p>Selecciona un tema para abrir el contenido interactivo. El sistema guarda progreso automáticamente.</p>
 
-    <a class="card topic" href="tema3.html">
-      <div class="card-body">
-        <div class="icon-circle">3</div>
-        <h3>Desafíos  y tendencias</h3>
-        <p>Lo que vamos a enfrentar</p>
-        <progress max="100" value="0" id="progress-t3"></progress>
-      </div>
-    </a>
+        <div class="grid" role="list">
+            <!-- Generación semántica de 16 tarjetas -->
+            <!-- Cada tarjeta tiene número, ícono, título, descripción, barra de progreso -->
+            <a class="card topic" href="tema1.html" role="listitem" data-topic="1">
+                <div class="card-body">
+                    <div class="icon-circle">1</div>
+                    <div style="flex:1">
+                        <h3>Ingeniería de software — Introducción</h3>
+                        <p>Conceptos básicos, historia y disciplinas relacionadas.</p>
+                        <progress max="100" value="0" id="progress-t1"></progress>
+                    </div>
+                </div>
+            </a>
 
-    <a class="card topic" href="tema4.html">
-      <div class="card-body">
-        <div class="icon-circle">4</div>
-        <h3>Ingeniería de requisitos</h3>
-        <p>Parte 1</p>
-        <progress max="100" value="0" id="progress-t4"></progress>
-      </div>
-    </a>
+            <a class="card topic" href="tema2.html" role="listitem" data-topic="2">
+                <div class="card-body">
+                    <div class="icon-circle">2</div>
+                    <div style="flex:1">
+                        <h3>IS como disciplina</h3>
+                        <p>Modelos, roles y ética profesional.</p>
+                        <progress max="100" value="0" id="progress-t2"></progress>
+                    </div>
+                </div>
+            </a>
 
-    <a class="card topic" href="tema5.html">
-      <div class="card-body">
-        <div class="icon-circle">5</div>
-        <h3>Análisis de Requisitos</h3>
-        <p>Parte 2</p>
-        <progress max="100" value="0" id="progress-t5"></progress>
-      </div>
-    </a>
+            <a class="card topic" href="tema3.html" role="listitem" data-topic="3">
+                <div class="card-body">
+                    <div class="icon-circle">3</div>
+                    <div style="flex:1">
+                        <h3>Desafíos y tendencias</h3>
+                        <p>Adaptabilidad, IA, ciberseguridad y sostenibilidad.</p>
+                        <progress max="100" value="0" id="progress-t3"></progress>
+                    </div>
+                </div>
+            </a>
 
-    <a class="card topic" href="tema6.html">
-      <div class="card-body">
-        <div class="icon-circle">6</div>
-        <h3>Especificación de requisitos</h3>
-        <p>Documentar</p>
-        <progress max="100" value="0" id="progress-t6"></progress>
-      </div>
-    </a>
+            <a class="card topic" href="tema4.html" role="listitem" data-topic="4">
+                <div class="card-body">
+                    <div class="icon-circle">4</div>
+                    <div style="flex:1">
+                        <h3>Ingeniería de requisitos — Parte 1</h3>
+                        <p>Técnicas para identificar necesidades.</p>
+                        <progress max="100" value="0" id="progress-t4"></progress>
+                    </div>
+                </div>
+            </a>
 
-    <a class="card topic" href="tema7.html">
-      <div class="card-body">
-        <div class="icon-circle">7</div>
-        <h3>Validación de requisitos</h3>
-        <p>Validación y técnicas</p>
-        <progress max="100" value="0" id="progress-t7"></progress>
-      </div>
-    </a>
+            <a class="card topic" href="tema5.html" role="listitem" data-topic="5">
+                <div class="card-body">
+                    <div class="icon-circle">5</div>
+                    <div style="flex:1">
+                        <h3>Análisis de requisitos — Parte 2</h3>
+                        <p>Modelado, casos de uso y user stories.</p>
+                        <progress max="100" value="0" id="progress-t5"></progress>
+                    </div>
+                </div>
+            </a>
 
-    <a class="card topic" href="tema8.html">
-      <div class="card-body">
-        <div class="icon-circle">8</div>
-        <h3>3.5 Gestión de Requisitos de Software</h3>
-        <p>Trazabilidad</p>
-        <progress max="100" value="0" id="progress-t8"></progress>
-      </div>
-    </a>
+            <a class="card topic" href="tema6.html" role="listitem" data-topic="6">
+                <div class="card-body">
+                    <div class="icon-circle">6</div>
+                    <div style="flex:1">
+                        <h3>Especificación de requisitos</h3>
+                        <p>Plantillas, SRS y ejemplos prácticos.</p>
+                        <progress max="100" value="0" id="progress-t6"></progress>
+                    </div>
+                </div>
+            </a>
 
-    <a class="card topic" href="tema1.html#coming-soon">
-      <div class="card-body">
-        <div class="icon-circle">9</div>
-        <h3>Tema 9</h3>
-        <p>Disponible próximamente</p>
-        <progress max="100" value="0" id="progress-t9"></progress>
-      </div>
-    </a>
+            <a class="card topic" href="tema7.html" role="listitem" data-topic="7">
+                <div class="card-body">
+                    <div class="icon-circle">7</div>
+                    <div style="flex:1">
+                        <h3>Validación de requisitos</h3>
+                        <p>Revisiones, pruebas y métricas.</p>
+                        <progress max="100" value="0" id="progress-t7"></progress>
+                    </div>
+                </div>
+            </a>
 
-    <a class="card topic" href="tema1.html#coming-soon">
-      <div class="card-body">
-        <div class="icon-circle">10</div>
-        <h3>Tema 10</h3>
-        <p>Disponible próximamente</p>
-        <progress max="100" value="0" id="progress-t10"></progress>
-      </div>
-    </a>
+            <a class="card topic" href="tema8.html" role="listitem" data-topic="8">
+                <div class="card-body">
+                    <div class="icon-circle">8</div>
+                    <div style="flex:1">
+                        <h3>Gestión de requisitos</h3>
+                        <p>Trazabilidad, cambios y herramientas.</p>
+                        <progress max="100" value="0" id="progress-t8"></progress>
+                    </div>
+                </div>
+            </a>
 
-    <a class="card topic" href="tema1.html#coming-soon">
-      <div class="card-body">
-        <div class="icon-circle">11</div>
-        <h3>Tema 11</h3>
-        <p>Disponible próximamente</p>
-        <progress max="100" value="0" id="progress-t11"></progress>
-      </div>
-    </a>
+            <a class="card topic" href="tema9.html" role="listitem" data-topic="9">
+                <div class="card-body">
+                    <div class="icon-circle">9</div>
+                    <div style="flex:1">
+                        <h3>introducción al Modelado UML</h3>
+                        <p>Corte 2 Modelado de software</p>
+                        <progress max="100" value="0" id="progress-t9"></progress>
+                    </div>
+                </div>
+            </a>
 
-    <a class="card topic" href="tema1.html#coming-soon">
-      <div class="card-body">
-        <div class="icon-circle">12</div>
-        <h3>Tema 12</h3>
-        <p>Disponible próximamente</p>
-        <progress max="100" value="0" id="progress-t12"></progress>
-      </div>
-    </a>
+            <a class="card topic" href="#tema10" role="listitem" data-topic="10">
+                <div class="card-body">
+                    <div class="icon-circle">10</div>
+                    <div style="flex:1">
+                        <h3>Diseño y patrones</h3>
+                        <p>Microservicios, hexagonal, diseño dirigido por pruebas.</p>
+                        <progress max="100" value="0" id="progress-t10"></progress>
+                    </div>
+                </div>
+            </a>
 
-    <a class="card topic" href="tema1.html#coming-soon">
-      <div class="card-body">
-        <div class="icon-circle">13</div>
-        <h3>Tema 13</h3>
-        <p>Disponible próximamente</p>
-        <progress max="100" value="0" id="progress-t13"></progress>
-      </div>
-    </a>
+            <a class="card topic" href="#tema11" role="listitem" data-topic="11">
+                <div class="card-body">
+                    <div class="icon-circle">11</div>
+                    <div style="flex:1">
+                        <h3>Pruebas y calidad</h3>
+                        <p>Unitarias, integración, E2E y automatización.</p>
+                        <progress max="100" value="0" id="progress-t11"></progress>
+                    </div>
+                </div>
+            </a>
 
-    <a class="card topic" href="tema1.html#coming-soon">
-      <div class="card-body">
-        <div class="icon-circle">14</div>
-        <h3>Tema 14</h3>
-        <p>Disponible próximamente</p>
-        <progress max="100" value="0" id="progress-t14"></progress>
-      </div>
-    </a>
+            <a class="card topic" href="#tema12" role="listitem" data-topic="12">
+                <div class="card-body">
+                    <div class="icon-circle">12</div>
+                    <div style="flex:1">
+                        <h3>CI/CD y despliegue</h3>
+                        <p>Pipelines, observabilidad y rollback.</p>
+                        <progress max="100" value="0" id="progress-t12"></progress>
+                    </div>
+                </div>
+            </a>
 
-    <a class="card topic" href="tema1.html#coming-soon">
-      <div class="card-body">
-        <div class="icon-circle">15</div>
-        <h3>Tema 15</h3>
-        <p>Disponible próximamente</p>
-        <progress max="100" value="0" id="progress-t15"></progress>
-      </div>
-    </a>
+            <a class="card topic" href="#tema13" role="listitem" data-topic="13">
+                <div class="card-body">
+                    <div class="icon-circle">13</div>
+                    <div style="flex:1">
+                        <h3>Seguridad</h3>
+                        <p>Threat modeling, OWASP y prácticas seguras.</p>
+                        <progress max="100" value="0" id="progress-t13"></progress>
+                    </div>
+                </div>
+            </a>
 
-    <a class="card topic" href="tema1.html#coming-soon">
-      <div class="card-body">
-        <div class="icon-circle">16</div>
-        <h3>Tema 16</h3>
-        <p>Disponible próximamente</p>
-        <progress max="100" value="0" id="progress-t16"></progress>
-      </div>
-    </a>
-    </div>
-  </section>
+            <a class="card topic" href="#tema14" role="listitem" data-topic="14">
+                <div class="card-body">
+                    <div class="icon-circle">14</div>
+                    <div style="flex:1">
+                        <h3>Escalabilidad y rendimiento</h3>
+                        <p>Caching, balanceo y pruebas de carga.</p>
+                        <progress max="100" value="0" id="progress-t14"></progress>
+                    </div>
+                </div>
+            </a>
 
-  <section class="how-it-works">
-    <h2>¿Cómo funciona?</h2>
-    <ol>
-      <li><strong>Estudia por párrafos</strong> y responde preguntas interactivas.</li>
+            <a class="card topic" href="#tema15" role="listitem" data-topic="15">
+                <div class="card-body">
+                    <div class="icon-circle">15</div>
+                    <div style="flex:1">
+                        <h3>Datos y bases</h3>
+                        <p>Modelado, transacciones y sistemas distribuidos.</p>
+                        <progress max="100" value="0" id="progress-t15"></progress>
+                    </div>
+                </div>
+            </a>
 
-    </ol>
-  </section>
+            <a class="card topic" href="#tema16" role="listitem" data-topic="16">
+                <div class="card-body">
+                    <div class="icon-circle">16</div>
+                    <div style="flex:1">
+                        <h3>Futuro de la ingeniería</h3>
+                        <p>IA, RA, sostenibilidad y ética.</p>
+                        <progress max="100" value="0" id="progress-t16"></progress>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section class="cards-wide fade-in" aria-labelledby="roles">
+        <div class="role-card" id="roles">
+            <h2>Roles actuales y responsabilidades</h2>
+            <p class="muted" style="color:var(--muted)">Resumen de roles en equipos modernos de desarrollo.</p>
+            <div class="role-list" style="margin-top:12px">
+                <div class="role-item">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M4 20c1.5-3 5-5 8-5s6.5 2 8 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <div>
+                        <strong>Desarrollador(a)</strong>
+                        <div style="color:var(--muted);font-size:.9rem">Implementa soluciones, escribe pruebas y colabora en PRs.</div>
+                    </div>
+                </div>
+
+                <div class="role-item">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.2"/></svg>
+                    <div>
+                        <strong>QA / Tester</strong>
+                        <div style="color:var(--muted);font-size:.9rem">Automatiza pruebas, valida regresiones y reporta calidad.</div>
+                    </div>
+                </div>
+
+                <div class="role-item">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12h18" stroke="currentColor" stroke-width="1.2"/><path d="M12 3v18" stroke="currentColor" stroke-width="1.2"/></svg>
+                    <div>
+                        <strong>Product Owner</strong>
+                        <div style="color:var(--muted);font-size:.9rem">Prioriza backlog y define el valor de negocio.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <aside class="role-card" aria-labelledby="otros-roles">
+            <h3 id="otros-roles">Roles nuevos y emergentes</h3>
+            <p style="color:var(--muted);font-size:.92rem">Explicación breve y casos de uso</p>
+            <div style="margin-top:12px;display:flex;flex-direction:column;gap:10px">
+                <div class="role-item" style="align-items:flex-start">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 7h18M7 21V7" stroke="currentColor" stroke-width="1.2"/></svg>
+                    <div>
+                        <strong>Arquitecto(a)</strong>
+                        <div style="color:var(--muted);font-size:.88rem">Define decisiones estructurales. Ejemplo: migración a microservicios para escalabilidad.</div>
+                    </div>
+                </div>
+
+                <div class="role-item">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.2"/><rect x="4" y="14" width="16" height="6" rx="1" stroke="currentColor" stroke-width="1.2"/></svg>
+                    <div>
+                        <strong>Analista de datos</strong>
+                        <div style="color:var(--muted);font-size:.88rem">Modela pipelines de datos. Ejemplo: construcción de dashboards para métricas de uso.</div>
+                    </div>
+                </div>
+
+                <div class="role-item">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h8" stroke="currentColor" stroke-width="1.2"/></svg>
+                    <div>
+                        <strong>Ingeniero(a) de IA / ML</strong>
+                        <div style="color:var(--muted);font-size:.88rem">Entrena y pone modelos en producción. Ejemplo: recomendador de contenido en tiempo real.</div>
+                    </div>
+                </div>
+
+                <div class="role-item">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M8 10h8" stroke="currentColor" stroke-width="1.2"/></svg>
+                    <div>
+                        <strong>DBA / Ingeniero de datos</strong>
+                        <div style="color:var(--muted);font-size:.88rem">Diseña esquemas y optimiza consultas. Ejemplo: particionado para grandes volúmenes.</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </section>
+
+    <section class="how-it-works fade-in" aria-labelledby="how-title">
+        <h2 id="how-title">¿Cómo funciona?</h2>
+        <ol>
+            <li><strong>Estudia por párrafos</strong> y responde preguntas interactivas. (Auto-guardado)</li>
+            <li><strong>Realiza ejercicios prácticos</strong> con casos reales y ejemplos de empresas.</li>
+            <li><strong>Mide progreso</strong> con métricas y badges desbloqueables.</li>
+        </ol>
+    </section>
+
+
 </main>
 
-<footer class="site-footer">
-  <p>© 2025. Tutorial interactivo de Ingeniería de Software.</p>
+<footer class="site-footer" role="contentinfo">
+    <p>© 2025. Tutorial interactivo de Ingeniería de Software. Basado en referencias modernas y mejores prácticas.</p>
 </footer>
 
-<!-- Configuración de Supabase -->
-<script type="module" src="js/supabase.js"></script>
+<!-- Scripts integrados -->
+<script type="module">
+    /* `js/app.js` (integrado)
+       - Animación simple en canvas (puntos flotantes)
+       - Persistencia de progreso en localStorage (demo)
+       - Manejo accesible de clicks en tarjetas para aumentar progreso
+    */
+    (function(){
+        // Canvas animation
+        const canvas = document.getElementById('heroCanvas');
+        const ctx = canvas.getContext('2d');
+        const DPR = window.devicePixelRatio || 1;
+        canvas.width = canvas.clientWidth * DPR;
+        canvas.height = canvas.clientHeight * DPR;
+        ctx.scale(DPR, DPR);
+        let particles = [];
+        for(let i=0;i<28;i++){
+            particles.push({
+                x: Math.random()*canvas.clientWidth,
+                y: Math.random()*canvas.clientHeight,
+                r: 1 + Math.random()*3,
+                vx: (Math.random()-0.5)*0.3,
+                vy: (Math.random()-0.5)*0.3,
+                hue: 180 + Math.random()*60
+            });
+        }
+        function draw(){
+            ctx.clearRect(0,0,canvas.clientWidth,canvas.clientHeight);
+            particles.forEach(p=>{
+                p.x += p.vx;
+                p.y += p.vy;
+                if(p.x<0) p.x = canvas.clientWidth;
+                if(p.x>canvas.clientWidth) p.x = 0;
+                if(p.y<0) p.y = canvas.clientHeight;
+                if(p.y>canvas.clientHeight) p.y = 0;
+                ctx.beginPath();
+                const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*6);
+                g.addColorStop(0, 'rgba(125,211,252,0.85)');
+                g.addColorStop(1, 'rgba(125,211,252,0)');
+                ctx.fillStyle = g;
+                ctx.arc(p.x, p.y, p.r*3, 0, Math.PI*2);
+                ctx.fill();
+            });
+            requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+
+        // Progress persistence (demo)
+        const totalTopics = 16;
+        function loadProgress(){
+            for(let i=1;i<=totalTopics;i++){
+                const key = 'prog-t' + i;
+                const el = document.getElementById('progress-t' + i);
+                const val = parseInt(localStorage.getItem(key) || '0', 10);
+                if(el) el.value = val;
+            }
+        }
+        function bumpProgress(n, delta=20){
+            const key = 'prog-t' + n;
+            const cur = parseInt(localStorage.getItem(key) || '0', 10);
+            const next = Math.min(100, cur + delta);
+            localStorage.setItem(key, String(next));
+            const el = document.getElementById('progress-t' + n);
+            if(el) el.value = next;
+        }
+        // Click handlers: clicking a card bumps progress
+        document.querySelectorAll('.card.topic').forEach(card=>{
+            card.addEventListener('click', (e)=>{
+                const t = card.getAttribute('data-topic');
+                if(t) bumpProgress(t, 25);
+            });
+        });
+        loadProgress();
+
+        // Small accessibility: focus style
+        document.addEventListener('keydown', (e)=>{
+            if(e.key === 'Tab') document.documentElement.style.scrollBehavior = 'smooth';
+        });
+    })();
+</script>
 </body>
 </html>

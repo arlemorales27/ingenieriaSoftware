@@ -1,15 +1,370 @@
-<!doctype html><html lang="es"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tema 9 — Próximamente</title>
-<link rel="stylesheet" href="css/styles.css">
-</head><body class="page-tema">
-<header class="site-header glass"><div class="brand"><a href="index.html" class="crumb">← Inicio</a><span>Tema 9</span></div></header>
-<main class="container">
-  <section class="intro big">
-    <h1>Tema 9 — Próximamente</h1>
-    <p>Este tema se habilitará en la próxima iteración.</p>
-  </section>
-</main>
-<footer class="site-footer"><p>© 2025</p></footer>
-<script type="module" src="js/supabase.js"></script>
-</body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Introducción a UML — Tutorial 2025</title>
+
+    <!-- Iconos y tipografía -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root{
+            --primary:#0ea5e9; --secondary:#8b5cf6; --accent:#ec4899; --accent2:#f97316; --accent3:#22c55e;
+            --dark:#0f172a; --darker:#020617; --light:#f1f5f9; --gray:#94a3b8;
+        }
+        *{box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{background:var(--darker); color:var(--light); font-family:'Montserrat',sans-serif; margin:0}
+
+        /* Header principal */
+        .main-header{ position:sticky; top:0; z-index:50; background:linear-gradient(90deg,var(--primary) 60%,var(--secondary) 100%); color:#fff; padding:18px 0 14px; text-align:center; box-shadow:0 4px 16px rgba(14,165,233,.12) }
+        .main-header h1{font-size:2.05rem; font-weight:800; margin:0; letter-spacing:1.2px; display:flex; align-items:center; gap:10px; justify-content:center}
+        .main-header p{font-size:.98rem; margin:6px 0 0; color:#e2e8f0}
+
+        .topbar{display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:10px}
+        .search{display:flex; align-items:center; gap:8px; background:rgba(2,6,23,.55); border:1px solid rgba(148,163,184,.25); padding:8px 12px; border-radius:999px}
+        .search input{background:transparent; border:none; color:#fff; outline:none; min-width:220px}
+        .kbtn{background:rgba(2,6,23,.55); color:#fff; border:1px solid rgba(148,163,184,.25); padding:8px 14px; border-radius:999px; cursor:pointer}
+        .kbtn:hover{transform:translateY(-1px); box-shadow:0 8px 24px rgba(14,165,233,.15)}
+
+        /* Contenedor base */
+        .container{max-width:1200px; margin:0 auto; padding:28px 20px}
+
+        /* Encabezado de sección */
+        .header{text-align:center; padding:12px 0 6px}
+        .header h2{font-size:1.6rem; color:var(--primary); font-weight:800; letter-spacing:1.2px; text-shadow:0 0 10px rgba(14,165,233,.28)}
+        .header p{color:var(--accent); font-size:.98rem; margin-top:8px}
+
+        /* Layout con TOC */
+        .layout{display:grid; grid-template-columns:280px 1fr; gap:20px}
+        @media (max-width:1000px){.layout{grid-template-columns:1fr}}
+
+        /* TOC */
+        .toc{position:sticky; top:90px; align-self:start; background:rgba(30,41,59,.65); border:1px solid rgba(148,163,184,.25); border-radius:16px; padding:14px}
+        .toc h3{margin:0 0 8px; font-size:1rem; color:var(--light)}
+        .toc a{display:flex; gap:8px; align-items:center; padding:8px 10px; color:#cbd5e1; text-decoration:none; border-radius:10px}
+        .toc a:hover,.toc a.active{background:rgba(14,165,233,.12); color:#fff}
+
+        /* Tarjetas */
+        .ecards-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:22px; margin-top:18px}
+        .ecard{ background:rgba(30,41,59,.78); border-radius:16px; box-shadow:0 8px 24px rgba(14,165,233,.12); padding:20px 20px 22px; border-left:5px solid var(--primary); position:relative; overflow:hidden; animation:fadeIn .9s ease; backdrop-filter:blur(4px)}
+        .ecard:hover{transform:translateY(-5px) scale(1.01); box-shadow:0 12px 32px rgba(14,165,233,.18)}
+        .ecard .icon{font-size:2.05rem; color:var(--accent2); margin-bottom:4px; display:block}
+        .ecard h2{font-size:1.12rem; color:var(--primary); margin:6px 0 10px; font-weight:800; display:flex; align-items:center; gap:10px}
+        .badge{background:var(--secondary); color:#fff; padding:3px 10px; border-radius:999px; font-size:.75rem; margin-left:6px}
+        .tag{background:rgba(14,165,233,.15); color:var(--primary); padding:2px 8px; border-radius:999px; font-size:.72rem; margin-left:8px}
+
+        .concept{margin-bottom:10px; font-size:1.02rem; color:#e5e7eb; line-height:1.65; text-align:justify}
+        .ecard p{font-size:1.02rem; color:#e5e7eb; line-height:1.65; text-align:justify; margin:8px 0}
+        .ecard ul{margin:8px 0 0 16px}
+        .ecard li{margin-bottom:8px; text-align:justify}
+
+        .highlight{color:var(--accent3); font-weight:800; background:linear-gradient(120deg,rgba(34,197,94,.14),transparent); padding:2px 6px; border-radius:4px}
+        .keyword{color:var(--accent); font-weight:700; background:linear-gradient(120deg,rgba(236,72,153,.18),transparent); padding:2px 6px; border-radius:4px}
+
+        .example{background:rgba(249,115,22,.12); border-left:4px solid var(--accent2); padding:10px 12px; border-radius:10px; margin-top:10px; color:#f59e0b; font-size:.98rem}
+        .literatura{background:rgba(139,92,246,.12); border-left:4px solid var(--secondary); padding:10px 12px; border-radius:10px; margin-top:10px; color:#c4b5fd; font-size:.98rem}
+        .footnote{font-size:.9rem; color:#a1a1aa; margin-top:6px; text-align:justify}
+
+        .ecard details{margin-top:8px}
+        .ecard details summary{cursor:pointer; list-style:none; color:#cbd5e1}
+        .ecard details[open] summary{color:#fff}
+
+        /* Numeración circular elegante */
+        .num{ --size:34px; width:var(--size); height:var(--size); min-width:var(--size); background:linear-gradient(135deg, var(--primary), var(--secondary)); color:#fff; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-weight:800; box-shadow:0 6px 14px rgba(0,0,0,.25); margin-right:8px }
+
+        /* Animaciones */
+        @keyframes fadeIn{from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:translateY(0)}}
+        @keyframes floatIcon{0%{transform:translateY(0)} 50%{transform:translateY(-5px)} 100%{transform:translateY(0)}}
+        .ecard .icon i{animation:floatIcon 3.6s ease-in-out infinite}
+
+        /* Botón volver arriba */
+        .fab{position:fixed; right:16px; bottom:16px; width:52px; height:52px; border-radius:50%; display:grid; place-items:center; background:linear-gradient(135deg,var(--primary),var(--secondary)); color:#fff; border:none; box-shadow:0 8px 24px rgba(14,165,233,.25); cursor:pointer}
+
+        /* Footer */
+        .footer{background:var(--dark); color:var(--light); text-align:center; padding:16px 0; margin-top:26px; font-size:.98rem; border-top:2px solid var(--primary)}
+
+        /* Modo claro */
+        .light body{background:#f8fafc; color:#0f172a}
+    </style>
+</head>
+<body>
+<div class="main-header">
+    <h1><i class="fas fa-diagram-project"></i> Introducción a UML — 2025</h1>
+    <p>Conceptos, ejemplos cotidianos, autores clásicos y prácticas modernas con un ejemplo de <b>Sistema de Prácticas Empresariales</b>.</p>
+    <div class="topbar">
+        <label class="search" title="Filtrar tarjetas (⌘/Ctrl + K)"><i class="fa-solid fa-magnifying-glass"></i><input id="q" placeholder="Buscar concepto, autor, diagrama…"/></label>
+        <button class="kbtn" id="toggleOpen"><i class="fa-solid fa-square-plus"></i> Expandir/Contraer todo</button>
+        <button class="kbtn" id="scrollTop"><i class="fa-solid fa-arrow-up"></i> Arriba</button>
+    </div>
+</div>
+
+<div class="container">
+    <div class="header">
+        <h2>Ruta del Tutorial</h2>
+        <p>Basado en Sommerville, Pressman, Farley/Humble, SWEBOK &amp; ISO 29148, más prácticas y libros de UML moderno.</p>
+    </div>
+
+    <div class="layout">
+        <!-- TOC -->
+        <nav class="toc" aria-label="Tabla de contenido">
+            <h3>Contenido</h3>
+            <a href="#i1"><i class="fa-solid fa-circle-info"></i><span>1. ¿Qué es modelado de software?</span></a>
+            <a href="#i2"><i class="fa-solid fa-layer-group"></i><span>2. ¿Qué es UML?</span></a>
+            <a href="#i3"><i class="fa-solid fa-sitemap"></i><span>3. Clasificación de diagramas (2025)</span></a>
+            <a href="#i4"><i class="fa-solid fa-bullseye"></i><span>4. Propósito de UML</span></a>
+            <a href="#i5"><i class="fa-solid fa-wand-magic-sparkles"></i><span>5. UML moderno: características</span></a>
+            <a href="#i6"><i class="fa-solid fa-road"></i><span>6. UML en el ciclo de vida</span></a>
+            <a href="#i7"><i class="fa-solid fa-screwdriver-wrench"></i><span>7. Herramientas modernas</span></a>
+            <a href="#i8"><i class="fa-solid fa-robot"></i><span>8. Tendencias 2025 con IA</span></a>
+            <a href="#i9"><i class="fa-solid fa-diagram-next"></i><span>9. ¿Cuántos diagramas hacer?</span></a>
+        </nav>
+
+        <!-- Tarjetas -->
+        <div class="ecards-grid" id="grid">
+            <!-- 1. Qué es modelado de software -->
+            <section class="ecard" id="i1" data-tags="modelado modelos abstracciones comunicacion requisitos diseño">
+                <span class="icon"><i class="fas fa-circle-info"></i></span>
+                <h2><span class="num">1</span> ¿Qué es el <span class="highlight">modelado de software</span>? <span class="badge">definición</span></h2>
+                <p class="concept">
+                    Modelar es <b>representar</b> un sistema mediante <span class="keyword">abstracciones</span> (diagramas, textos estructurados o especificaciones ejecutables) para <b>entender</b>, <b>comunicar</b>, <b>analizar</b> y <b>tomar decisiones</b> antes y durante la construcción.
+                </p>
+                <div class="example">
+                    <i class="fa-solid fa-mug-hot"></i> <b>Ejemplo cotidiano</b>: como un <em>mapa</em> del metro: no es el territorio, pero sirve para planear rutas, anticipar transbordos y comunicar itinerarios.
+                </div>
+                <div class="literatura">
+                    <i class="fas fa-book-open"></i> <b>Autores</b>:
+                    <ul>
+                        <li><b>Sommerville</b>: los modelos reducen ambigüedad y facilitan acuerdos entre interesados.</li>
+                        <li><b>Pressman</b>: fomentan la <em>comprensibilidad</em> y la <em>verificabilidad</em> temprana.</li>
+                        <li><b>SWEBOK</b>: ubica el modelado como práctica transversal de <em>Ingeniería de Requisitos</em> y <em>Diseño</em>.</li>
+                        <li><b>Farley &amp; Humble</b>: priorizan modelos que se puedan <b>automatizar</b> (p.ej., criterios de aceptación ejecutables).</li>
+                    </ul>
+                </div>
+                <details><summary>Ejemplo en Sistema de Prácticas</summary>
+                    <p>Un modelo de flujo (actividad) para postularse a una vacante permite detectar cuellos de botella y reglas de elegibilidad antes de programar.</p>
+                </details>
+            </section>
+
+            <!-- 2. Qué es UML -->
+            <section class="ecard" id="i2" data-tags="uml lenguaje unificado estandar omg notacion">
+                <span class="icon"><i class="fas fa-layer-group"></i></span>
+                <h2><span class="num">2</span> ¿Qué es <span class="highlight">UML</span>?</h2>
+                <p class="concept">
+                    UML (Unified Modeling Language) es un <b>lenguaje de notación</b> estandarizado por la OMG para describir la <span class="keyword">estructura</span> y el <span class="keyword">comportamiento</span> de sistemas. No impone proceso ni metodología; aporta <b>vocabulario visual</b> compartido.
+                </p>
+                <div class="example"><b>Ejemplo cotidiano</b>: como la <em>señalización</em> vial: símbolos universales que todas las personas entienden, sin decirte <em>cómo conducir</em>.</div>
+                <div class="literatura"><b>Autores</b>: Pressman y Sommerville presentan UML como notación predominante; SWEBOK lo clasifica dentro de lenguajes de modelado; prácticas modernas recomiendan usar un <b>subset útil</b> y conectarlo a pruebas/pipeline.</div>
+            </section>
+
+            <!-- 3. Clasificación 2025 -->
+            <section class="ecard" id="i3" data-tags="diagramas estructura comportamiento interaccion clasificacion 2025">
+                <span class="icon"><i class="fas fa-sitemap"></i></span>
+                <h2><span class="num">3</span> ¿Cómo se <span class="highlight">clasifican</span> los diagramas UML (2025)? <span class="badge">panorama</span></h2>
+                <p class="concept">En la práctica actual se agrupan en tres familias, y la mayoría de equipos usa un <em>conjunto mínimo eficaz</em>:</p>
+                <ul>
+                    <li><b>Estructura</b>: Clase, Objetos, Componentes, Paquetes, Despliegue.</li>
+                    <li><b>Comportamiento</b>: Casos de Uso, Actividad, Máquina de Estados.</li>
+                    <li><b>Interacción</b>: Secuencia, Comunicación, Temporización.</li>
+                </ul>
+                <div class="example"><b>Subset recomendado</b> para proyectos ágiles: Casos de Uso (alcance), Actividad o BPMN (flujo), Secuencia (interacciones clave), Clase <em>conceptual</em> (términos y relaciones), Despliegue (nubes/nodos).</div>
+                <div class="footnote">Complementos no-UML populares: <b>C4</b> para arquitectura (Contexto/Contenedor/Componentes/Código) y <b>BPMN</b> para procesos.</div>
+            </section>
+
+            <!-- 4. Propósito -->
+            <section class="ecard" id="i4" data-tags="proposito comunicacion analisis diseno arquitectura pruebas">
+                <span class="icon"><i class="fas fa-bullseye"></i></span>
+                <h2><span class="num">4</span> <span class="highlight">Propósito</span> de UML</h2>
+                <ul class="concept">
+                    <li><b>Comunicar</b> ideas difíciles entre perfiles técnicos y de negocio.</li>
+                    <li><b>Analizar</b> alternativas y riesgos antes de escribir código.</li>
+                    <li><b>Diseñar</b> estructuras y responsabilidades.</li>
+                    <li><b>Documentar</b> decisiones que cambian poco con el tiempo.</li>
+                    <li><b>Validar</b> requisitos (trazabilidad con casos de prueba y criterios de aceptación).</li>
+                </ul>
+                <div class="literatura">ISO 29148: exige requisitos <b>claros, verificables y trazables</b>; UML apoya su especificación y validación. Farley/Humble: los modelos deben <b>alimentar pruebas</b> en CI/CD.</div>
+            </section>
+
+            <!-- 5. Características moderno -->
+            <section class="ecard" id="i5" data-tags="moderno ligero vivo git mermaid plantuml c4 bdd trazabilidad">
+                <span class="icon"><i class="fas fa-wand-magic-sparkles"></i></span>
+                <h2><span class="num">5</span> <span class="highlight">Características</span> de un UML moderno</h2>
+                <ul class="concept">
+                    <li><b>Ligero y enfocado</b>: solo los diagramas que aportan decisión/aprendizaje.</li>
+                    <li><b>Viviente</b>: versionado en Git; revisiones por PR; enlaces a historias/pruebas.</li>
+                    <li><b>Texto ⇄ Diagrama</b>: PlantUML/Mermaid para diffs y automatización.</li>
+                    <li><b>Multi-escala</b>: combina C4 (visión) con UML (detalle).</li>
+                    <li><b>Trazabilidad</b> a requisitos (ISO 29148) y a SLO/SLI de operación.</li>
+                </ul>
+                <details><summary>Ejemplo en Prácticas</summary>
+                    <p>Secuencia del flujo “Postular a Vacante” y diagrama de Despliegue con <em>SGA</em>, <em>SSO</em> y <em>Servicios de Empresas</em> enlazados a historias y pruebas.</p>
+                </details>
+            </section>
+
+            <!-- 6. Ciclo de vida -->
+            <section class="ecard" id="i6" data-tags="ciclo vida elicitacion analisis diseño implementacion pruebas operacion">
+                <span class="icon"><i class="fas fa-road"></i></span>
+                <h2><span class="num">6</span> ¿Dónde se usa UML en el <span class="highlight">ciclo de vida</span>?</h2>
+                <ul class="concept">
+                    <li><b>Descubrimiento/Elicitación</b>: Casos de Uso para alcance y actores.</li>
+                    <li><b>Análisis</b>: Actividad/Estados para reglas y escenarios.</li>
+                    <li><b>Diseño</b>: Clase/Componentes para responsabilidades y interfaces.</li>
+                    <li><b>Construcción</b>: Secuencia para contratos y pruebas de integración.</li>
+                    <li><b>Operación</b>: Despliegue para arquitectura en ejecución y SLO.</li>
+                </ul>
+                <div class="literatura">Sommerville/Pressman: UML como puente requisitos↔diseño; Farley/Humble: enlazar con <b>ATDD/BDD</b> y pipeline; SWEBOK: disciplina de <em>Modelado y Diseño</em> con trazabilidad. </div>
+            </section>
+
+            <!-- 7. Herramientas -->
+            <section class="ecard" id="i7" data-tags="herramientas plantuml mermaid staruml visual paradigm modelio papyrus diagrams.net structURIZR">
+                <span class="icon"><i class="fas fa-screwdriver-wrench"></i></span>
+                <h2><span class="num">7</span> Herramientas <span class="highlight">modernas</span> para modelar UML</h2>
+                <ul class="concept">
+                    <li><b>Texto a diagrama</b>: PlantUML, Mermaid — ideales para Git y CI.</li>
+                    <li><b>Modeladores visuales</b>: StarUML, Visual Paradigm, Modelio, Papyrus.</li>
+                    <li><b>Colaborativas</b>: diagrams.net (draw.io), Miro, Lucid — bocetos rápidos.</li>
+                    <li><b>Arquitectura</b>: Structurizr (C4) y exportación a UML/PlantUML.</li>
+                    <li><b>Con IA</b>: asistentes que generan diagramas desde texto/código y verifican consistencia.</li>
+                </ul>
+                <details><summary>Tip</summary><p>Mantén los fuentes (<code>.puml</code>/<code>.md</code>) junto al código; genera imágenes en el pipeline para adjuntarlas al release o wiki.</p></details>
+            </section>
+
+            <!-- 8. Tendencias IA -->
+            <section class="ecard" id="i8" data-tags="tendencias 2025 ia generacion analisis consistencia living docs trazabilidad">
+                <span class="icon"><i class="fas fa-robot"></i></span>
+                <h2><span class="num">8</span> Tendencias UML <span class="highlight">2025 + IA</span></h2>
+                <ul class="concept">
+                    <li><b>Generación</b> desde historias/código para prototipos de secuencia y clase.</li>
+                    <li><b>Cheques de calidad</b>: detección de ambigüedad, ciclos o acoplamientos altos.</li>
+                    <li><b>Living docs</b>: sincronización automática diagrama↔artefactos.</li>
+                    <li><b>Especificación ejecutable</b>: BDD que deriva escenarios y pruebas.</li>
+                    <li><b>Asistentes</b> de arquitectura que proponen despliegues con restricciones NFR.</li>
+                </ul>
+                <div class="example">Para “<em>Postulación en 3 pasos</em>”, un asistente genera Secuencia inicial y sugiere pruebas de latencia y notificaciones.</div>
+            </section>
+
+            <!-- 9. Cuántos diagramas -->
+            <section class="ecard" id="i9" data-tags="cuantos diagramas depende alcance riesgos stakeholders tamaño">
+                <span class="icon"><i class="fas fa-diagram-next"></i></span>
+                <h2><span class="num">9</span> ¿Cuántos diagramas hacer en un proyecto? <span class="badge">depende</span></h2>
+                <p class="concept">Depende de <b>objetivo</b>, <b>riesgo</b>, <b>tamaño</b>, <b>equipo</b> y <b>audiencia</b>. Regla práctica:</p>
+                <ul>
+                    <li><b>Mínimo esencial</b> (casi siempre): Casos de Uso, 1–3 Secuencias de escenarios críticos, Clase conceptual, Despliegue.</li>
+                    <li><b>Si hay reglas complejas</b>: Añade Actividad/Estados.</li>
+                    <li><b>Si hay múltiples equipos</b>: Componentes/Paquetes y C4 Contexto/Contenedor.</li>
+                </ul>
+                <div class="example"><b>Sistema de Prácticas</b> — conjunto sugerido: <u>Casos de Uso</u> (Postular, Gestionar Vacantes, Doble Selección, Seguimiento), <u>Secuencia</u> (Postulación, Aprobación Empresa), <u>Clase conceptual</u> (Estudiante, Vacante, Postulación, Empresa, Hito), <u>Despliegue</u> (Web, SSO, SGA, Base de Datos, Email).</div>
+
+
+                <details><summary>Breve descripción de cada diagrama UML actual</summary>
+                    <ul class="concept">
+                        <li><i class="fa-solid fa-users"></i> <b>Casos de Uso</b>: muestra actores y funcionalidades esperadas del sistema.</li>
+                        <li><i class="fa-solid fa-diagram-project"></i> <b>Actividad</b>: describe el flujo de trabajo o proceso de negocio.</li>
+                        <li><i class="fa-solid fa-arrows-left-right"></i> <b>Secuencia</b>: ilustra la comunicación temporal entre objetos o componentes.</li>
+                        <li><i class="fa-solid fa-comments"></i> <b>Comunicación</b>: resalta las interacciones y mensajes entre objetos.</li>
+                        <li><i class="fa-solid fa-wave-square"></i> <b>Estado</b>: define los cambios de estado de un objeto según eventos.</li>
+                        <li><i class="fa-solid fa-cubes"></i> <b>Clase</b>: muestra las clases, atributos, métodos y relaciones entre ellas.</li>
+                        <li><i class="fa-solid fa-cube"></i> <b>Objeto</b>: representa instancias específicas de clases y sus relaciones.</li>
+                        <li><i class="fa-solid fa-puzzle-piece"></i> <b>Componente</b>: muestra módulos de software y sus interfaces.</li>
+                        <li><i class="fa-solid fa-server"></i> <b>Despliegue</b>: visualiza nodos físicos o virtuales y la distribución del sistema.</li>
+                        <li><i class="fa-solid fa-folder-tree"></i> <b>Paquete</b>: organiza diagramas o clases en grupos lógicos.</li>
+                        <li><i class="fa-solid fa-stopwatch"></i> <b>Temporización</b>: analiza el tiempo de interacción entre elementos.</li>
+                        <li><i class="fa-solid fa-wand-magic-sparkles"></i> <b>Perfil</b>: define extensiones y estereotipos personalizados para un dominio.</li>
+                    </ul>
+                </details>
+
+
+                <div class="literatura">Pressman: modelar lo suficiente para reducir riesgos. Sommerville: mantén la documentación <b>proporcional</b> al proyecto. SWEBOK/ISO: enfatizan <b>trazabilidad</b> y <b>verificabilidad</b> más que cantidad. Farley/Humble: optimiza el flujo, no la burocracia.</div>
+            </section>
+            <!-- 10. Complementos no-UML: C4 para arquitectura -->
+            <section class="ecard" id="i10" data-tags="c4 arquitectura contexto contenedor componentes codigo diagrama no-uml complementos structurizr brown 2025">
+                <span class="icon"><i class="fa-solid fa-diagram-project"></i></span>
+                <h2><span class="num">10</span> Complementos no‑UML populares: <span class="highlight">C4 para arquitectura</span> <span class="badge">complementos</span></h2>
+                <p class="concept">
+                    El <b>Modelo C4</b> (Simon Brown) propone cuatro vistas jerárquicas para comunicar arquitectura de forma clara y práctica. Se usa junto a UML: C4 da la <em>visión macro</em> y UML detalla interacciones y diseño fino.
+                </p>
+                <ul class="concept">
+                    <li><b>Contexto</b>: el sistema y sus <u>actores/externos</u> (mapa de relaciones).</li>
+                    <li><b>Contenedores</b>: aplicaciones/servicios, bases de datos y colas que conforman la solución, con responsabilidades y protocolos.</li>
+                    <li><b>Componentes</b>: partes significativas dentro de cada contenedor (módulos, capas, agregados).</li>
+                    <li><b>Código</b>: clases/estructuras clave (opcional; muchas veces se cubre con UML de clase/paquetes).</li>
+                </ul>
+                <div class="example"><b>Ejemplo cotidiano</b>: como un <em>mapa de ciudad</em> en niveles: región (Contexto) → barrios (Contenedores) → manzanas (Componentes) → edificios (Código). Cada zoom mantiene coherencia.</div>
+                <details><summary>¿Cuándo usar C4 vs. UML?</summary>
+                    <ul>
+                        <li><b>C4</b> para comunicar <em>arquitectura lógica</em> y límites (ideal con múltiples equipos y nubes).</li>
+                        <li><b>UML</b> para <em>detallar</em>: Secuencia (contratos), Estado/Actividad (reglas), Clase/Componentes (responsabilidades e interfaces).</li>
+                        <li>En proyectos modernos, genera C4 en <b>texto</b> (Structurizr DSL/PlantUML/Mermaid) y enlaza a diagramas UML específicos.</li>
+                    </ul>
+                </details>
+                <details><summary>Aplicado al Sistema de Prácticas</summary>
+                    <p><b>C4‑Contexto</b>: Estudiante, Empresa, Coordinación, SGA, Email/SMS; <b>Sistema de Prácticas</b> en el centro.<br/>
+                        <b>C4‑Contenedores</b>: Web App, API, Servicio Notificaciones, DB Relacional, SSO; relaciones HTTP/AMQP.<br/>
+                        <b>C4‑Componentes</b> (API): <em>Vacantes</em>, <em>Postulación</em>, <em>Selección</em>, <em>Seguimiento</em>, <em>Reportes</em>.<br/>
+                        <b>Código/UML</b>: diagrama de clases conceptual (Estudiante, Vacante, Postulación, Empresa, Hito) y de Secuencia para «Postular».</p>
+                </details>
+                <div class="literatura">
+                    <i class="fas fa-book-open"></i> <b>Libros y referencias modernas (hasta 2025)</b>:
+                    <ul>
+                        <li><b>Simon Brown</b>, <em>Software Architecture for Developers</em> (ed. actualizada, Modelo C4).</li>
+                        <li><b>Neal Ford & Mark Richards</b>, <em>Fundamentals of Software Architecture</em> — estilos, decisiones y vistas prácticas.</li>
+                        <li><b>Sam Newman</b>, <em>Building Microservices (2ª ed.)</em> — límites de servicio y comunicación; C4 encaja para visualizar.</li>
+                        <li><b>SWEBOK</b> — arquitectura como disciplina con modelos múltiples; C4 se usa como vista complementaria.</li>
+                    </ul>
+                </div>
+                <div class="footnote">Consejo: mantén los diagramas C4 en <b>texto versionable</b> (Structurizr DSL / PlantUML / Mermaid) y genera imágenes en CI; enlaza cada contenedor/componente a historias, pruebas y SLO.</div>
+            </section>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <span>© 2025 — Introducción a UML | Construida por Arle Morales Ortiz</span>
+    </footer>
+</div>
+
+<button class="fab" id="fab" title="Volver arriba"><i class="fa-solid fa-arrow-up"></i></button>
+
+<script>
+    // Filtro rápido
+    const input = document.getElementById('q');
+    const cards = [...document.querySelectorAll('.ecard')];
+    input.addEventListener('input', () => {
+        const q = input.value.toLowerCase();
+        cards.forEach(c => {
+            const txt = c.innerText.toLowerCase() + ' ' + (c.getAttribute('data-tags')||'');
+            c.style.display = txt.includes(q) ? '' : 'none';
+        });
+    });
+    // Atajo Ctrl/Cmd+K
+    window.addEventListener('keydown', (e)=>{
+        if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='k'){ e.preventDefault(); input.focus(); }
+    });
+
+    // Expandir/contraer detalles
+    const toggleOpen = document.getElementById('toggleOpen');
+    toggleOpen.addEventListener('click', ()=>{
+        const all = document.querySelectorAll('.ecard details');
+        const someOpen = [...all].some(d=>d.open);
+        all.forEach(d=> d.open = !someOpen);
+    });
+
+    // Back to top
+    const fab = document.getElementById('fab');
+    const scrollTopBtn = document.getElementById('scrollTop');
+    const goTop = ()=> window.scrollTo({top:0, behavior:'smooth'});
+    fab.addEventListener('click', goTop); scrollTopBtn.addEventListener('click', goTop);
+
+    // TOC activo
+    const tocLinks = [...document.querySelectorAll('.toc a')];
+    const sections = tocLinks.map(a => document.querySelector(a.getAttribute('href')));
+    const onScroll = ()=>{
+        const y = window.scrollY + 120;
+        let idx = 0; sections.forEach((s,i)=>{ if(s && s.offsetTop < y) idx = i; });
+        tocLinks.forEach((a,i)=> a.classList.toggle('active', i===idx));
+    };
+    document.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+</script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+:root {
+  --theme-bg: #07111f;
+  --theme-surface: rgba(11, 19, 36, 0.86);
+  --theme-surface-strong: rgba(15, 23, 42, 0.94);
+  --theme-border: rgba(125, 211, 252, 0.14);
+  --theme-border-strong: rgba(125, 211, 252, 0.28);
+  --theme-shadow: 0 18px 40px rgba(2, 6, 23, 0.42);
+  --theme-text: #e8eefb;
+  --theme-muted: #a9b6cf;
+  --theme-primary: #7dd3fc;
+  --theme-secondary: #38bdf8;
+  --theme-accent: #6ee7b7;
+  --theme-accent-2: #f59e0b;
+  --theme-radius: 18px;
+  --theme-max-width: 1200px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(56, 189, 248, 0.16), transparent 28%),
+    radial-gradient(circle at 88% 12%, rgba(110, 231, 183, 0.12), transparent 24%),
+    linear-gradient(180deg, #08111f 0%, #06101d 52%, #040b16 100%) !important;
+  color: var(--theme-text) !important;
+  font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+}
+
+body > header,
+.main-header,
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background:
+    linear-gradient(135deg, rgba(8, 17, 31, 0.94), rgba(13, 26, 48, 0.88)) !important;
+  border-bottom: 1px solid var(--theme-border-strong) !important;
+  box-shadow: 0 10px 28px rgba(2, 6, 23, 0.34) !important;
+}
+
+body > header .container,
+.main-header,
+.site-header,
+.nav {
+  max-width: var(--theme-max-width);
+  margin: 0 auto;
+}
+
+.main-header,
+.site-header,
+body > header {
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+.main-header {
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+}
+
+.main-header h1,
+.site-header .brand,
+.logo,
+.logo-text-primary {
+  color: #f8fbff !important;
+}
+
+.main-header p,
+.site-header .crumb,
+.site-header .brand span,
+.logo-text-secondary,
+.header p,
+.content-subtitle,
+.small-note,
+.site-footer,
+.footer,
+footer {
+  color: var(--theme-muted) !important;
+}
+
+.container,
+main,
+.layout,
+.main-content {
+  width: min(100%, var(--theme-max-width));
+}
+
+.container,
+main {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.date-badge,
+.badge,
+.tag,
+.pill {
+  border-radius: 999px !important;
+  border: 1px solid rgba(125, 211, 252, 0.18);
+  box-shadow: 0 8px 20px rgba(2, 6, 23, 0.18);
+}
+
+.date-badge {
+  background: linear-gradient(135deg, var(--theme-secondary), var(--theme-accent)) !important;
+  color: #042033 !important;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.article,
+.ecard,
+.sidebar,
+.content-inner,
+.role-card,
+.hero-card,
+.card.topic,
+.toc,
+.intro.big,
+.content-block {
+  background: var(--theme-surface) !important;
+  border: 1px solid var(--theme-border) !important;
+  border-radius: var(--theme-radius) !important;
+  box-shadow: var(--theme-shadow) !important;
+}
+
+.article,
+.ecard,
+.card.topic,
+.content-block {
+  overflow: hidden;
+}
+
+.article:hover,
+.ecard:hover,
+.card.topic:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 44px rgba(2, 6, 23, 0.5) !important;
+}
+
+.article h2,
+.ecard h2,
+.header h2,
+.newspaper-title h1,
+.content-header h1,
+.intro.big h1 {
+  color: #f8fbff !important;
+}
+
+.highlight,
+.keyword,
+.keyword2,
+.keyword3,
+.toc a.active,
+.main-nav a.active,
+.nav-links button.active {
+  filter: saturate(1.06);
+}
+
+.footer,
+.site-footer,
+footer {
+  background: transparent !important;
+  border-top: 1px solid var(--theme-border-strong) !important;
+  margin-top: 28px !important;
+}
+
+.footer,
+.site-footer,
+footer,
+.footer p,
+.footer span,
+.site-footer p {
+  text-align: center;
+}
+
+.site-header .crumb,
+.main-nav a,
+.toc a,
+.nav-links button,
+.btn,
+.topic-btn {
+  transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+
+.main-nav a:hover,
+.toc a:hover,
+.nav-links button:hover,
+.topic-btn:hover,
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.intro.big {
+  padding: 28px !important;
+}
+
+@media (max-width: 900px) {
+  body {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .main-header,
+  .site-header,
+  body > header {
+    border-radius: 0 !important;
+  }
+}

@@ -1,15 +1,1648 @@
-<!doctype html><html lang="es"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tema 12 — Próximamente</title>
-<link rel="stylesheet" href="css/styles.css">
-</head><body class="page-tema">
-<header class="site-header glass"><div class="brand"><a href="index.html" class="crumb">← Inicio</a><span>Tema 12</span></div></header>
-<main class="container">
-  <section class="intro big">
-    <h1>Tema 12 — Próximamente</h1>
-    <p>Este tema se habilitará en la próxima iteración.</p>
-  </section>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tutorial Python - Analítica de Datos</title>
+
+    <!-- Fuentes modernas -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-soft: rgba(37, 99, 235, 0.18);
+            --primary-dark: #1d4ed8;
+            --bg: #020617;
+            --bg-elevated: #020617;
+            --bg-soft: #020818;
+            --text: #e5e7eb;
+            --muted: #9ca3af;
+            --accent: #22c55e;
+            --accent-soft: rgba(34, 197, 94, 0.18);
+            --danger: #ef4444;
+            --border: #1f2937;
+            --shadow-strong: 0 24px 50px rgba(0,0,0,0.85);
+            --radius-lg: 1rem;
+            --radius-md: 0.85rem;
+            --radius-pill: 999px;
+            --transition-fast: 150ms ease-out;
+            --transition-med: 220ms ease-out;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin:0;
+            padding:0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background:
+                    radial-gradient(circle at 10% -10%, #1d2a53 0, transparent 55%),
+                    radial-gradient(circle at 90% 0, #0369a1 0, transparent 55%),
+                    radial-gradient(circle at 50% 100%, #111827 0, #020617 60%);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration:none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .material-symbols-rounded {
+            font-variation-settings: "FILL" 0,"wght" 500,"GRAD" 0,"opsz" 24;
+            font-size: 18px;
+            vertical-align: middle;
+        }
+
+        /* Header / Nav */
+
+        header {
+            position: sticky;
+            top:0;
+            z-index:40;
+            backdrop-filter: blur(18px);
+            background:linear-gradient(to right,rgba(15,23,42,0.96),rgba(15,23,42,0.85));
+            border-bottom:1px solid rgba(31,41,55,0.95);
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin:0 auto;
+            padding:0.55rem 1rem;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:0.75rem;
+        }
+
+        .logo {
+            display:flex;
+            align-items:center;
+            gap:0.85rem;
+        }
+
+        .logo-icon {
+            width:36px;
+            height:36px;
+            border-radius:var(--radius-pill);
+            background:radial-gradient(circle at 25% 20%, #bfdbfe, #2563eb 55%, #020617);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:0.8rem;
+            box-shadow:
+                    0 0 0 1px rgba(59,130,246,0.8),
+                    0 18px 30px rgba(15,23,42,0.85);
+            animation: floatLogo 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatLogo {
+            from { transform: translateY(0); }
+            to   { transform: translateY(-3px); }
+        }
+
+        .logo-text-primary {
+            font-weight:600;
+            font-size:0.98rem;
+            color:#f9fafb;
+            letter-spacing:0.03em;
+        }
+
+        .logo-text-secondary {
+            font-size:0.75rem;
+            color:var(--muted);
+        }
+
+        .nav-right {
+            display:flex;
+            align-items:center;
+            gap:0.75rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.4rem;
+            font-size: 0.86rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links button {
+            background:rgba(15,23,42,0.8);
+            border-radius:var(--radius-pill);
+            border:1px solid rgba(55,65,81,0.9);
+            color:var(--muted);
+            cursor:pointer;
+            padding:0.28rem 0.7rem;
+            display:inline-flex;
+            align-items:center;
+            gap:0.28rem;
+            transition: background var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
+            font-weight:500;
+        }
+
+        .nav-links button:hover {
+            border-color:rgba(59,130,246,0.9);
+            color:#e5e7eb;
+            box-shadow:0 8px 18px rgba(15,23,42,0.9);
+            transform: translateY(-1px);
+        }
+
+        .nav-links button.active {
+            color:#e5e7eb;
+            border-color:rgba(37,99,235,0.95);
+            background:radial-gradient(circle at 0 0,rgba(59,130,246,0.45),rgba(15,23,42,0.98));
+            box-shadow:0 10px 25px rgba(15,23,42,0.95);
+        }
+
+        main {
+            max-width:1200px;
+            margin:0 auto;
+            padding:1.15rem 1rem 2.6rem;
+            display:grid;
+            grid-template-columns: 270px 1fr;
+            gap:1.25rem;
+        }
+
+        @media (max-width:900px){
+            main{
+                grid-template-columns:1fr;
+                gap:0.8rem;
+            }
+        }
+
+        /* Sidebar */
+
+        .sidebar {
+            background: linear-gradient(145deg,#020617,#020617);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(31,41,55,0.95);
+            padding: 0.9rem 0.85rem 1rem;
+            box-shadow: var(--shadow-strong);
+            position: sticky;
+            top: 4.15rem;
+            align-self: flex-start;
+            max-height: calc(100vh - 4.6rem);
+            overflow: hidden;
+            min-width: 260px;
+            max-width: 270px;
+            display: flex;
+            flex-direction: column;
+            gap:0.6rem;
+        }
+
+        .sidebar-header {
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+        }
+
+        .sidebar-title {
+            font-size: 0.96rem;
+            color: #e5e7eb;
+            display:flex;
+            align-items:center;
+            gap:0.35rem;
+        }
+
+        .sidebar-title .material-symbols-rounded {
+            font-size:19px;
+            color:#60a5fa;
+        }
+
+        .sidebar-count {
+            font-size:0.76rem;
+            color:var(--muted);
+        }
+
+        .chapter-list {
+            list-style:none;
+            display:flex;
+            flex-direction:column;
+            gap:0.25rem;
+            margin-top:0.25rem;
+            overflow-y:auto;
+            padding-right:0.15rem;
+            scrollbar-width: thin;
+        }
+
+        .chapter-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .chapter-list::-webkit-scrollbar-thumb {
+            background:rgba(55,65,81,0.9);
+            border-radius:999px;
+        }
+
+        .chapter-item {
+            display:grid;
+            grid-template-columns:auto 1fr auto;
+            align-items:center;
+            gap:0.4rem;
+            padding: 0.33rem 0.52rem;
+            border-radius:0.78rem;
+            cursor:pointer;
+            border:1px solid rgba(31,41,55,0.9);
+            min-height:38px;
+            font-size: 0.9rem;
+            background:rgba(15,23,42,0.9);
+            transition: background var(--transition-med), transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-med);
+        }
+
+        .chapter-item:hover {
+            background:radial-gradient(circle at 0 0,rgba(56,189,248,0.16),rgba(15,23,42,0.98));
+            border-color:rgba(59,130,246,0.95);
+            transform:translateY(-1px);
+            box-shadow:0 10px 22px rgba(15,23,42,0.9);
+        }
+
+        .chapter-item.active {
+            background: radial-gradient(circle at 0 0,rgba(56,189,248,0.22),rgba(15,23,42,0.98));
+            border-color:rgba(59,130,246,0.98);
+            box-shadow:0 14px 30px rgba(15,23,42,0.95);
+        }
+
+        .chapter-item.completed {
+            border-color:rgba(34,197,94,0.9);
+            background:
+                    linear-gradient(to right, rgba(34,197,94,0.16), rgba(15,23,42,0.98));
+        }
+
+        .chapter-title {
+            font-size:0.9rem;
+            font-weight:600;
+            white-space:normal;
+            word-break:break-word;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            max-width:170px;
+            line-height:1.25;
+        }
+
+        .chapter-meta {
+            font-size:0.78rem;
+            color:var(--muted);
+            overflow:hidden;
+            max-width:165px;
+            white-space:nowrap;
+            text-overflow:ellipsis;
+            display:block;
+        }
+
+        .chapter-text {
+            min-width:0;
+        }
+
+        .chapter-badge {
+            width:22px;
+            height:22px;
+            border-radius:var(--radius-pill);
+            background:rgba(15,23,42,0.93);
+            border:1px solid rgba(75,85,99,0.82);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:0.83rem;
+            color:var(--muted);
+        }
+
+        .chapter-status-icon {
+            font-size:18px;
+            color:rgba(156,163,175,0.85);
+        }
+
+        .chapter-item.completed .chapter-status-icon {
+            color:var(--accent);
+        }
+
+        .progress-wrapper {
+            margin-top:0.45rem;
+        }
+
+        .progress-label {
+            display:flex;
+            justify-content:space-between;
+            font-size:0.79rem;
+            color:var(--muted);
+            margin-bottom:0.22rem;
+        }
+
+        .progress-bar {
+            width:100%;
+            height:6px;
+            border-radius:999px;
+            background:rgba(17,24,39,0.98);
+            overflow:hidden;
+            position:relative;
+        }
+
+        .progress-fill {
+            height:100%;
+            width:0;
+            border-radius:inherit;
+            background:linear-gradient(90deg,#22c55e,#4ade80);
+            transition:width 0.25s ease-out;
+        }
+
+        .small-note {
+            font-size:0.8rem;
+            color:var(--muted);
+            margin-top:0.45rem;
+        }
+
+        /* Content */
+
+        .content {
+            background: radial-gradient(circle at top left,rgba(59,130,246,0.22),rgba(15,23,42,0.98));
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(55,65,81,0.9);
+            padding: 1.25rem 1.2rem 1.45rem;
+            box-shadow: var(--shadow-strong);
+            position: relative;
+            overflow: hidden;
+            max-width: 100%;
+            width: 100%;
+            margin: 0;
+        }
+
+        .content-inner {
+            animation: fadeInUp 260ms ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity:0; transform: translateY(6px); }
+            to   { opacity:1; transform: translateY(0); }
+        }
+
+        .content::before {
+            content:"";
+            position:absolute;
+            inset:-40%;
+            background:
+                    radial-gradient(circle at 0 0, rgba(59,130,246,0.09), transparent 55%),
+                    radial-gradient(circle at 100% 0, rgba(56,189,248,0.12), transparent 58%);
+            opacity:0.55;
+            pointer-events:none;
+        }
+
+        .content-header {
+            display:flex;
+            justify-content:space-between;
+            align-items:flex-start;
+            gap:0.9rem;
+            margin-bottom:1.05rem;
+            padding-bottom:0.75rem;
+            border-bottom:1px solid rgba(55,65,81,0.78);
+            position:relative;
+            z-index:1;
+        }
+
+        .pill {
+            display:inline-flex;
+            align-items:center;
+            gap:0.5rem;
+            font-size:0.83rem;
+            text-transform:uppercase;
+            letter-spacing:0.12em;
+            color:#a5b4fc;
+            background:rgba(30,64,175,0.6);
+            border-radius:var(--radius-pill);
+            padding:0.19rem 0.9rem;
+            border:1px solid rgba(129,140,248,0.85);
+        }
+
+        .pill .material-symbols-rounded {
+            font-size:17px;
+        }
+
+        h1 {
+            font-size:clamp(1.25rem,2.05vw,1.55rem);
+            margin-top:0.35rem;
+            color:#f9fafb;
+        }
+
+        .content-subtitle {
+            font-size:0.95rem;
+            color:var(--muted);
+            margin-top:0.15rem;
+            max-width:46rem;
+        }
+
+        .content-meta {
+            text-align:right;
+            font-size:0.8rem;
+            color:var(--muted);
+            min-width:130px;
+        }
+
+        .tags {
+            margin-top:0.28rem;
+            display:flex;
+            flex-wrap:wrap;
+            justify-content:flex-end;
+            gap:0.3rem;
+        }
+
+        .tag {
+            font-size:0.72rem;
+            padding:0.14rem 0.55rem;
+            border-radius:var(--radius-pill);
+            border:1px solid rgba(148,163,184,0.8);
+            background:rgba(15,23,42,0.9);
+        }
+
+        .tag:nth-child(1) {
+            border-color:rgba(59,130,246,0.95);
+            background:rgba(37,99,235,0.1);
+        }
+
+        .tag:nth-child(2) {
+            border-color:rgba(34,197,94,0.9);
+            background:var(--accent-soft);
+        }
+
+        .section {
+            margin-bottom:1.15rem;
+            position:relative;
+            z-index:1;
+        }
+
+        .section h2 {
+            font-size:1.03rem;
+            margin-bottom:0.3rem;
+            color:#e5e7eb;
+            display:flex;
+            align-items:center;
+            gap:0.3rem;
+        }
+
+        .section h2 .material-symbols-rounded{
+            font-size:19px;
+            color:#60a5fa;
+        }
+
+        .section p {
+            font-size:0.96rem;
+            color:#e5e7eb;
+            margin-bottom:0.22rem;
+        }
+
+        .section ul {
+            list-style:disc;
+            margin-left:1.15rem;
+            margin-top:0.16rem;
+        }
+
+        .section li {
+            font-size:0.94rem;
+            color:#d1d5db;
+            margin: 0.18rem 0;
+        }
+
+        .section-note {
+            font-size:0.85rem;
+            color:var(--muted);
+            margin-top:0.15rem;
+        }
+
+        .code-block {
+            background:radial-gradient(circle at 0 0,rgba(56,189,248,0.16),rgba(15,23,42,0.99));
+            border-radius:0.86rem;
+            padding:0.65rem 0.8rem;
+            font-family:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size:0.9rem;
+            color:#e5e7eb;
+            border:1px solid rgba(55,65,81,0.96);
+            overflow-x:auto;
+            margin-top:0.32rem;
+        }
+
+        .code-block pre {
+            white-space:pre;
+        }
+
+        .example-box,
+        .exercise-box {
+            border-radius:0.9rem;
+            border:1px dashed rgba(59,130,246,0.92);
+            background:rgba(15,23,42,0.97);
+            padding:0.62rem 0.8rem 0.7rem;
+            margin-top:0.35rem;
+            font-size:0.94rem;
+            position:relative;
+        }
+
+        .exercise-box {
+            border-color:rgba(244,114,182,0.96);
+        }
+
+        .example-title,
+        .exercise-title {
+            font-size:0.94rem;
+            font-weight:600;
+            margin-bottom:0.18rem;
+            display:flex;
+            align-items:center;
+            gap:0.3rem;
+        }
+
+        .example-title {
+            color:#93c5fd;
+        }
+
+        .exercise-title {
+            color:#f9a8d4;
+        }
+
+        .example-title .material-symbols-rounded,
+        .exercise-title .material-symbols-rounded {
+            font-size:19px;
+        }
+
+        .exercise-meta {
+            font-size:0.8rem;
+            color:var(--muted);
+            margin-bottom:0.25rem;
+        }
+
+        .exercise-options {
+            margin-top:0.3rem;
+            display:flex;
+            flex-direction:column;
+            gap:0.2rem;
+        }
+
+        .exercise-option {
+            font-size:0.9rem;
+            display:flex;
+            align-items:flex-start;
+            gap:0.4rem;
+            cursor:pointer;
+        }
+
+        .exercise-option input {
+            margin-top:0.1rem;
+            cursor:pointer;
+        }
+
+        .exercise-feedback {
+            font-size:0.86rem;
+            margin-top:0.35rem;
+            min-height:1.1em;
+        }
+
+        .exercise-feedback.ok {
+            color:#bbf7d0;
+        }
+        .exercise-feedback.error {
+            color:#fecaca;
+        }
+
+        .content-footer{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            border-top:1px solid rgba(55,65,81,0.85);
+            padding-top:0.8rem;
+            margin-top:0.85rem;
+            gap:0.75rem;
+            flex-wrap:wrap;
+            position:relative;
+            z-index:1;
+        }
+
+        .chapter-progress{
+            font-size:0.88rem;
+            color:var(--muted);
+            display:flex;
+            align-items:center;
+            gap:0.3rem;
+        }
+
+        .chapter-progress .material-symbols-rounded {
+            font-size:18px;
+            color:var(--accent);
+        }
+
+        .btn{
+            border-radius:var(--radius-pill);
+            padding:0.46rem 1.15rem;
+            font-size:0.9rem;
+            border:1px solid rgba(75,85,99,0.95);
+            background:rgba(15,23,42,0.97);
+            color:#e5e7eb;
+            cursor:pointer;
+            display:inline-flex;
+            align-items:center;
+            gap:0.32rem;
+            transition:background var(--transition-fast),transform var(--transition-fast),box-shadow var(--transition-med),border-color var(--transition-fast), opacity var(--transition-fast);
+            font-weight:500;
+        }
+
+        .btn .material-symbols-rounded {
+            font-size:18px;
+        }
+
+        .btn:hover:not(:disabled){
+            background:rgba(17,24,39,0.98);
+            box-shadow:0 10px 22px rgba(15,23,42,0.95);
+            transform:translateY(-1px);
+            border-color:rgba(148,163,184,0.95);
+        }
+
+        .btn-primary{
+            border-color:rgba(37,99,235,0.98);
+            background:linear-gradient(90deg,#2563eb,#1d4ed8);
+            box-shadow:0 13px 28px rgba(37,99,235,0.45);
+        }
+
+        .btn-primary:hover:not(:disabled){
+            background:linear-gradient(90deg,#1d4ed8,#1d4ed8);
+            box-shadow:0 16px 34px rgba(37,99,235,0.58);
+        }
+
+        .btn-ghost {
+            background:rgba(15,23,42,0.9);
+        }
+
+        .btn:disabled{
+            opacity:0.46;
+            cursor:default;
+            box-shadow:none;
+            transform:none;
+        }
+
+        .btn-group{
+            display:flex;
+            gap:0.45rem;
+            flex-wrap:wrap;
+        }
+
+        .btn-exercise {
+            margin-top:0.4rem;
+        }
+
+        @media (max-width:700px) {
+            .content-header {
+                flex-direction:column;
+                align-items:flex-start;
+            }
+            .content-meta {
+                text-align:left;
+            }
+            .tags {
+                justify-content:flex-start;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="css/tema-unificado.css">
+</head>
+<body>
+<header>
+    <nav class="nav" aria-label="Navegación principal">
+        <div class="logo">
+            <div class="logo-icon" aria-hidden="true">
+                <span class="material-symbols-rounded">terminal</span>
+            </div>
+            <div>
+                <div class="logo-text-primary">Python &amp; Analítica de Datos</div>
+                <div class="logo-text-secondary">Ruta guiada para Ingeniería Industrial</div>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="nav-links" aria-label="Atajos de capítulos">
+                <button data-go="0" class="active"><span class="material-symbols-rounded">home</span>Inicio</button>
+                <button data-go="1"><span class="material-symbols-rounded">terminal</span>Básicos</button>
+                <button data-go="4"><span class="material-symbols-rounded">data_usage</span>Datos</button>
+                <button data-go="7"><span class="material-symbols-rounded">support</span>Errores</button>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <aside class="sidebar" id="learningSidebar" aria-label="Ruta de aprendizaje">
+        <div class="sidebar-header">
+            <div class="sidebar-title">
+                <span class="material-symbols-rounded">route</span>Ruta de aprendizaje
+            </div>
+            <div class="sidebar-count">
+                <span id="chapterCountLabel">0</span> capítulos
+            </div>
+        </div>
+
+        <ul class="chapter-list" id="chapterList"></ul>
+
+        <div class="progress-wrapper" aria-label="Progreso total">
+            <div class="progress-label">
+                <span>Progreso general</span>
+                <span id="globalProgressText">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="globalProgressBar"></div>
+            </div>
+        </div>
+
+        <p class="small-note">
+            Consejo: abre Jupyter, Google Colab o tu IDE y replica cada ejemplo. <br>
+            La práctica constante es clave para dominar Python.
+        </p>
+    </aside>
+
+    <section class="content" aria-live="polite">
+        <div class="content-inner">
+            <div class="content-header">
+                <div>
+                    <div class="pill">
+                        <span class="material-symbols-rounded">menu_book</span>
+                        Capítulo <span id="chapterNumber">1</span> de <span id="chapterCount">8</span>
+                    </div>
+                    <h1 id="chapterTitle"></h1>
+                    <p class="content-subtitle" id="chapterSubtitle"></p>
+                </div>
+                <div class="content-meta">
+                    <span id="chapterDuration"></span>
+                    <div class="tags" id="chapterTags"></div>
+                </div>
+            </div>
+
+            <div id="chapterBody"></div>
+
+            <div class="content-footer">
+                <div class="chapter-progress" id="chapterStatusText">
+                    <span class="material-symbols-rounded">task_alt</span>
+                    Estado del capítulo
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-ghost" id="prevBtn">
+                        <span class="material-symbols-rounded">arrow_back</span>Anterior
+                    </button>
+                    <button class="btn btn-primary" id="completeBtn">
+                        <span class="material-symbols-rounded" id="completeIcon">done</span>
+                        Marcar como completado
+                    </button>
+                    <button class="btn btn-ghost" id="nextBtn">
+                        Siguiente<span class="material-symbols-rounded">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
-<footer class="site-footer"><p>© 2025</p></footer>
-<script type="module" src="js/supabase.js"></script>
-</body></html>
+
+<script>
+    const chapters = [
+        {
+            id: 0,
+            title: "Introducción: ¿Por qué Python para analítica?",
+            subtitle: "Entiende el rol de Python en la analítica de datos industrial, automatización de procesos y toma de decisiones basada en datos.",
+            duration: "Lectura: 7 min",
+            tags: ["Introducción", "Contexto"],
+            level: "Básico",
+            content: `
+          <div class="section">
+            <h2><span class="material-symbols-rounded">psychology</span> ¿Por qué Python?</h2>
+            <p>Python se ha convertido en el “idioma común” de la analítica de datos y de la automatización. Es utilizado por bancos, empresas de manufactura, logística, salud, retail y startups tecnológicas.</p>
+            <ul>
+              <li><b>Sintaxis limpia:</b> el código se lee casi como lenguaje natural.</li>
+              <li><b>Gran ecosistema:</b> bibliotecas para datos, optimización, simulación, machine learning y visualización.</li>
+              <li><b>Comunidad enorme:</b> encontrarás ejemplos, tutoriales y soluciones a casi todos tus problemas.</li>
+            </ul>
+            <p class="section-note">En ingeniería industrial, Python te ayuda a pasar de hojas de cálculo manuales a <b>análisis reproducibles y automatizados</b>.</p>
+            <div class="example-box">
+              <div class="example-title">
+                <span class="material-symbols-rounded">lightbulb</span>
+                Casos típicos en Ingeniería Industrial
+              </div>
+              <ul>
+                <li>Calcular tiempos estándar y productividad de líneas de producción.</li>
+                <li>Analizar inventarios y niveles de servicio usando datos históricos.</li>
+                <li>Simular colas y procesos (por ejemplo, atención en un banco o clínica).</li>
+                <li>Conectar sensores (IoT) para monitorear equipos en tiempo real.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2><span class="material-symbols-rounded">school</span> Tu objetivo en este curso</h2>
+            <p>Al finalizar esta ruta deberías ser capaz de:</p>
+            <ul>
+              <li>Leer datos desde archivos (CSV, txt).</li>
+              <li>Limpiar y transformar datos básicos con Python.</li>
+              <li>Construir pequeños scripts que automaticen tareas repetitivas.</li>
+              <li>Entender errores comunes y cómo depurarlos.</li>
+            </ul>
+
+            <div class="exercise-box">
+              <div class="exercise-title">
+                <span class="material-symbols-rounded">quiz</span>
+                Ejercicio interactivo: ¿Dónde usarías Python?
+              </div>
+              <p class="exercise-meta">Marca la opción que mejor represente un uso típico de Python en la industria.</p>
+              <div class="exercise-options">
+                <label class="exercise-option">
+                  <input type="radio" name="ex-intro-1" value="a">
+                  Diseñar físicamente una máquina sin ningún dato.
+                </label>
+                <label class="exercise-option">
+                  <input type="radio" name="ex-intro-1" value="b">
+                  Analizar históricos de producción para detectar cuellos de botella.
+                </label>
+                <label class="exercise-option">
+                  <input type="radio" name="ex-intro-1" value="c">
+                  Pintar manualmente las paredes de la planta.
+                </label>
+              </div>
+              <button class="btn btn-exercise" data-name="ex-intro-1" data-correct="b">
+                <span class="material-symbols-rounded">play_arrow</span>Comprobar
+              </button>
+              <div class="exercise-feedback" aria-live="polite"></div>
+            </div>
+          </div>
+        `
+        },
+        {
+            id: 1,
+            title: "Primeros pasos: variables y tipos",
+            subtitle: "Aprende a representar cantidades, textos y valores lógicos. Son los ladrillos básicos de todo programa.",
+            duration: "Lectura: 9 min",
+            tags: ["Sintaxis", "Variables", "Fundamentos"],
+            level: "Básico",
+            content: `
+          <div class="section">
+            <h2><span class="material-symbols-rounded">edit_square</span> Variables y tipos básicos</h2>
+            <p>Una <b>variable</b> es un nombre que guarda un valor en memoria mientras el programa está en ejecución.</p>
+            <ul>
+              <li><b>int</b>: enteros (piezas producidas, cantidad de pedidos).</li>
+              <li><b>float</b>: números con decimales (tiempos, costos, porcentajes).</li>
+              <li><b>str</b>: texto (nombres de productos, códigos).</li>
+              <li><b>bool</b>: verdadero o falso (estado de un equipo: encendido/apagado).</li>
+            </ul>
+
+            <div class="code-block">
+<pre>
+x = 5            # entero (int)
+pi = 3.14        # decimal (float)
+nombre = "Lucía" # texto (str)
+activo = True    # booleano (bool)
+
+print("Valor de x:", x)
+print("Pi redondeado:", round(pi, 1))
+</pre>
+            </div>
+
+            <p class="section-note">Python detecta el tipo automáticamente: no tienes que declararlo, pero debes usarlo de forma coherente.</p>
+          </div>
+
+          <div class="section">
+            <h2><span class="material-symbols-rounded">factory</span> Mini caso industrial</h2>
+            <p>Supongamos una línea que produce 480 unidades en 8 horas. La productividad en unidades/hora es:</p>
+
+            <div class="code-block">
+<pre>
+piezas = 480      # unidades producidas
+horas = 8         # tiempo de trabajo
+produccion = piezas / horas
+
+print("Producción por hora:", produccion, "unidades/hora")
+</pre>
+            </div>
+
+            <div class="example-box">
+              <div class="example-title">
+                <span class="material-symbols-rounded">insights</span>
+                Interpretación del resultado
+              </div>
+              <p>Si obtienes 60 unidades/hora, puedes compararlo con el estándar, con otras líneas o con diferentes turnos para analizar desempeño.</p>
+            </div>
+
+            <div class="exercise-box">
+              <div class="exercise-title">
+                <span class="material-symbols-rounded">quiz</span>
+                Ejercicio interactivo: identificando tipos
+              </div>
+              <p class="exercise-meta">Según el siguiente código, ¿qué tipo de dato es la variable <code>tasa_defectos</code>?</p>
+
+              <div class="code-block">
+<pre>
+turno = "Noche"
+piezas_producidas = 950
+piezas_defectuosas = 38
+tasa_defectos = piezas_defectuosas / piezas_producidas
+</pre>
+              </div>
+
+              <div class="exercise-options">
+                <label class="exercise-option">
+                  <input type="radio" name="ex-var-1" value="a">
+                  Entero (<code>int</code>)
+                </label>
+                <label class="exercise-option">
+                  <input type="radio" name="ex-var-1" value="b">
+                  Decimal (<code>float</code>)
+                </label>
+                <label class="exercise-option">
+                  <input type="radio" name="ex-var-1" value="c">
+                  Texto (<code>str</code>)
+                </label>
+              </div>
+              <button class="btn btn-exercise" data-name="ex-var-1" data-correct="b">
+                <span class="material-symbols-rounded">play_arrow</span>Comprobar
+              </button>
+              <div class="exercise-feedback" aria-live="polite"></div>
+            </div>
+          </div>
+        `
+        },
+        {
+            id: 2,
+            title: "Operadores y expresiones",
+            subtitle: "Construye fórmulas y condiciones lógicas para tomar decisiones automáticas.",
+            duration: "Lectura: 8 min",
+            tags: ["Operadores", "Lógica", "Expresiones"],
+            level: "Básico",
+            content: `
+          <div class="section">
+            <h2><span class="material-symbols-rounded">calculate</span> Operadores aritméticos</h2>
+            <p>Los operadores aritméticos te permiten implementar fórmulas directamente en código.</p>
+            <ul>
+              <li><code>+</code> suma, <code>-</code> resta, <code>*</code> multiplicación, <code>/</code> división (decimal).</li>
+              <li><code>//</code> división entera, <code>%</code> módulo (residuo), <code>**</code> potencia.</li>
+            </ul>
+
+            <div class="code-block">
+<pre>
+radio = 3
+total = 100 + 50 * 2
+area = 3.14 * radio ** 2
+resto = 7 % 3
+
+print("Total:", total)
+print("Área:", area)
+print("Resto de 7 / 3:", resto)
+</pre>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2><span class="material-symbols-rounded">functions</span> Comparación y lógica booleana</h2>
+            <p>Con los operadores de comparación y lógicos podrás expresar condiciones complejas.</p>
+            <ul>
+              <li><b>Comparación:</b> <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>==</code>, <code>!=</code></li>
+              <li><b>Lógica:</b> <code>and</code>, <code>or</code>, <code>not</code></li>
+            </ul>
+
+            <div class="code-block">
+<pre>
+peso = 12
+
+print(peso &gt; 10)                  # True
+print(peso == 15)                 # False
+print(peso &gt; 8 and peso &lt; 20)    # True
+print(not (peso &gt; 20))           # True
+</pre>
+            </div>
+
+            <div class="example-box">
+              <div class="example-title">
+                <span class="material-symbols-rounded">lightbulb</span>
+                Ejemplo de condición para recargos
+              </div>
+              <p>Supón que si el pedido es menor a 50 unidades se cobra un recargo por “pedido pequeño”:</p>
+              <div class="code-block">
+<pre>
+cantidad = 35
+recargo_aplica = cantidad &lt; 50
+print("¿Aplica recargo?:", recargo_aplica)
+</pre>
+              </div>
+            </div>
+
+            <div class="exercise-box">
+              <div class="exercise-title">
+                <span class="material-symbols-rounded">quiz</span>
+                Ejercicio interactivo: expresión lógica
+              </div>
+              <p class="exercise-meta">Si quieres saber si un pedido es <b>urgente</b> cuando <code>prioridad == "ALTA"</code> y <code>dias_entrega &lt;= 2</code>, ¿cuál expresión es correcta?</p>
+
+              <div class="exercise-options">
+                <label class="exercise-option">
+                  <input type="radio" name="ex-op-1" value="a">
+                  <code>prioridad == "ALTA" or dias_entrega &lt;= 2</code>
+                </label>
+                <label class="exercise-option">
+                  <input type="radio" name="ex-op-1" value="b">
+                  <code>prioridad == "ALTA" and dias_entrega &lt;= 2</code>
+                </label>
+                <label class="exercise-option">
+                  <input type="radio" name="ex-op-1" value="c">
+                  <code>prioridad != "ALTA" and dias_entrega &lt;= 2</code>
+                </label>
+              </div>
+              <button class="btn btn-exercise" data-name="ex-op-1" data-correct="b">
+                <span class="material-symbols-rounded">play_arrow</span>Comprobar
+              </button>
+              <div class="exercise-feedback" aria-live="polite"></div>
+            </div>
+          </div>
+        `
+        },
+        {
+            id: 3,
+            title: "Estructuras de control: if, for, while",
+            subtitle: "Toma decisiones y repite tareas. Ideal para procesar lotes de registros o lecturas de sensores.",
+            duration: "Lectura: 10 min",
+            tags: ["Control de flujo", "Bucles", "Condicionales"],
+            level: "Básico",
+            content: `
+          <div class="section">
+            <h2><span class="material-symbols-rounded">settings_accessibility</span> Condiciones (if, elif, else)</h2>
+            <p>Las estructuras condicionales permiten que tu programa se comporte de forma diferente según los datos.</p>
+
+            <div class="code-block">
+<pre>
+temperatura = 35
+
+if temperatura &gt; 30:
+    print("¡Hace calor! Activar ventilación.")
+elif temperatura &lt; 15:
+    print("¡Hace frío! Revisar calefacción.")
+else:
+    print("Clima agradable, operación normal.")
+</pre>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2><span class="material-symbols-rounded">repeat</span> Bucles for y while</h2>
+            <p><b>for</b> se usa típicamente para recorrer colecciones o secuencias; <b>while</b> se usa mientras se cumple una condición.</p>
+
+            <div class="code-block">
+<pre>
+for i in range(5):   # 0, 1, 2, 3, 4
+    print("Iteración:", i)
+
+x = 0
+while x &lt; 3:
+    print("x vale", x)
+    x += 1
+</pre>
+            </div>
+
+            <div class="example-box">
+              <div class="example-title">
+                <span class="material-symbols-rounded">engineering</span>
+                Ejemplo: control de calidad
+              </div>
+              <p>Contar cuántos productos pasan una prueba de calidad:</p>
+              <div class="code-block">
+<pre>
+resultados = [True, False, True, True, False]
+aprobados = 0
+
+for res in resultados:
+    if res:
+        aprobados += 1
+
+print("Aprobados:", aprobados)
+print("Rechazados:", len(resultados) - aprobados)
+</pre>
+              </div>
+            </div>
+
+            <div class="exercise-box">
+              <div class="exercise-title">
+                <span class="material-symbols-rounded">quiz</span>
+                Ejercicio interactivo: selección de estructura
+              </div>
+              <p class="exercise-meta">Quieres leer continuamente la temperatura de un sensor hasta que supere los 80°C. ¿Qué estructura es más apropiada?</p>
+
+              <div class="exercise-options">
+                <label class="exercise-option">
+                  <input type="radio" name="ex-ctrl-1" value="a">
+                  Un bucle <code>for</code> con <code>range(10)</code>.
+                </label>
+                <label class="exercise-option">
+                  <input type="radio" name="ex-ctrl-1" value="b">
+                  Un bucle <code>while</code> que se ejecute mientras la temperatura sea menor o igual a 80.
+                </label>
+                <label class="exercise-option">
+                  <input type="radio" name="ex-ctrl-1" value="c">
+                  Un condicional <code>if</code> sin bucle.
+                </label>
+              </div>
+              <button class="btn btn-exercise" data-name="ex-ctrl-1" data-correct="b">
+                <span class="material-symbols-rounded">play_arrow</span>Comprobar
+              </button>
+              <div class="exercise-feedback" aria-live="polite"></div>
+            </div>
+          </div>
+        `
+        },
+        {
+            id: 4,
+            title: "Listas y colecciones de datos",
+            subtitle: "Agrupa, recorre y procesa conjuntos de datos usando listas y diccionarios.",
+            duration: "Lectura: 11 min",
+            tags: ["Listas", "Diccionarios", "Colecciones"],
+            level: "Básico",
+            content: `
+          <div class="section">
+            <h2><span class="material-symbols-rounded">lists</span> Listas: secuencias ordenadas</h2>
+            <p>Una <b>lista</b> es una colección ordenada y mutable. Ideal para series de mediciones o registros simples.</p>
+
+            <div class="code-block">
+<pre>
+temperaturas = [22, 23, 21, 25, 22]
+
+print(temperaturas[0])      # 22
+temperaturas.append(24)     # agrega un valor al final
+
+for t in temperaturas:
+    print("T:", t)
+</pre>
+            </div>
+
+            <p class="section-note">Las listas pueden contener diferentes tipos, pero en analítica suele usarse un solo tipo por lista para mantener orden.</p>
+          </div>
+
+          <div class="section">
+            <h2><span class="material-symbols-rounded">key</span> Diccionarios: pares clave-valor</h2>
+            <p>Los <b>diccionarios</b> almacenan datos por nombre (clave), no por posición. Son muy útiles para representar entidades.</p>
+
+            <div class="code-block">
+<pre>
+inventario = {"tornillos": 200, "tuercas": 350}
+print(inventario["tornillos"])   # 200
+
+inventario["clavos"] = 100       # nuevo ítem
+
+for pieza, cantidad in inventario.items():
+    print(pieza, ":", cantidad)
+</pre>
+            </div>
+
+            <div class="example-box">
+              <div class="example-title">
+                <span class="material-symbols-rounded">lightbulb</span>
+                Ejemplo: registro de máquinas
+              </div>
+              <div class="code-block">
+<pre>
+maquina = {
+    "id": "M-01",
+    "tipo": "Prensa",
+    "estado": "Operativa",
+    "horas_uso": 1234
+}
+
+print("Máquina:", maquina["id"], "-", maquina["estado"])
+</pre>
+              </div>
+            </div>
+
+            <div class="exercise-box">
+              <div class="exercise-title">
+                <span class="material-symbols-rounded">quiz</span>
+                Ejercicio interactivo: estructura adecuada
+              </div>
+              <p class="exercise-meta">Quieres guardar las temperaturas de cada hora de un día (<code>24</code> valores). ¿Qué estructura es más natural?</p>
+              <div class="exercise-options">
+                <label class="exercise-option">
+                  <input type="radio" name="ex-col-1" value="a">
+                  Un diccionario con claves arbitrarias.
+                </label>
+                <label class="exercise-option">
+                  <input type="radio" name="ex-col-1" value="b">
+                  Una lista con las 24 temperaturas en orden.
+                </label>
+                <label class="exercise-option">
+                  <input type="radio" name="ex-col-1" value="c">
+                  Una sola variable por cada hora (<code>t1, t2, t3, ...</code>).
+                </label>
+              </div>
+              <button class="btn btn-exercise" data-name="ex-col-1" data-correct="b">
+                <span class="material-symbols-rounded">play_arrow</span>Comprobar
+              </button>
+              <div class="exercise-feedback" aria-live="polite"></div>
+            </div>
+          </div>
+        `
+        },
+        {
+            id: 5,
+            title: "Funciones y reutilización",
+            subtitle: "Agrupa lógica en bloques reutilizables y parametrizables. Ahorra tiempo y reduce errores.",
+            duration: "Lectura: 10 min",
+            tags: ["Funciones", "Modularidad"],
+            level: "Intermedio",
+            content: `
+          <div class="section">
+            <h2><span class="material-symbols-rounded">functions</span> Definir y usar funciones</h2>
+            <p>Una función es un bloque de código con un nombre que realiza una tarea específica. Puede recibir parámetros y devolver resultados.</p>
+
+            <div class="code-block">
+<pre>
+def area_rectangulo(base, altura):
+    """Calcula el área de un rectángulo."""
+    return base * altura
+
+print(area_rectangulo(5, 4))  # 20
+</pre>
+            </div>
+
+            <p class="section-note">Escribir funciones con nombres descriptivos y docstrings facilita el mantenimiento y la colaboración.</p>
+          </div>
+
+          <div class="section">
+            <h2><span class="material-symbols-rounded">bolt</span> Aplicación práctica: consumo energético</h2>
+            <p>Calcular el consumo total (en kW) de varias máquinas de una planta.</p>
+
+            <div class="code-block">
+<pre>
+def consumo_total(lista_kw):
+    """Suma el consumo en kW de una lista de máquinas."""
+    total = 0
+    for kw in lista_kw:
+        total += kw
+    return total
+
+print(consumo_total([1.2, 2.4, 3, 0.8]))  # Suma total
+</pre>
+            </div>
+
+            <div class="exercise-box">
+              <div class="exercise-title">
+                <span class="material-symbols-rounded">quiz</span>
+                Ejercicio interactivo: parámetros
+              </div>
+              <p class="exercise-meta">¿Cuál es el beneficio principal de pasar una lista como parámetro a una función, en lugar de usar variables globales?</p>
+              <div class="exercise-options">
+                <label class="exercise-option">
+                  <input type="radio" name="ex-fn-1" value="a">
+                  Hace que el programa corra más lento, pero es más simple.
+                </label>
+                <label class="exercise-option">
+                  <input type="radio" name="ex-fn-1" value="b">
+                  Permite reutilizar la función con diferentes listas y evita depender del contexto global.
+                </label>
+                <label class="exercise-option">
+                  <input type="radio" name="ex-fn-1" value="c">
+                  No tiene ningún beneficio, es solo estilo.
+                </label>
+              </div>
+              <button class="btn btn-exercise" data-name="ex-fn-1" data-correct="b">
+                <span class="material-symbols-rounded">play_arrow</span>Comprobar
+              </button>
+              <div class="exercise-feedback" aria-live="polite"></div>
+            </div>
+          </div>
+        `
+        },
+        {
+            id: 6,
+            title: "Archivos y operaciones con datos",
+            subtitle: "Lee y escribe archivos para trabajar con datos reales de la industria.",
+            duration: "Lectura: 11 min",
+            tags: ["Archivos", "CSV", "Entrada/Salida"],
+            level: "Intermedio",
+            content: `
+          <div class="section">
+            <h2><span class="material-symbols-rounded">folder_open</span> Leer y escribir archivos de texto</h2>
+            <p>Python facilita guardar resultados y leer datos desde archivos. La forma recomendada es usar <code>with open(...)</code>, que cierra el archivo automáticamente.</p>
+
+            <div class="code-block">
+<pre>
+# Guardar datos
+with open("resultados.txt", "w") as f:
+    f.write("Eficiencia=93.5\\n")
+
+# Leer datos
+with open("resultados.txt", "r") as f:
+    for linea in f:
+        print(linea.strip())
+</pre>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2><span class="material-symbols-rounded">table_view</span> Trabajar con CSV</h2>
+            <p>Los archivos CSV (valores separados por comas) son muy comunes para intercambiar datos entre Excel y Python.</p>
+
+            <div class="code-block">
+<pre>
+import csv
+
+datos = [
+    ["Producto", "Cantidad"],
+    ["Tornillos", 100],
+    ["Tuercas", 150]
+]
+
+with open("inventario.csv", "w", newline="", encoding="utf-8") as archivo:
+    escritor = csv.writer(archivo)
+    escritor.writerows(datos)
+</pre>
+            </div>
+
+            <div class="example-box">
+              <div class="example-title">
+                <span class="material-symbols-rounded">query_stats</span>
+                Lectura de un CSV de producción
+              </div>
+              <div class="code-block">
+<pre>
+with open("produccion.csv", newline="", encoding="utf-8") as archivo:
+    lector = csv.reader(archivo)
+    next(lector)  # saltar encabezado
+    total = 0
+    for fila in lector:
+        # fila[0] = fecha, fila[1] = piezas producidas
+        total += int(fila[1])
+    print("Total piezas:", total)
+</pre>
+              </div>
+            </div>
+
+            <div class="exercise-box">
+              <div class="exercise-title">
+                <span class="material-symbols-rounded">quiz</span>
+                Ejercicio interactivo: modo de apertura
+              </div>
+              <p class="exercise-meta">Si vas a <b>añadir</b> nuevas filas a un archivo CSV existente sin borrar lo anterior, ¿qué modo de apertura es el más adecuado?</p>
+              <div class="exercise-options">
+                <label class="exercise-option">
+                  <input type="radio" name="ex-file-1" value="a">
+                  <code>"w"</code> (escritura)
+                </label>
+                <label class="exercise-option">
+                  <input type="radio" name="ex-file-1" value="b">
+                  <code>"a"</code> (append / agregar al final)
+                </label>
+                <label class="exercise-option">
+                  <input type="radio" name="ex-file-1" value="c">
+                  <code>"r"</code> (solo lectura)
+                </label>
+              </div>
+              <button class="btn btn-exercise" data-name="ex-file-1" data-correct="b">
+                <span class="material-symbols-rounded">play_arrow</span>Comprobar
+              </button>
+              <div class="exercise-feedback" aria-live="polite"></div>
+            </div>
+          </div>
+        `
+        },
+        {
+            id: 7,
+            title: "Errores, depuración y buenas prácticas",
+            subtitle: "Gestiona errores de forma elegante y escribe código profesional y mantenible.",
+            duration: "Lectura: 9 min",
+            tags: ["Errores", "Depuración", "Buenas prácticas"],
+            level: "Intermedio",
+            content: `
+          <div class="section">
+            <h2><span class="material-symbols-rounded">bug_report</span> Manejo de errores con try/except</h2>
+            <p>Los errores son inevitables. Lo importante es capturarlos y reaccionar de forma controlada.</p>
+
+            <div class="code-block">
+<pre>
+try:
+    x = int(input("Introduce número: "))
+    print(100 / x)
+except ValueError:
+    print("No es un entero válido.")
+except ZeroDivisionError:
+    print("No dividas entre 0.")
+</pre>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2><span class="material-symbols-rounded">check_circle</span> Buenas prácticas</h2>
+            <ul>
+              <li>Documenta tus funciones con comentarios y <b>docstrings</b>.</li>
+              <li>Divide el problema en funciones pequeñas y claras.</li>
+              <li>Prueba tu código con datos simples antes de usar datos reales.</li>
+              <li>Limpia y valida tus datos de entrada (tipos, rangos, valores faltantes).</li>
+            </ul>
+
+            <div class="exercise-box">
+              <div class="exercise-title">
+                <span class="material-symbols-rounded">quiz</span>
+                Ejercicio interactivo: tipo de error
+              </div>
+              <p class="exercise-meta">¿Qué tipo de error ocurrirá más probablemente si intentas convertir el texto <code>"abc"</code> con <code>int("abc")</code>?</p>
+              <div class="exercise-options">
+                <label class="exercise-option">
+                  <input type="radio" name="ex-err-1" value="a">
+                  <code>ZeroDivisionError</code>
+                </label>
+                <label class="exercise-option">
+                  <input type="radio" name="ex-err-1" value="b">
+                  <code>ValueError</code>
+                </label>
+                <label class="exercise-option">
+                  <input type="radio" name="ex-err-1" value="c">
+                  <code>FileNotFoundError</code>
+                </label>
+              </div>
+              <button class="btn btn-exercise" data-name="ex-err-1" data-correct="b">
+                <span class="material-symbols-rounded">play_arrow</span>Comprobar
+              </button>
+              <div class="exercise-feedback" aria-live="polite"></div>
+            </div>
+          </div>
+        `
+        }
+    ];
+
+    let completed = new Set();
+    const chapterCount = chapters.length;
+
+    const chapterListEl = document.getElementById("chapterList");
+    const globalProgressBarEl = document.getElementById("globalProgressBar");
+    const globalProgressTextEl = document.getElementById("globalProgressText");
+
+    const chapterNumberEl = document.getElementById("chapterNumber");
+    const chapterCountEl = document.getElementById("chapterCount");
+    const chapterCountLabelEl = document.getElementById("chapterCountLabel");
+    const chapterTitleEl = document.getElementById("chapterTitle");
+    const chapterSubtitleEl = document.getElementById("chapterSubtitle");
+    const chapterDurationEl = document.getElementById("chapterDuration");
+    const chapterTagsEl = document.getElementById("chapterTags");
+    const chapterBodyEl = document.getElementById("chapterBody");
+    const chapterStatusTextEl = document.getElementById("chapterStatusText");
+    const completeIconEl = document.getElementById("completeIcon");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const completeBtn = document.getElementById("completeBtn");
+    const topNavButtons = document.querySelectorAll(".nav-links button");
+
+    chapterCountEl.textContent = chapterCount;
+    chapterCountLabelEl.textContent = chapterCount;
+
+    function renderChapterList(currentId) {
+        chapterListEl.innerHTML = "";
+        chapters.forEach((ch) => {
+            const li = document.createElement("li");
+            li.className = "chapter-item";
+            li.dataset.id = ch.id;
+
+            if (ch.id === currentId) li.classList.add("active");
+            if (completed.has(ch.id)) li.classList.add("completed");
+
+            const badge = document.createElement("div");
+            badge.className = "chapter-badge";
+            badge.textContent = ch.id + 1;
+
+            const textContainer = document.createElement("div");
+            textContainer.className = "chapter-text";
+
+            const title = document.createElement("div");
+            title.className = "chapter-title";
+            title.textContent = ch.title;
+
+            const meta = document.createElement("div");
+            meta.className = "chapter-meta";
+            meta.textContent = ch.duration.replace("Lectura: ", "") + " • " + ch.level;
+
+            textContainer.appendChild(title);
+            textContainer.appendChild(meta);
+
+            const statusIcon = document.createElement("span");
+            statusIcon.className = "material-symbols-rounded chapter-status-icon";
+            statusIcon.textContent = completed.has(ch.id) ? "check_circle" : "radio_button_unchecked";
+
+            li.appendChild(badge);
+            li.appendChild(textContainer);
+            li.appendChild(statusIcon);
+
+            li.addEventListener("click", () => loadChapter(ch.id));
+
+            chapterListEl.appendChild(li);
+        });
+    }
+
+    function updateGlobalProgress() {
+        const pct = Math.round((completed.size / chapterCount) * 100);
+        globalProgressBarEl.style.width = pct + "%";
+        globalProgressTextEl.textContent = pct + "%";
+    }
+
+    let currentChapterId = 0;
+
+    function bindInteractiveExercises(scopeEl) {
+        const buttons = scopeEl.querySelectorAll(".btn-exercise");
+        buttons.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                const name = btn.dataset.name;
+                const correct = btn.dataset.correct;
+                const selected = scopeEl.querySelector('input[name="' + name + '"]:checked');
+                const feedback = btn.closest(".exercise-box").querySelector(".exercise-feedback");
+
+                if (!selected) {
+                    feedback.textContent = "Selecciona una opción antes de comprobar.";
+                    feedback.classList.remove("ok", "error");
+                    return;
+                }
+
+                if (selected.value === correct) {
+                    feedback.textContent = "✅ ¡Correcto! Bien razonado.";
+                    feedback.classList.remove("error");
+                    feedback.classList.add("ok");
+                } else {
+                    feedback.textContent = "❌ No es correcto. Revisa el concepto y vuelve a intentarlo.";
+                    feedback.classList.remove("ok");
+                    feedback.classList.add("error");
+                }
+            });
+        });
+    }
+
+    function loadChapter(id) {
+        const ch = chapters[id];
+        if (!ch) return;
+        currentChapterId = id;
+
+        chapterNumberEl.textContent = id + 1;
+        chapterTitleEl.textContent = ch.title;
+        chapterSubtitleEl.textContent = ch.subtitle;
+        chapterDurationEl.textContent = ch.duration + " • " + ch.level;
+
+        chapterTagsEl.innerHTML = "";
+        ch.tags.forEach((tag) => {
+            const span = document.createElement("span");
+            span.className = "tag";
+            span.textContent = tag;
+            chapterTagsEl.appendChild(span);
+        });
+
+        chapterBodyEl.innerHTML = ch.content;
+
+        const isCompleted = completed.has(id);
+        chapterStatusTextEl.textContent = isCompleted
+            ? "Este capítulo está marcado como completado."
+            : "Este capítulo aún no está marcado como completado.";
+
+        completeBtn.textContent = isCompleted ? "Marcar como pendiente" : "Marcar como completado";
+        completeIconEl.textContent = isCompleted ? "restart_alt" : "done";
+
+        prevBtn.disabled = id === 0;
+        nextBtn.disabled = id === chapterCount - 1;
+
+        renderChapterList(id);
+        updateTopNav(id);
+
+        // enlazar ejercicios interactivos del capítulo actual
+        bindInteractiveExercises(chapterBodyEl);
+    }
+
+    function updateTopNav(id) {
+        topNavButtons.forEach((btn) => {
+            const target = parseInt(btn.dataset.go, 10);
+            if (target === id) btn.classList.add("active");
+            else btn.classList.remove("active");
+        });
+    }
+
+    prevBtn.addEventListener("click", () => {
+        if (currentChapterId > 0) loadChapter(currentChapterId - 1);
+    });
+
+    nextBtn.addEventListener("click", () => {
+        if (currentChapterId < chapterCount - 1) loadChapter(currentChapterId + 1);
+    });
+
+    completeBtn.addEventListener("click", () => {
+        if (completed.has(currentChapterId)) {
+            completed.delete(currentChapterId);
+        } else {
+            completed.add(currentChapterId);
+        }
+        loadChapter(currentChapterId);
+        updateGlobalProgress();
+    });
+
+    topNavButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const target = parseInt(btn.dataset.go, 10);
+            loadChapter(target);
+        });
+    });
+
+    renderChapterList(0);
+    updateGlobalProgress();
+    loadChapter(0);
+</script>
+</body>
+</html>

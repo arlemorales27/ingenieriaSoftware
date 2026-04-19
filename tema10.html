@@ -1,15 +1,582 @@
-<!doctype html><html lang="es"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tema 10 — Próximamente</title>
-<link rel="stylesheet" href="css/styles.css">
-</head><body class="page-tema">
-<header class="site-header glass"><div class="brand"><a href="index.html" class="crumb">← Inicio</a><span>Tema 10</span></div></header>
-<main class="container">
-  <section class="intro big">
-    <h1>Tema 10 — Próximamente</h1>
-    <p>Este tema se habilitará en la próxima iteración.</p>
-  </section>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tutorial de IA para Ingeniería de Software</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --bg: #020617;
+            --bg-elevated: #020617;
+            --bg-soft: #020617;
+            --text: #e5e7eb;
+            --muted: #9ca3af;
+            --accent: #22c55e;
+            --danger: #ef4444;
+            --border: #1f2937;
+            --shadow-strong: 0 20px 40px rgba(0,0,0,0.7);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top, #111827 0, #020617 40%, #000 100%);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        header {
+            position: sticky; top: 0; z-index: 40;
+            backdrop-filter: blur(10px);
+            background: rgba(15,23,42,0.9);
+            border-bottom: 1px solid rgba(31,41,55,0.9);
+        }
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.6rem 1rem;
+            display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+        }
+        .logo { display: flex; align-items: center; gap: 0.7rem; }
+        .logo-icon { width: 32px; height: 32px; border-radius: 999px;
+            background: radial-gradient(circle at 25% 25%, #a5b4fc, #2563eb 55%, #020617);
+            display: flex; align-items: center; justify-content: center; font-size: 0.8rem;
+            box-shadow: 0 0 0 1px rgba(59,130,246,0.7);
+        }
+        .logo-text-primary { font-weight: 600; font-size: 0.95rem; color: #f9fafb; }
+        .logo-text-secondary { font-size: 0.75rem; color: var(--muted); }
+        .nav-right { display: flex; align-items: center; gap: 0.75rem; }
+        .nav-links { display: flex; gap: 0.5rem; font-size: 0.82rem; flex-wrap: wrap; }
+        .nav-links button {
+            background: transparent;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            color: var(--muted); cursor: pointer; padding: 0.25rem 0.6rem;
+            display: inline-flex; align-items: center; gap: 0.25rem;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+        }
+        .nav-links button.active {
+            color: #e5e7eb;
+            border-color: rgba(37,99,235,0.95);
+            background: radial-gradient(circle at 0 0,rgba(59,130,246,0.3),rgba(15,23,42,1));
+        }
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.25rem 1rem 2.8rem;
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 1.2rem;
+        }
+        @media (max-width:900px){
+            main { grid-template-columns: 1fr; gap: 0; }
+        }
+        .sidebar {
+            background: linear-gradient(145deg,#020617,#020617);
+            border-radius: 0.9rem; border: 1px solid var(--border);
+            padding: 0.9rem 0.8rem 1rem;
+            box-shadow: var(--shadow-strong);
+            position: sticky; top: 4.1rem; align-self: flex-start;
+            max-height: calc(100vh - 4.5rem); overflow: hidden;
+            min-width: 260px; max-width: 260px;
+            display: flex; flex-direction: column; gap: 0.55rem;
+        }
+        @media (max-width:900px) {
+            .sidebar { position: static; max-width: none; min-width: unset; max-height: none; }
+        }
+        .sidebar-title { font-size: 0.95rem; color: #e5e7eb; display: flex; align-items: center; gap:5px;}
+        .sidebar-count { font-size:0.75rem; color:var(--muted);}
+        .chapter-list { list-style:none; display:flex; flex-direction:column; gap:0.22rem; margin-top:0.2rem; overflow-y:auto; padding-right:0.1rem;}
+        .chapter-item { display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:0.36rem; padding: 0.32rem 0.48rem; border-radius:0.72rem; cursor:pointer; border:1px solid transparent; min-height:38px; font-size: 0.98rem; }
+        .chapter-item .chapter-title {
+            font-size: 1rem;
+            font-weight: 600;
+            white-space: normal;
+            word-break: break-word;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 170px;
+            line-height: 1.26;
+            display: block;
+        }
+        .chapter-meta {
+            font-size: 0.78rem;
+            color: var(--muted);
+            overflow: hidden;
+            max-width: 165px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            display: block;
+        }
+        .chapter-text { min-width: 0; }
+        .chapter-badge { width:22px; height:22px; border-radius:999px; background:rgba(15,23,42,0.93); border:1px solid rgba(75,85,99,0.82); display:flex; align-items:center; justify-content:center; font-size:0.83rem; color:var(--muted);}
+        .chapter-item.active { background: radial-gradient(circle at 0 0,rgba(56,189,248,0.22),rgba(15,23,42,0.98)); border-color:rgba(59,130,246,0.9);}
+        .progress-label { display:flex; justify-content:space-between; font-size:0.79rem; color:var(--muted); margin-bottom:0.2rem;}
+        .progress-bar { width:100%; height:6px; border-radius:999px; background:rgba(17,24,39,0.95); overflow:hidden; position:relative;}
+        .progress-fill { height:100%; width:0; border-radius:inherit; background:linear-gradient(90deg,#22c55e,#4ade80); transition:width 0.2s;}
+        .small-note { font-size:0.8rem; color:var(--muted); margin-top:0.35rem;}
+        .content {
+            background: radial-gradient(circle at top left,rgba(59,130,246,0.18),rgba(15,23,42,0.98));
+            border-radius: 1rem; border: 1px solid rgba(55,65,81,0.85);
+            padding: 1.2rem 1rem 1.4rem; box-shadow: var(--shadow-strong);
+            position: relative; overflow: hidden; max-width: 100%; width: 100%; margin: 0;
+        }
+        .content-header, h1, .content-subtitle, .section, .code-block, .example-box, .exercise-box, .content-footer, .btn { /* igual que antes … */ }
+        .pill { display:inline-flex;align-items:center;gap:0.43rem;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.12em;color:#a5b4fc;background:rgba(30,64,175,0.5);border-radius:999px;padding:0.18rem 0.8rem;border:1px solid rgba(129,140,248,0.8);}
+        h1{font-size:clamp(1.22rem,2vw,1.45rem);margin-top:0.29rem;color:#f9fafb;}
+        .content-subtitle{font-size:1.08rem;color:var(--muted);}
+        .section{margin-bottom:1.08rem;}
+        .section h2{font-size:1.07rem;margin-bottom:0.28rem;color:#e5e7eb;display:flex;align-items:center;gap:0.29rem;}
+        .section h2 .material-symbols-rounded{font-size:19px;color:#60a5fa;}
+        .section p{font-size:1.01rem;color:#e5e7eb;margin-bottom:0.19rem;}
+        .section ul{list-style:disc;margin-left:1.14rem;margin-top:0.14rem;}
+        .section li{font-size:0.98rem;color:#d1d5db;margin: 0.19rem 0;}
+        .code-block{background:radial-gradient(circle at 0 0,rgba(56,189,248,0.1),rgba(15,23,42,0.98));border-radius:0.81rem;padding:0.61rem 0.74rem;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:0.93rem;color:#e5e7eb;border:1px solid rgba(55,65,81,0.9);overflow-x:auto;margin-top:0.3rem;}
+        .example-box,.exercise-box{border-radius:0.85rem;border:1px dashed rgba(59,130,246,0.85);background:rgba(15,23,42,0.96);padding:0.62rem 0.72rem;margin-top:0.32rem;font-size:0.96rem;}
+        .exercise-box{border-color:rgba(244,114,182,0.9);}
+        .example-title,.exercise-title{font-size:0.96rem;font-weight:600;margin-bottom:0.12rem;display:flex;align-items:center;gap:0.25rem;}
+        .example-title{color:#93c5fd;}
+        .exercise-title{color:#f9a8d4;}
+        .content-footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(55,65,81,0.85);padding-top:0.74rem;margin-top:0.74rem;gap:0.7rem;flex-wrap:wrap;}
+        .chapter-progress{font-size:0.88rem;color:var(--muted);display:flex;align-items:center;gap:0.25rem;}
+        .btn{border-radius:999px;padding:0.44rem 1.1rem;font-size:1.03rem;border:1px solid rgba(75,85,99,0.9);background:rgba(15,23,42,0.96);color:#e5e7eb;cursor:pointer;display:inline-flex;align-items:center;gap:0.31rem;transition:background 0.15s,transform 0.05s,box-shadow 0.15s,border-color 0.15s;}
+        .btn-primary{border-color:rgba(37,99,235,0.95);background:linear-gradient(90deg,#2563eb,#1d4ed8);}
+        .btn:disabled{opacity:0.44;cursor:default;box-shadow:none;transform:none;}
+        .btn-group{display:flex;gap:0.43rem;flex-wrap:wrap;}
+
+        /* Nuevos estilos para interactividad y animaciones (responsivo y profesional) */
+        .icon-btn {
+            display:inline-flex;align-items:center;gap:0.5rem;padding:0.4rem 0.6rem;border-radius:0.6rem;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);cursor:pointer;transition:transform 0.12s ease, box-shadow 0.12s ease;
+        }
+        .icon-btn:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(2,6,23,0.6)}
+        .collapse {max-height:0;overflow:hidden;transition:max-height 0.28s ease;padding:0 0.2rem}
+        .collapse.show {max-height:1200px;padding:0.4rem 0.2rem}
+        .fade-in {animation:fadeIn 0.5s ease forwards;opacity:0}
+        @keyframes fadeIn {to{opacity:1}}
+        .pulse {animation:pulse 1.6s ease-in-out infinite}
+        @keyframes pulse {0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
+        /* pequeño ajuste responsivo para iconos */
+        @media (max-width:900px){.icon-btn{padding:0.32rem 0.45rem;font-size:0.95rem}}
+    </style>
+    <link rel="stylesheet" href="css/tema-unificado.css">
+</head>
+<body>
+<header>
+    <nav class="nav" aria-label="Navegación principal">
+        <div class="logo">
+            <div class="logo-icon" aria-hidden="true">
+                <span class="material-symbols-rounded">psychology</span>
+            </div>
+            <div>
+                <div class="logo-text-primary">Ingeniería de Software e IA</div>
+                <div class="logo-text-secondary">Tutorial interactivo para estudiantes</div>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="nav-links" aria-label="Atajos de capítulos">
+                <button data-go="0" class="active"><span class="material-symbols-rounded">home</span>Inicio</button>
+                <button data-go="1"><span class="material-symbols-rounded">psychology_alt</span>Fundamentos</button>
+                <button data-go="3"><span class="material-symbols-rounded">auto_graph</span>ML</button>
+                <button data-go="5"><span class="material-symbols-rounded">neurology</span>Redes</button>
+                <button data-go="7"><span class="material-symbols-rounded">gavel</span>Ética</button>
+            </div>
+        </div>
+    </nav>
+</header>
+<main>
+    <aside class="sidebar" id="learningSidebar" aria-label="Ruta de aprendizaje">
+        <div class="sidebar-header">
+            <div class="sidebar-title">
+                <span class="material-symbols-rounded">route</span>Ruta de aprendizaje
+            </div>
+            <div class="sidebar-count">
+                <span id="chapterCountLabel">0</span> capítulos
+            </div>
+        </div>
+        <ul class="chapter-list" id="chapterList"></ul>
+        <div class="progress-wrapper" aria-label="Progreso total">
+            <div class="progress-label">
+                <span>Progreso</span>
+                <span id="globalProgressText">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="globalProgressBar"></div>
+            </div>
+        </div>
+        <p class="small-note">
+            Sugerencia: completa los capítulos en orden, pero puedes saltar a temas concretos desde el menú superior.
+        </p>
+    </aside>
+    <section class="content" aria-live="polite">
+        <div class="content-inner">
+            <div class="content-header">
+                <div>
+                    <div class="pill">
+                        <span class="material-symbols-rounded" aria-hidden="true">menu_book</span>
+                        Capítulo <span id="chapterNumber">1</span> de <span id="chapterCount">8</span>
+                    </div>
+                    <h1 id="chapterTitle"></h1>
+                    <p class="content-subtitle" id="chapterSubtitle"></p>
+                </div>
+                <div class="content-meta">
+                    <span id="chapterDuration"></span>
+                    <div class="tags" id="chapterTags"></div>
+                </div>
+            </div>
+            <div id="chapterBody"></div>
+            <div class="content-footer">
+                <div class="chapter-progress" id="chapterStatusText">
+                    <span class="material-symbols-rounded" aria-hidden="true">task_alt</span>
+                    Estado del capítulo
+                </div>
+                <div class="btn-group">
+                    <button class="btn" id="prevBtn">
+                        <span class="material-symbols-rounded">arrow_back</span>Anterior
+                    </button>
+                    <button class="btn btn-primary" id="completeBtn">
+                        <span class="material-symbols-rounded" id="completeIcon">done</span>Marcar como completado
+                    </button>
+                    <button class="btn" id="nextBtn">
+                        Siguiente
+                        <span class="material-symbols-rounded">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
-<footer class="site-footer"><p>© 2025</p></footer>
-<script type="module" src="js/supabase.js"></script>
-</body></html>
+<script>
+    // Definición de capítulos actualizada y funciones auxiliares
+    const chapters = [
+        {
+            id: 0, title: "¿Qué Es Realmente la Inteligencia Artificial?",
+            subtitle: "Desmontando mitos, IA estrecha vs IA general, ejemplos cotidianos.",
+            duration: "Lectura: 16 min", tags: ["Conceptos", "Mitos", "Ejemplos"], level: "Básico",
+            content: `
+        <div class="section fade-in"><h2><span class="material-symbols-rounded">psychology</span> ¿Qué es realmente la IA?</h2>
+        <p>La IA no son robots que dominarán el mundo. Piensa en IA como <strong>herramientas</strong> que automatizan tareas que antes requerían una regla o experiencia humana — por ejemplo, recomendar una película o transcribir voz a texto.</p>
+        <h3>IA estrecha vs IA general</h3>
+        <ul>
+            <li><strong>IA Estrecha (hoy):</strong> especializada en una tarea, como recomendar series (Netflix) o reconocer caras.</li>
+            <li><strong>IA General (futura):</strong> hipotética; entendimiento y capacidades amplias como un humano. No es la realidad actual.</li>
+        </ul>
+        <h3>Ejemplos cotidianos</h3>
+        <ul>
+            <li>Netflix: modelos que usan tu historial para recomendar películas.</li>
+            <li>Asistentes de voz: convierten voz en texto y buscan intenciones para responder.</li>
+        </ul>
+        <div class="example-box">
+            <div class="example-title"><span class="material-symbols-rounded">lightbulb</span> Mini-ejemplo</div>
+            <p>Un sistema que recomienda: recibe datos de usuario, calcula similitudes y sugiere items. No "piensa", calcula puntuaciones.</p>
+            <button class="icon-btn" onclick="toggleCollapse('c0-1')"><span class="material-symbols-rounded">expand_more</span>Ver explicación breve</button>
+            <div id="c0-1" class="collapse">La recomendación puede ser por contenido (similitud de atributos) o por filtrado colaborativo (similitud entre usuarios).</div>
+        </div>
+        <h3>Resumen sencillo</h3>
+        <ol>
+            <li>La IA actual es práctica y especializada.</li>
+            <li>No reemplaza pensamiento humano, complementa tareas.</li>
+            <li>Entender limitaciones evita expectativas irreales.</li>
+        </ol>
+        </div>`
+        },
+        {
+            id: 1, title: "Preparando Tu Entorno de Trabajo",
+            subtitle: "Instalar Python, librerías esenciales y configurar Jupyter Notebook.",
+            duration: "Lectura: 18 min", tags: ["Python", "Entorno", "Jupyter"], level: "Práctico",
+            content: `
+        <div class="section fade-in"><h2><span class="material-symbols-rounded">settings</span> Paso a paso: instalar Python y librerías</h2>
+        <p>Este capítulo es 100% práctico. Sigue estos pasos según tu sistema (Windows / macOS / Linux).</p>
+        <h3>Instalar Python (recomendado: 3.10+)</h3>
+        <pre>1) Descargar desde https://python.org y seguir instalador
+2) Asegúrate que "Add to PATH" esté activo (Windows) o usa Homebrew en macOS: <code>brew install python</code></pre>
+        <h3>Crear entorno virtual y librerías</h3>
+        <pre>python -m venv .venv
+source .venv/bin/activate   # macOS/Linux
+.venv\Scripts\activate     # Windows
+pip install --upgrade pip
+pip install pandas numpy scikit-learn jupyterlab matplotlib seaborn</pre>
+        <h3>Configurar Jupyter</h3>
+        <pre>jupyter lab  # abre un entorno interactivo en el navegador</pre>
+        <div class="example-box">
+            <div class="example-title"><span class="material-symbols-rounded">build</span> Troubleshooting común</div>
+            <ul>
+                <li>Problema: "pip no encontrado" → activa el entorno virtual o usa la ruta a python.</li>
+                <li>Problema: permisos → usar <code>--user</code> o crear venv para evitar sudo.</li>
+            </ul>
+        </div>
+        <h3>Consejo rápido</h3>
+        <p>Usa Jupyter para experimentar con datos visualmente: cada celda ejecuta código y muestra resultados inmediatos.</p>
+        </div>`
+        },
+        {
+            id: 2, title: "Tu Primer Proyecto de IA: Clasificar es Fácil",
+            subtitle: "Proyecto guiado con el dataset Iris (código paso a paso).",
+            duration: "Lectura: 26 min", tags: ["Proyecto", "Iris", "Clasificación"], level: "Práctico",
+            content: `
+        <div class="section fade-in"><h2><span class="material-symbols-rounded">school</span> Proyecto: Clasificar flores (Iris)</h2>
+        <p>Vamos a hacer el flujo completo: cargar datos, entrenar un modelo y evaluar. Usa Jupyter para ir ejecutando celda por celda.</p>
+        <h3>1) Cargar datos</h3>
+        <pre>from sklearn.datasets import load_iris
+import pandas as pd
+iris = load_iris()
+df = pd.DataFrame(iris.data, columns=iris.feature_names)
+df['target'] = iris.target
+print(df.head())</pre>
+        <h3>2) Dividir y entrenar</h3>
+        <pre>from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+X = df[iris.feature_names]
+y = df['target']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+model = RandomForestClassifier(n_estimators=50, random_state=42)
+model.fit(X_train, y_train)</pre>
+        <h3>3) Evaluar</h3>
+        <pre>from sklearn.metrics import accuracy_score, classification_report
+pred = model.predict(X_test)
+print('Accuracy:', accuracy_score(y_test, pred))
+print(classification_report(y_test, pred))</pre>
+        <div class="example-box">
+            <div class="example-title"><span class="material-symbols-rounded">lightbulb</span> Explicación línea a línea</div>
+            <button class="icon-btn" onclick="toggleCollapse('c2-1')"><span class="material-symbols-rounded">expand_more</span>Ver explicación</button>
+            <div id="c2-1" class="collapse">
+                <p>Importamos datos, creamos DataFrame, dividimos en train/test para medir cómo generaliza el modelo, entrenamos y medimos precisión.</p>
+            </div>
+        </div>
+        <h3>Extensión</h3>
+        <p>Prueba cambiar el modelo (por ejemplo, SVM) o ajustar parámetros para ver mejoras o empeoramientos.</p>
+        </div>`
+        },
+        {
+            id: 3, title: "Machine Learning Sin Miedo",
+            subtitle: "Tipos de aprendizaje explicados con analogías y un ejercicio de regresión.",
+            duration: "Lectura: 18 min", tags: ["Supervisado", "No supervisado", "Refuerzo"], level: "Básico",
+            content: `
+        <div class="section fade-in"><h2><span class="material-symbols-rounded">auto_graph</span> Tres tipos de aprendizaje con analogías</h2>
+        <h3>Aprendizaje Supervisado</h3>
+        <p>Analogia: un niño que aprende con fichas. Le muestras ejemplos con respuestas y aprende la regla. Ej: predecir precio de casas con datos históricos.</p>
+        <h3>Aprendizaje No Supervisado</h3>
+        <p>Analogia: alguien ordena libros sin etiquetas, buscando grupos por parecido. Ej: agrupar clientes según comportamiento para marketing.</p>
+        <h3>Aprendizaje por Refuerzo</h3>
+        <p>Analogia: aprendizaje por prueba y error. Un agente recibe recompensa por acciones buenas. Ej: agentes que juegan videojuegos o control de robots.</p>
+        <div class="example-box"><div class="example-title"><span class="material-symbols-rounded">school</span> Ejercicio: tu primer regresor</div>
+            <pre>from sklearn.linear_model import LinearRegression
+model = LinearRegression()
+model.fit(X_train, y_train)  # X_train con variable numérica objetivo
+preds = model.predict(X_test)</pre>
+            <p>Evalúa con RMSE y analiza errores.</p>
+        </div>
+        </div>`
+        },
+        {
+            id: 4, title: "Los Datos son el Combustible",
+            subtitle: "Limpieza, preprocesamiento y por qué la calidad importa más que el modelo.",
+            duration: "Lectura: 20 min", tags: ["Datos", "Limpieza", "Preprocesamiento"], level: "Práctico",
+            content: `
+        <div class="section fade-in"><h2><span class="material-symbols-rounded">database</span> Por qué los datos importan</h2>
+        <p>Un modelo bueno con datos malos seguirá produciendo decisiones pobres. Antes de entrenar, limpia y transforma.</p>
+        <h3>Técnicas básicas</h3>
+        <ul>
+            <li>Valores faltantes: imputar con media/mediana o eliminar filas según contexto.</li>
+            <li>Outliers: detectarlos con boxplots y decidir si corregir o eliminar.</li>
+            <li>Escalado: normalizar o estandarizar para modelos sensibles a escala.</li>
+            <li>Codificación: convertir texto en números (one-hot, label encoding).</li>
+        </ul>
+        <div class="example-box"><div class="example-title"><span class="material-symbols-rounded">build</span> Actividad práctica</div>
+            <p>Entrega un CSV con datos "sucios" y guía paso a paso para limpiar: tratar nulos, corregir tipos y normalizar una columna numérica.</p>
+        </div>
+        </div>`
+        },
+        {
+            id: 5, title: "Charla con Máquinas: Cómo Funcionan los Chatbots",
+            subtitle: "NLP básico, modelos de lenguaje y construir un chatbot simple.",
+            duration: "Lectura: 22 min", tags: ["NLP", "Chatbot", "APIs"], level: "Intermedio",
+            content: `
+        <div class="section fade-in"><h2><span class="material-symbols-rounded">chat</span> ¿Cómo entiende y responde un chatbot?</h2>
+        <p>Los chatbots transforman texto en vectores (representaciones numéricas), luego usan modelos para identificar intención y generar respuestas.</p>
+        <h3>Opciones para construir chatbots</h3>
+        <ul>
+            <li>Reglas simples: si el mensaje contiene "precio" → responder con el precio.</li>
+            <li>Modelos de clasificación: entrenar un modelo que asigne intenciones.</li>
+            <li>Modelos de lenguaje / API: usar una API que genere respuestas (chatGPT-like).</li>
+        </ul>
+        <div class="example-box"><div class="example-title"><span class="material-symbols-rounded">code</span> Ejemplo simple (reglas)</div>
+            <pre>def responder(texto):
+    texto = texto.lower()
+    if 'hola' in texto: return 'Hola! ¿En qué puedo ayudarte?'
+    if 'precio' in texto: return 'Nuestros precios están en la web.'
+    return 'No entendí, ¿puedes dar más contexto?'
+</pre>
+        </div>
+        <h3>Ejercicio guiado</h3>
+        <p>Crea un bot en Jupyter que clasifique saludos, preguntas sobre precio y consultas técnicas usando reglas o un clasificador simple.</p>
+        </div>`
+        },
+        {
+            id: 6, title: "Redes Neuronales en Tus Propias Palabras",
+            subtitle: "Explicación visual e intuitiva + ejemplo con Keras (MNIST).",
+            duration: "Lectura: 24 min", tags: ["Deep Learning", "Keras", "MNIST"], level: "Avanzado",
+            content: `
+        <div class="section fade-in"><h2><span class="material-symbols-rounded">timeline</span> Redes neuronales con analogías</h2>
+        <p>Imagina una red como capas de filtros que transforman la entrada hasta obtener una decisión — similar a cómo distintas áreas del cerebro procesan señales.</p>
+        <h3>Conceptos clave</h3>
+        <ul>
+            <li>Neurona: suma ponderada de entradas + función de activación.</li>
+            <li>Capa: conjunto de neuronas que transforman información.</li>
+            <li>Backprop: método para ajustar pesos según error.
+        </ul>
+        <div class="code-block"><div class="pill-label">Ejemplo Keras (MNIST)</div>
+        <pre>from tensorflow.keras.datasets import mnist
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Flatten
+(x_train,y_train),(x_test,y_test)=mnist.load_data()
+x_train=x_train/255.0
+model=Sequential([Flatten(input_shape=(28,28)),Dense(128,activation='relu'),Dense(10,activation='softmax')])
+model.compile(optimizer='adam',loss='sparse_categorical_crossentropy',metrics=['accuracy'])
+model.fit(x_train,y_train,epochs=3,validation_split=0.1)</pre></div>
+        <h3>Mini-guía visual</h3>
+        <p>Prueba visualizar capas con gráficos simples: inspecciona predicciones erróneas para entender fallos.</p>
+        </div>`
+        },
+        {
+            id: 7, title: "Ética en la IA: Por Qué Te Importa",
+            subtitle: "Sesgos, privacidad y preguntas críticas para todo proyecto de IA.",
+            duration: "Lectura: 16 min", tags: ["Ética", "Sesgos", "Privacidad"], level: "Intermedio",
+            content: `
+        <div class="section fade-in"><h2><span class="material-symbols-rounded">warning</span> Ética práctica</h2>
+        <p>La ética no es solo teoría: afecta personas. Un sistema automatizado puede negar oportunidades si aprende de datos parciales.</p>
+        <h3>Checklist rápida</h3>
+        <ul>
+            <li>¿Qué datos uso y de dónde vienen?</li>
+            <li>¿Hay grupos subrepresentados?</li>
+            <li>¿Cómo audito decisiones y tengo revisión humana?</li>
+        </ul>
+        <div class="exercise-box"><div class="example-title"><span class="material-symbols-rounded">gavel</span> Actividad</div>
+            <p>Elige un modelo y analiza 3 riesgos: sesgo, privacidad y impacto. Propón una medida concreta para mitigarlos.</p>
+        </div>
+        </div>`
+        },
+        {
+            id: 8, title: "IA en Acción: Proyectos Para Tu Currículum",
+            subtitle: "Mini-proyectos con datasets y código base para tu portafolio.",
+            duration: "Lectura: 20 min", tags: ["Proyectos", "Portafolio", "Datasets"], level: "Práctico",
+            content: `
+        <div class="section fade-in"><h2><span class="material-symbols-rounded">rocket_launch</span> Tres mini-proyectos</h2>
+        <ol>
+            <li><strong>Recomendador simple:</strong> usar historial de usuarios y similitud de items (dataset: MovieLens pequeño).</li>
+            <li><strong>Analizador de sentimientos:</strong> clasificar reviews como positivas/negativas (dataset: IMDB pequeño o Kaggle).</li>
+            <li><strong>Predictor de precios:</strong> regresión sobre dataset de coches usados (features: año, km, marca).</li>
+        </ol>
+        <div class="example-box"><div class="example-title"><span class="material-symbols-rounded">code</span> Qué recibirás</div>
+            <ul>
+                <li>Dataset reducido para cada proyecto.</li>
+                <li>Notebook base con pasos: carga, limpieza, modelo y evaluación.</li>
+                <li>Ideas de extensión para destacar en tu currículum.</li>
+            </ul>
+        </div>
+        </div>`
+        }
+    ];
+
+    // Funciones auxiliares para interactividad mínima
+    function toggleCollapse(id){
+        const el = document.getElementById(id);
+        if(!el) return;
+        el.classList.toggle('show');
+    }
+
+    let completed = new Set();
+    const chapterCount = chapters.length;
+    const chapterListEl = document.getElementById("chapterList");
+    const globalProgressBarEl = document.getElementById("globalProgressBar");
+    const globalProgressTextEl = document.getElementById("globalProgressText");
+    const chapterNumberEl = document.getElementById("chapterNumber");
+    const chapterCountEl = document.getElementById("chapterCount");
+    const chapterCountLabelEl = document.getElementById("chapterCountLabel");
+    const chapterTitleEl = document.getElementById("chapterTitle");
+    const chapterSubtitleEl = document.getElementById("chapterSubtitle");
+    const chapterDurationEl = document.getElementById("chapterDuration");
+    const chapterTagsEl = document.getElementById("chapterTags");
+    const chapterBodyEl = document.getElementById("chapterBody");
+    const chapterStatusTextEl = document.getElementById("chapterStatusText");
+    const completeIconEl = document.getElementById("completeIcon");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const completeBtn = document.getElementById("completeBtn");
+    const topNavButtons = document.querySelectorAll(".nav-links button");
+    chapterCountEl.textContent = chapterCount;
+    chapterCountLabelEl.textContent = chapterCount;
+    function renderChapterList(currentId) {
+        chapterListEl.innerHTML = "";
+        chapters.forEach((ch) => {
+            const li = document.createElement("li");
+            li.className = "chapter-item";
+            li.dataset.id = ch.id;
+            if (ch.id === currentId) li.classList.add("active");
+            if (completed.has(ch.id)) li.classList.add("completed");
+            const badge = document.createElement("div"); badge.className = "chapter-badge"; badge.textContent = ch.id + 1;
+            const textContainer = document.createElement("div"); textContainer.className = "chapter-text";
+            const title = document.createElement("div"); title.className = "chapter-title"; title.textContent = ch.title;
+            const meta = document.createElement("div"); meta.className = "chapter-meta";
+            meta.textContent = ch.duration.replace("Lectura: ", "") + " • " + ch.level;
+            textContainer.appendChild(title); textContainer.appendChild(meta);
+            const statusIcon = document.createElement("span");
+            statusIcon.className = "material-symbols-rounded chapter-status-icon";
+            statusIcon.textContent = completed.has(ch.id) ? "check_circle" : "radio_button_unchecked";
+            li.appendChild(badge); li.appendChild(textContainer); li.appendChild(statusIcon);
+            li.addEventListener("click", () => loadChapter(ch.id));
+            chapterListEl.appendChild(li);
+        });
+    }
+    function updateGlobalProgress() {
+        const pct = Math.round((completed.size / chapterCount) * 100);
+        globalProgressBarEl.style.width = pct + "%";
+        globalProgressTextEl.textContent = pct + "%";
+    }
+    let currentChapterId = 0;
+    function loadChapter(id) {
+        const ch = chapters[id]; if (!ch) return; currentChapterId = id;
+        chapterNumberEl.textContent = id + 1;
+        chapterTitleEl.textContent = ch.title;
+        chapterSubtitleEl.textContent = ch.subtitle;
+        chapterDurationEl.textContent = ch.duration + " • " + ch.level;
+        chapterTagsEl.innerHTML = "";
+        ch.tags.forEach((tag) => {
+            const span = document.createElement("span");
+            span.className = "tag";
+            span.textContent = tag;
+            chapterTagsEl.appendChild(span);
+        });
+        chapterBodyEl.innerHTML = ch.content;
+        const isCompleted = completed.has(id);
+        chapterStatusTextEl.textContent = isCompleted
+            ? "Este capítulo está marcado como completado."
+            : "Este capítulo aún no está marcado como completado.";
+        completeBtn.textContent = isCompleted ? "Marcar como pendiente" : "Marcar como completado";
+        completeIconEl.textContent = isCompleted ? "restart_alt" : "done";
+        prevBtn.disabled = id === 0;
+        nextBtn.disabled = id === chapterCount - 1;
+        renderChapterList(id); updateTopNav(id);
+    }
+    function updateTopNav(id) {
+        topNavButtons.forEach((btn) => {
+            const target = parseInt(btn.dataset.go, 10);
+            if (target === id) btn.classList.add("active");
+            else btn.classList.remove("active");
+        });
+    }
+    prevBtn.addEventListener("click", () => { if (currentChapterId > 0) loadChapter(currentChapterId - 1); });
+    nextBtn.addEventListener("click", () => { if (currentChapterId < chapterCount - 1) loadChapter(currentChapterId + 1); });
+    completeBtn.addEventListener("click", () => {
+        if (completed.has(currentChapterId)) { completed.delete(currentChapterId); }
+        else { completed.add(currentChapterId); }
+        loadChapter(currentChapterId); updateGlobalProgress();
+    });
+    topNavButtons.forEach((btn) => {
+        btn.addEventListener("click", () => { const target = parseInt(btn.dataset.go, 10); loadChapter(target); });
+    });
+    renderChapterList(0); updateGlobalProgress(); loadChapter(0);
+</script>
+</body>
+</html>
